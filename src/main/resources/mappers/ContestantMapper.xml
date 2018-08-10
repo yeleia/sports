@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wingstudio.sports.dao.ContestantMapper">
+  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.Contestant">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="profession" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stunumber" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stuname" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sportid, campus, classes, profession, stunumber, stuname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contestant_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contestant_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.wingstudio.sports.domain.Contestant">
+    insert into contestant_table (id, sportid, campus, 
+      classes, profession, stunumber, 
+      stuname)
+    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{campus,jdbcType=VARCHAR}, 
+      #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{stunumber,jdbcType=VARCHAR}, 
+      #{stuname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Contestant">
+    insert into contestant_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sportid != null">
+        sportid,
+      </if>
+      <if test="campus != null">
+        campus,
+      </if>
+      <if test="classes != null">
+        classes,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="stunumber != null">
+        stunumber,
+      </if>
+      <if test="stuname != null">
+        stuname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sportid != null">
+        #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        #{classes,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="stunumber != null">
+        #{stunumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stuname != null">
+        #{stuname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Contestant">
+    update contestant_table
+    <set>
+      <if test="sportid != null">
+        sportid = #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        campus = #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        classes = #{classes,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="stunumber != null">
+        stunumber = #{stunumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stuname != null">
+        stuname = #{stuname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Contestant">
+    update contestant_table
+    set sportid = #{sportid,jdbcType=INTEGER},
+      campus = #{campus,jdbcType=VARCHAR},
+      classes = #{classes,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      stunumber = #{stunumber,jdbcType=VARCHAR},
+      stuname = #{stuname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

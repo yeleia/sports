@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wingstudio.sports.dao.SportMapper">
+  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.Sport">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="project" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sex" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sortrule" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="inmax" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="inmin" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="record" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="twolevel" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project, sex, sortrule, inmax, inmin, record, twolevel
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sport_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sport_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.wingstudio.sports.domain.Sport">
+    insert into sport_table (id, project, sex, 
+      sortrule, inmax, inmin, 
+      record, twolevel)
+    values (#{id,jdbcType=INTEGER}, #{project,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{sortrule,jdbcType=INTEGER}, #{inmax,jdbcType=VARCHAR}, #{inmin,jdbcType=VARCHAR}, 
+      #{record,jdbcType=VARCHAR}, #{twolevel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Sport">
+    insert into sport_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="project != null">
+        project,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="sortrule != null">
+        sortrule,
+      </if>
+      <if test="inmax != null">
+        inmax,
+      </if>
+      <if test="inmin != null">
+        inmin,
+      </if>
+      <if test="record != null">
+        record,
+      </if>
+      <if test="twolevel != null">
+        twolevel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="project != null">
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="sortrule != null">
+        #{sortrule,jdbcType=INTEGER},
+      </if>
+      <if test="inmax != null">
+        #{inmax,jdbcType=VARCHAR},
+      </if>
+      <if test="inmin != null">
+        #{inmin,jdbcType=VARCHAR},
+      </if>
+      <if test="record != null">
+        #{record,jdbcType=VARCHAR},
+      </if>
+      <if test="twolevel != null">
+        #{twolevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Sport">
+    update sport_table
+    <set>
+      <if test="project != null">
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="sortrule != null">
+        sortrule = #{sortrule,jdbcType=INTEGER},
+      </if>
+      <if test="inmax != null">
+        inmax = #{inmax,jdbcType=VARCHAR},
+      </if>
+      <if test="inmin != null">
+        inmin = #{inmin,jdbcType=VARCHAR},
+      </if>
+      <if test="record != null">
+        record = #{record,jdbcType=VARCHAR},
+      </if>
+      <if test="twolevel != null">
+        twolevel = #{twolevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Sport">
+    update sport_table
+    set project = #{project,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      sortrule = #{sortrule,jdbcType=INTEGER},
+      inmax = #{inmax,jdbcType=VARCHAR},
+      inmin = #{inmin,jdbcType=VARCHAR},
+      record = #{record,jdbcType=VARCHAR},
+      twolevel = #{twolevel,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

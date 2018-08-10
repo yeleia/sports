@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wingstudio.sports.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.Score">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="contestantid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="presoloscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="soloscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="finalscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sportid, contestantid, presoloscore, soloscore, finalscore, taketime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from score_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from score_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.wingstudio.sports.domain.Score">
+    insert into score_table (id, sportid, contestantid, 
+      presoloscore, soloscore, finalscore, 
+      taketime)
+    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, 
+      #{presoloscore,jdbcType=DOUBLE}, #{soloscore,jdbcType=DOUBLE}, #{finalscore,jdbcType=DOUBLE}, 
+      #{taketime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Score">
+    insert into score_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sportid != null">
+        sportid,
+      </if>
+      <if test="contestantid != null">
+        contestantid,
+      </if>
+      <if test="presoloscore != null">
+        presoloscore,
+      </if>
+      <if test="soloscore != null">
+        soloscore,
+      </if>
+      <if test="finalscore != null">
+        finalscore,
+      </if>
+      <if test="taketime != null">
+        taketime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sportid != null">
+        #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="contestantid != null">
+        #{contestantid,jdbcType=INTEGER},
+      </if>
+      <if test="presoloscore != null">
+        #{presoloscore,jdbcType=DOUBLE},
+      </if>
+      <if test="soloscore != null">
+        #{soloscore,jdbcType=DOUBLE},
+      </if>
+      <if test="finalscore != null">
+        #{finalscore,jdbcType=DOUBLE},
+      </if>
+      <if test="taketime != null">
+        #{taketime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Score">
+    update score_table
+    <set>
+      <if test="sportid != null">
+        sportid = #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="contestantid != null">
+        contestantid = #{contestantid,jdbcType=INTEGER},
+      </if>
+      <if test="presoloscore != null">
+        presoloscore = #{presoloscore,jdbcType=DOUBLE},
+      </if>
+      <if test="soloscore != null">
+        soloscore = #{soloscore,jdbcType=DOUBLE},
+      </if>
+      <if test="finalscore != null">
+        finalscore = #{finalscore,jdbcType=DOUBLE},
+      </if>
+      <if test="taketime != null">
+        taketime = #{taketime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Score">
+    update score_table
+    set sportid = #{sportid,jdbcType=INTEGER},
+      contestantid = #{contestantid,jdbcType=INTEGER},
+      presoloscore = #{presoloscore,jdbcType=DOUBLE},
+      soloscore = #{soloscore,jdbcType=DOUBLE},
+      finalscore = #{finalscore,jdbcType=DOUBLE},
+      taketime = #{taketime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

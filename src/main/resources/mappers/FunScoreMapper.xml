@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wingstudio.sports.dao.FunScoreMapper">
+  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.FunScore">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="funnameid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="profession" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classmate" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, funnameid, campus, classes, profession, classmate, taketime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from funscore_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from funscore_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.wingstudio.sports.domain.FunScore">
+    insert into funscore_table (id, funnameid, campus, 
+      classes, profession, classmate, 
+      taketime)
+    values (#{id,jdbcType=INTEGER}, #{funnameid,jdbcType=INTEGER}, #{campus,jdbcType=VARCHAR}, 
+      #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{classmate,jdbcType=VARCHAR}, 
+      #{taketime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.FunScore">
+    insert into funscore_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="funnameid != null">
+        funnameid,
+      </if>
+      <if test="campus != null">
+        campus,
+      </if>
+      <if test="classes != null">
+        classes,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="classmate != null">
+        classmate,
+      </if>
+      <if test="taketime != null">
+        taketime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="funnameid != null">
+        #{funnameid,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        #{classes,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="classmate != null">
+        #{classmate,jdbcType=VARCHAR},
+      </if>
+      <if test="taketime != null">
+        #{taketime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.FunScore">
+    update funscore_table
+    <set>
+      <if test="funnameid != null">
+        funnameid = #{funnameid,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        campus = #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        classes = #{classes,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="classmate != null">
+        classmate = #{classmate,jdbcType=VARCHAR},
+      </if>
+      <if test="taketime != null">
+        taketime = #{taketime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.FunScore">
+    update funscore_table
+    set funnameid = #{funnameid,jdbcType=INTEGER},
+      campus = #{campus,jdbcType=VARCHAR},
+      classes = #{classes,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      classmate = #{classmate,jdbcType=VARCHAR},
+      taketime = #{taketime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
