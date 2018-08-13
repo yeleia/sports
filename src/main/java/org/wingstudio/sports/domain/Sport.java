@@ -1,20 +1,26 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+
+@ApiModel("体育项目")
 public class Sport {
+
     private Integer id;
-
+    @ApiModelProperty("体育项目")
     private String project;
-
+    @ApiModelProperty("性别")
     private Integer sex;
-
+    @ApiModelProperty("排序标准")
     private Integer sortrule;
-
+    @ApiModelProperty("输入最大值")
     private String inmax;
-
+    @ApiModelProperty("输入最小值")
     private String inmin;
-
+    @ApiModelProperty("校记录")
     private String record;
-
+    @ApiModelProperty("二级运动员标准")
     private String twolevel;
 
     public Sport(Integer id, String project, Integer sex, Integer sortrule, String inmax, String inmin, String record, String twolevel) {

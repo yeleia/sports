@@ -22,6 +22,16 @@
     from sport_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="sportIsExist" resultType="java.lang.Integer">
+    select count(1) from sport_table where project=#{project} and sex=#{sex}
+  </select>
+  <select id="getSportList" resultType="org.wingstudio.sports.domain.Sport">
+    select * from sport_table limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="countSportList" resultType="java.lang.Integer">
+    select count(1) from sport_table
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sport_table
     where id = #{id,jdbcType=INTEGER}
