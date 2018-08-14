@@ -1,9 +1,13 @@
 package org.wingstudio.sports.service.impl;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wingstudio.sports.dao.PreRoleMapper;
 import org.wingstudio.sports.dao.SportMapper;
 import org.wingstudio.sports.dao.UserMapper;
+import org.wingstudio.sports.domain.PreRole;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.User;
 import org.wingstudio.sports.service.UserService;
@@ -12,6 +16,7 @@ import org.wingstudio.sports.util.TimeRegexUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private SportMapper sportMapper;
+    @Autowired
+    private PreRoleMapper preRoleMapper;
     @Override
     public Map<String, Object> login(User user, HttpServletRequest request) {
         HttpSession session=request.getSession();
@@ -69,5 +76,57 @@ public class UserServiceImpl implements UserService {
     public Integer countSportList() {
         return sportMapper.countSportList();
     }
+
+    @Override
+    public Map<String, Object> addPreRoles(String role) {
+        JSONArray jsonArray=JSONArray.fromObject(role);
+        List<PreRole> preRoles=new ArrayList<>();
+        for (int i=0;i<jsonArray.size();i++){
+            JSONObject json=new JSONObject();
+            json= JSONObject.fromObject(jsonArray.getString(i));
+            PreRole preRole=new PreRole();
+            preRole.setSportid(json.getInt("sportid"));
+            preRole.setRank(json.getInt("rank"));
+            preRole.setAddscore(json.getDouble("addscore"));
+            preRoles.add(preRole);
+        }
+        int i= preRoleMapper.addPreRoles(preRoles);
+        if (i<preRoles.size()){
+            return ReturnUtil.ret(false,"部分数据插入失败");
+        }else {
+            return ReturnUtil.ret(true,"添加成功");
+        }
+    }
+
+    @Override
+    public Map<String, Object> updatePreRole(PreRole role) {
+        int i=preRoleMapper.updatePreRole(role);
+        if (i>0){
+            return ReturnUtil.ret(true,"修改成功");
+        }else {
+            return ReturnUtil.ret(false,"修改失败");
+        }
+    }
+
+    @Override
+    public Map<String, Object> deletePreRole(Integer id) {
+        int i=preRoleMapper.deleteByPrimaryKey(id);
+        if (i>0){
+            return ReturnUtil.ret(true,"删除成功");
+        }else {
+            return ReturnUtil.ret(false,"删除失败");
+        }
+    }
+
+    @Override
+    public List<PreRole> getPreRoleList(Integer sportId) {
+        return preRoleMapper.getPreRoleList(sportId);
+    }
+
+    @Override
+    public List<Sport> getSportId() {
+        return sportMapper.getSportIdList();
+    }
+
 
 }

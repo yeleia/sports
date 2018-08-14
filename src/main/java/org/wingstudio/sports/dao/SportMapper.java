@@ -25,4 +25,6 @@ public interface SportMapper {
     List<Sport> getSportList(@Param("tempPage") Integer tempPage, @Param("pageCapacity") Integer pageCapacity);
 
     Integer countSportList();
+
+    List<Sport> getSportIdList();
 }

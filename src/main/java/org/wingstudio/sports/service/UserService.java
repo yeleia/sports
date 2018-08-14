@@ -1,6 +1,7 @@
 package org.wingstudio.sports.service;
 
 
+import org.wingstudio.sports.domain.PreRole;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.User;
 
@@ -43,5 +44,45 @@ public interface UserService {
      */
     List<Sport> getSportList(Integer tempPage, Integer pageCapacity);
 
+    /**
+     * 获得所有体育项目的总数
+     * @return
+     */
     Integer countSportList();
+
+    /**
+     * 添加预赛加分规则
+     * @param role
+     * role传入的是json字符串
+     */
+    Map<String, Object> addPreRoles(String role);
+
+    /**
+     * 修改预赛加分规则，只能修改分数
+     * @param role
+     * @return
+     */
+    Map<String, Object> updatePreRole(PreRole role);
+
+    /**
+     * 删除预赛加分规则
+     * @param id
+     * @return
+     */
+    Map<String, Object> deletePreRole(Integer id);
+
+    /**
+     * 查询该项目所有的加分规则
+     * @param sportId
+     * @return
+     */
+    List<PreRole> getPreRoleList(Integer sportId);
+
+
+
+    /**
+     * 获取所有体育项目id,便于添加所有加分规则
+     * @return
+     */
+    List<Sport> getSportId();
 }

@@ -9,14 +9,11 @@ public class Role {
 
     private Double addscore;
 
-    private Double others;
-
-    public Role(Integer id, Integer sportid, Integer rank, Double addscore, Double others) {
+    public Role(Integer id, Integer sportid, Integer rank, Double addscore) {
         this.id = id;
         this.sportid = sportid;
         this.rank = rank;
         this.addscore = addscore;
-        this.others = others;
     }
 
     public Role() {
@@ -53,13 +50,5 @@ public class Role {
 
     public void setAddscore(Double addscore) {
         this.addscore = addscore;
-    }
-
-    public Double getOthers() {
-        return others;
-    }
-
-    public void setOthers(Double others) {
-        this.others = others;
     }
 }

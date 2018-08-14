@@ -2,11 +2,10 @@ package org.wingstudio.sports.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.wingstudio.sports.domain.PreRole;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.User;
 import org.wingstudio.sports.service.UserService;
@@ -45,6 +44,7 @@ public class UserController {
         return userService.updateSport(sport);
     }
 
+
     @ApiOperation(value = "查询所有体育项目",notes = "查询所有体育项目，并分页")
     @RequestMapping(value = "/getSportList",method = RequestMethod.GET)
     public Map<String,Object> getSportList(@ModelAttribute Page page){
@@ -54,5 +54,37 @@ public class UserController {
         return result;
     }
 
+
+    @ApiOperation(value = "添加预赛加分规则",notes = "添加预赛加分规则，操作为批量添加")
+    @RequestMapping(value = "/addPreRoles",method = RequestMethod.POST)
+    public Map<String,Object> addPreRoles(@RequestParam(value = "preRole")String preRole){
+        return userService.addPreRoles(preRole);
+    }
+
+
+    @ApiOperation(value = "修改预赛加分规则",notes ="修改预赛加分规则操作，只能修改分数，返回id，addscore")
+    @RequestMapping(value = "/updatePreRole",method = RequestMethod.POST)
+    public Map<String,Object> updatePreRole(@ModelAttribute PreRole role){
+        return userService.updatePreRole(role);
+    }
+
+
+    @ApiOperation(value = "删除预赛加分规则",notes = "删除预赛加分规则，能不能只从最后一个名次删起走")
+    @RequestMapping(value = "/deletePreRole/{id}",method = RequestMethod.DELETE)
+    public Map<String,Object> deletePreRole(@PathVariable("id")Integer id){
+        return userService.deletePreRole(id);
+    }
+
+    @ApiOperation(value = "获得某个体育项目的预赛加分规则",notes = "这里时查询的是某个体育项目的预赛加分规则，需传入一个体育项目id(sportid)")
+    @RequestMapping(value = "/getPreRoleList/{sportid}",method = RequestMethod.GET)
+    public List<PreRole> getPreRoleList(@PathVariable("sportid")Integer sportid){
+        return userService.getPreRoleList(sportid);
+    }
+
+    @ApiOperation(value = "查询所有体育项目id",notes = "查询所有体育项目id和项目名，便于添加加分规则")
+    @RequestMapping(value = "/getSportIdList",method = RequestMethod.GET)
+    public List<Sport> getSportIdList(){
+        return userService.getSportId();
+    }
 
 }

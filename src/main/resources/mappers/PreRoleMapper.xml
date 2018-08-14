@@ -7,11 +7,10 @@
       <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="rank" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="addscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
-      <arg column="others" javaType="java.lang.Double" jdbcType="DOUBLE" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, rank, addscore, others
+    id, sportid, rank, addscore
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,15 +18,18 @@
     from prerole_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getPreRoleList" resultType="org.wingstudio.sports.domain.PreRole">
+    select * from prerole_table where sportid=#{sportid}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from prerole_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.PreRole">
     insert into prerole_table (id, sportid, rank, 
-      addscore, others)
+      addscore)
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{rank,jdbcType=INTEGER}, 
-      #{addscore,jdbcType=DOUBLE}, #{others,jdbcType=DOUBLE})
+      #{addscore,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.PreRole">
     insert into prerole_table
@@ -44,9 +46,6 @@
       <if test="addscore != null">
         addscore,
       </if>
-      <if test="others != null">
-        others,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,11 +60,15 @@
       <if test="addscore != null">
         #{addscore,jdbcType=DOUBLE},
       </if>
-      <if test="others != null">
-        #{others,jdbcType=DOUBLE},
-      </if>
     </trim>
   </insert>
+  <insert id="addPreRoles" parameterType="java.util.ArrayList">
+    insert into prerole_table (id, sportid, rank, addscore) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (null ,#{item.sportid},#{item.rank},#{item.addscore})
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.PreRole">
     update prerole_table
     <set>
@@ -78,9 +81,6 @@
       <if test="addscore != null">
         addscore = #{addscore,jdbcType=DOUBLE},
       </if>
-      <if test="others != null">
-        others = #{others,jdbcType=DOUBLE},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -88,8 +88,10 @@
     update prerole_table
     set sportid = #{sportid,jdbcType=INTEGER},
       rank = #{rank,jdbcType=INTEGER},
-      addscore = #{addscore,jdbcType=DOUBLE},
-      others = #{others,jdbcType=DOUBLE}
+      addscore = #{addscore,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatePreRole">
+    update prerole_table set  addscore=#{addscore}  where id=#{id};
   </update>
 </mapper>
