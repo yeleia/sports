@@ -2,10 +2,10 @@ package org.wingstudio.sports.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.wingstudio.sports.domain.PreRole;
+import org.wingstudio.sports.domain.Role;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.User;
 import org.wingstudio.sports.service.UserService;
@@ -85,6 +85,29 @@ public class UserController {
     @RequestMapping(value = "/getSportIdList",method = RequestMethod.GET)
     public List<Sport> getSportIdList(){
         return userService.getSportId();
+    }
+
+    @ApiOperation(value = "添加决赛规则",notes = "批量添加")
+    @RequestMapping(value = "/addRoles",method = RequestMethod.POST)
+    public Map<String,Object> addRoles(@RequestParam(value = "role")String role){
+        return userService.addRoles(role);
+    }
+
+    @ApiOperation(value = "修改决赛加分规则",notes = "修改决赛加分规则，只能根据id修改加分值addScore")
+    @RequestMapping(value = "/updateRole",method = RequestMethod.POST)
+    public Map<String,Object> updateRole(Role role){
+        return userService.updateRole(role);
+    }
+
+    @ApiOperation(value = "删除决赛加分规则",notes = "删除决赛加分规则，能不能只从最后一个名次删起走")
+    @RequestMapping(value = "/deleteRole",method = RequestMethod.DELETE)
+    public Map<String,Object> deleteRole(@PathVariable("id")Integer id){
+        return userService.deleteRole(id);
+    }
+
+    @ApiOperation(value = "查询该项目所有的决赛加分规则",notes = "查询该项目的所有加分规则，需传入sportid")
+    public List<Role> getRoleList(@PathVariable("sportid")int sportid){
+        return userService.getRoleList(sportid);
     }
 
 }

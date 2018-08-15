@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.wingstudio.sports.domain.PreRole;
+import org.wingstudio.sports.domain.Role;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.util.Page;
 
@@ -89,6 +90,43 @@ public class UserServiceTest {
     @Test
     public void getSportId(){
         System.out.println(userService.getSportId().size());
+    }
+    @Test
+    public void addRole(){
+        List<Role> roleList=new ArrayList<>();
+        String role="";
+        Role role1=new Role();
+        role1.setSportid(4);
+        role1.setRank(1);
+        role1.setAddscore(8.0);
+        Role role2=new Role();
+        role2.setSportid(4);
+        role2.setRank(2);
+        role2.setAddscore(7.0);
+        roleList.add(role1);
+        roleList.add(role2);
+        JSONArray array=JSONArray.fromObject(roleList);
+        role=array.toString();
+        System.out.println(userService.addRoles(role));
+
+    }
+    @Test
+    public void updateRole(){
+        Role role=new Role();
+        role.setId(1);
+        role.setAddscore(10.0);
+        System.out.println(userService.updateRole(role));
+    }
+    @Test
+    public void deleteRole(){
+        int i=2;
+        System.out.println(userService.deleteRole(i));
+    }
+    @Test
+    public void getRoles(){
+        int sportid=4;
+        List<Role> roleList=userService.getRoleList(sportid);
+        System.out.println(roleList.size());
     }
 
 }

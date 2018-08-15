@@ -5,9 +5,11 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wingstudio.sports.dao.PreRoleMapper;
+import org.wingstudio.sports.dao.RoleMapper;
 import org.wingstudio.sports.dao.SportMapper;
 import org.wingstudio.sports.dao.UserMapper;
 import org.wingstudio.sports.domain.PreRole;
+import org.wingstudio.sports.domain.Role;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.User;
 import org.wingstudio.sports.service.UserService;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private SportMapper sportMapper;
     @Autowired
     private PreRoleMapper preRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
     @Override
     public Map<String, Object> login(User user, HttpServletRequest request) {
         HttpSession session=request.getSession();
@@ -126,6 +130,52 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Sport> getSportId() {
         return sportMapper.getSportIdList();
+    }
+
+    @Override
+    public Map<String, Object> addRoles(String role) {
+        JSONArray jsonArray=JSONArray.fromObject(role);
+        List<Role> roleList=new ArrayList<>();
+        for (int i=0;i<jsonArray.size();i++){
+            JSONObject json=new JSONObject();
+            json= JSONObject.fromObject(jsonArray.getString(i));
+            Role roles=new Role();
+            roles.setSportid(json.getInt("sportid"));
+            roles.setRank(json.getInt("rank"));
+            roles.setAddscore(json.getDouble("addscore"));
+            roleList.add(roles);
+        }
+        int i= roleMapper.addRoles(roleList);
+        if (i<roleList.size()){
+            return ReturnUtil.ret(false,"部分数据插入失败");
+        }else {
+            return ReturnUtil.ret(true,"添加成功");
+        }
+    }
+
+    @Override
+    public Map<String, Object> updateRole(Role role) {
+        int i=roleMapper.updateByPrimaryKeySelective(role);
+        if (i>0){
+            return ReturnUtil.ret(true,"更新成功");
+        }else {
+            return ReturnUtil.ret(false,"更新失败");
+        }
+    }
+
+    @Override
+    public Map<String, Object> deleteRole(int id) {
+        int i=roleMapper.deleteByPrimaryKey(id);
+        if (i>0){
+            return ReturnUtil.ret(true,"删除成功");
+        }else {
+            return ReturnUtil.ret(false,"删除失败");
+        }
+    }
+
+    @Override
+    public List<Role> getRoleList(int sportid) {
+        return roleMapper.getRoleList(sportid);
     }
 
 

@@ -2,6 +2,7 @@ package org.wingstudio.sports.service;
 
 
 import org.wingstudio.sports.domain.PreRole;
+import org.wingstudio.sports.domain.Role;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.User;
 
@@ -85,4 +86,32 @@ public interface UserService {
      * @return
      */
     List<Sport> getSportId();
+
+    /**
+     * 添加决赛规则
+     * @param role
+     * @return
+     */
+    Map<String,Object> addRoles(String role);
+
+    /**
+     * 更新决赛规则
+     * @param role
+     * @return
+     */
+    Map<String,Object> updateRole(Role role);
+
+    /**
+     * 删除决赛规则
+     * @param id
+     * @return
+     */
+    Map<String,Object> deleteRole(int id);
+
+    /**
+     * 查询该体育项目的决赛规则
+     * @param sportid
+     * @return
+     */
+    List<Role> getRoleList(int sportid);
 }
