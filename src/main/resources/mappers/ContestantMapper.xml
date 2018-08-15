@@ -21,6 +21,10 @@
     from contestant_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="contestantIsExist" resultType="java.lang.Integer">
+    select count(1) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from contestant_table
     where id = #{id,jdbcType=INTEGER}
