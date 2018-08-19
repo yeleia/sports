@@ -5,15 +5,17 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sportname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="profession" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="stunumber" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="stuname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="currentime" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, campus, classes, profession, stunumber, stuname
+    id, sportid, sportname, campus, classes, profession, stunumber, stuname, currentime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,21 +23,19 @@
     from contestant_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="contestantIsExist" resultType="java.lang.Integer">
-    select count(1) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber}
-  </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from contestant_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.Contestant">
-    insert into contestant_table (id, sportid, campus, 
-      classes, profession, stunumber, 
-      stuname)
-    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{campus,jdbcType=VARCHAR}, 
-      #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{stunumber,jdbcType=VARCHAR}, 
-      #{stuname,jdbcType=VARCHAR})
+    insert into contestant_table (id, sportid, sportname, 
+      campus, classes, profession, 
+      stunumber, stuname, currentime
+      )
+    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{sportname,jdbcType=VARCHAR}, 
+      #{campus,jdbcType=VARCHAR}, #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, 
+      #{stunumber,jdbcType=VARCHAR}, #{stuname,jdbcType=VARCHAR}, #{currentime,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Contestant">
     insert into contestant_table
@@ -45,6 +45,9 @@
       </if>
       <if test="sportid != null">
         sportid,
+      </if>
+      <if test="sportname != null">
+        sportname,
       </if>
       <if test="campus != null">
         campus,
@@ -61,6 +64,9 @@
       <if test="stuname != null">
         stuname,
       </if>
+      <if test="currentime != null">
+        currentime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -68,6 +74,9 @@
       </if>
       <if test="sportid != null">
         #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="sportname != null">
+        #{sportname,jdbcType=VARCHAR},
       </if>
       <if test="campus != null">
         #{campus,jdbcType=VARCHAR},
@@ -84,6 +93,9 @@
       <if test="stuname != null">
         #{stuname,jdbcType=VARCHAR},
       </if>
+      <if test="currentime != null">
+        #{currentime,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Contestant">
@@ -91,6 +103,9 @@
     <set>
       <if test="sportid != null">
         sportid = #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="sportname != null">
+        sportname = #{sportname,jdbcType=VARCHAR},
       </if>
       <if test="campus != null">
         campus = #{campus,jdbcType=VARCHAR},
@@ -107,17 +122,33 @@
       <if test="stuname != null">
         stuname = #{stuname,jdbcType=VARCHAR},
       </if>
+      <if test="currentime != null">
+        currentime = #{currentime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Contestant">
     update contestant_table
     set sportid = #{sportid,jdbcType=INTEGER},
+      sportname = #{sportname,jdbcType=VARCHAR},
       campus = #{campus,jdbcType=VARCHAR},
       classes = #{classes,jdbcType=VARCHAR},
       profession = #{profession,jdbcType=VARCHAR},
       stunumber = #{stunumber,jdbcType=VARCHAR},
-      stuname = #{stuname,jdbcType=VARCHAR}
+      stuname = #{stuname,jdbcType=VARCHAR},
+      currentime = #{currentime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="contestantIsExist" resultType="java.lang.Integer">
+    select count(1) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber}
+  </select>
+  <select id="getContestList" resultType="org.wingstudio.sports.domain.Contestant">
+    select * from contestant_table where currentime=#{currentime} limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="getContestantByNum" resultType="org.wingstudio.sports.domain.Contestant">
+    select * from contestant_table where stunumber=#{stunumber} and currentime=#{currentime}
+  </select>
+
+
 </mapper>

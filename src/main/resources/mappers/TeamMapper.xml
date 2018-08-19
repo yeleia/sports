@@ -5,13 +5,15 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sportname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="profession" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="currentime" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, campus, classes, profession
+    id, sportid, sportname, campus, classes, profession, currentime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,15 +21,20 @@
     from team_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="isTeamExist" resultType="java.lang.Integer">
+      select count(1) from team_table where sportid=#{sportid} and profession=#{profession}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from team_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.Team">
-    insert into team_table (id, sportid, campus, 
-      classes, profession)
-    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{campus,jdbcType=VARCHAR}, 
-      #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR})
+    insert into team_table (id, sportid, sportname, 
+      campus, classes, profession, 
+      currentime)
+    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{sportname,jdbcType=VARCHAR}, 
+      #{campus,jdbcType=VARCHAR}, #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, 
+      #{currentime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Team">
     insert into team_table
@@ -38,6 +45,9 @@
       <if test="sportid != null">
         sportid,
       </if>
+      <if test="sportname != null">
+        sportname,
+      </if>
       <if test="campus != null">
         campus,
       </if>
@@ -47,6 +57,9 @@
       <if test="profession != null">
         profession,
       </if>
+      <if test="currentime != null">
+        currentime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -54,6 +67,9 @@
       </if>
       <if test="sportid != null">
         #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="sportname != null">
+        #{sportname,jdbcType=VARCHAR},
       </if>
       <if test="campus != null">
         #{campus,jdbcType=VARCHAR},
@@ -64,6 +80,9 @@
       <if test="profession != null">
         #{profession,jdbcType=VARCHAR},
       </if>
+      <if test="currentime != null">
+        #{currentime,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Team">
@@ -71,6 +90,9 @@
     <set>
       <if test="sportid != null">
         sportid = #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="sportname != null">
+        sportname = #{sportname,jdbcType=VARCHAR},
       </if>
       <if test="campus != null">
         campus = #{campus,jdbcType=VARCHAR},
@@ -81,15 +103,23 @@
       <if test="profession != null">
         profession = #{profession,jdbcType=VARCHAR},
       </if>
+      <if test="currentime != null">
+        currentime = #{currentime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Team">
     update team_table
     set sportid = #{sportid,jdbcType=INTEGER},
+      sportname = #{sportname,jdbcType=VARCHAR},
       campus = #{campus,jdbcType=VARCHAR},
       classes = #{classes,jdbcType=VARCHAR},
-      profession = #{profession,jdbcType=VARCHAR}
+      profession = #{profession,jdbcType=VARCHAR},
+      currentime = #{currentime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
 </mapper>

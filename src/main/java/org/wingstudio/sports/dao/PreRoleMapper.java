@@ -18,6 +18,7 @@ public interface PreRoleMapper {
     int updateByPrimaryKeySelective(PreRole record);
 
     int updateByPrimaryKey(PreRole record);
+
     @Transactional
     int addPreRoles(List<PreRole> preRoles);
 

@@ -2,21 +2,23 @@ package org.wingstudio.sports.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-@ApiModel("预赛加分规则")
+@ApiModel("预赛规则")
 public class PreRole {
     private Integer id;
-    @ApiModelProperty("体育项目id")
+
     private Integer sportid;
+    @ApiModelProperty("项目名")
+    private String sportname;
     @ApiModelProperty("名次")
     private Integer rank;
     @ApiModelProperty("加分")
     private Double addscore;
 
-    public PreRole(Integer id, Integer sportid, Integer rank, Double addscore) {
+    public PreRole(Integer id, Integer sportid, String sportname, Integer rank, Double addscore) {
         this.id = id;
         this.sportid = sportid;
+        this.sportname = sportname;
         this.rank = rank;
         this.addscore = addscore;
     }
@@ -39,6 +41,14 @@ public class PreRole {
 
     public void setSportid(Integer sportid) {
         this.sportid = sportid;
+    }
+
+    public String getSportname() {
+        return sportname;
+    }
+
+    public void setSportname(String sportname) {
+        this.sportname = sportname == null ? null : sportname.trim();
     }
 
     public Integer getRank() {

@@ -1,28 +1,38 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("参赛人员信息")
 public class Contestant {
     private Integer id;
 
     private Integer sportid;
 
+    private String sportname;
+    @ApiModelProperty("校区")
     private String campus;
-
+    @ApiModelProperty("学院")
     private String classes;
-
+    @ApiModelProperty("专业")
     private String profession;
-
+    @ApiModelProperty("学号")
     private String stunumber;
-
+    @ApiModelProperty("姓名")
     private String stuname;
+    @ApiModelProperty("时间")
+    private String currentime;
 
-    public Contestant(Integer id, Integer sportid, String campus, String classes, String profession, String stunumber, String stuname) {
+    public Contestant(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String stunumber, String stuname, String currentime) {
         this.id = id;
         this.sportid = sportid;
+        this.sportname = sportname;
         this.campus = campus;
         this.classes = classes;
         this.profession = profession;
         this.stunumber = stunumber;
         this.stuname = stuname;
+        this.currentime = currentime;
     }
 
     public Contestant() {
@@ -43,6 +53,14 @@ public class Contestant {
 
     public void setSportid(Integer sportid) {
         this.sportid = sportid;
+    }
+
+    public String getSportname() {
+        return sportname;
+    }
+
+    public void setSportname(String sportname) {
+        this.sportname = sportname == null ? null : sportname.trim();
     }
 
     public String getCampus() {
@@ -83,5 +101,13 @@ public class Contestant {
 
     public void setStuname(String stuname) {
         this.stuname = stuname == null ? null : stuname.trim();
+    }
+
+    public String getCurrentime() {
+        return currentime;
+    }
+
+    public void setCurrentime(String currentime) {
+        this.currentime = currentime == null ? null : currentime.trim();
     }
 }

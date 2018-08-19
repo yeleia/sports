@@ -76,7 +76,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "获得某个体育项目的预赛加分规则",notes = "这里时查询的是某个体育项目的预赛加分规则，需传入一个体育项目id(sportid)")
-    @RequestMapping(value = "/getPreRoleList/{sportid}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getPreRole/{sportid}",method = RequestMethod.GET)
     public List<PreRole> getPreRoleList(@PathVariable("sportid")Integer sportid){
         return userService.getPreRoleList(sportid);
     }
@@ -106,6 +106,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "查询该项目所有的决赛加分规则",notes = "查询该项目的所有加分规则，需传入sportid")
+    @RequestMapping(value = "/getRole/{sportid}",method = RequestMethod.GET)
     public List<Role> getRoleList(@PathVariable("sportid")int sportid){
         return userService.getRoleList(sportid);
     }

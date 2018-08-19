@@ -1,22 +1,32 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("集体项目报名信息")
 public class Team {
     private Integer id;
 
     private Integer sportid;
 
+    private String sportname;
+    @ApiModelProperty("校区")
     private String campus;
-
+    @ApiModelProperty("学院")
     private String classes;
-
+    @ApiModelProperty("专业")
     private String profession;
 
-    public Team(Integer id, Integer sportid, String campus, String classes, String profession) {
+    private String currentime;
+
+    public Team(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String currentime) {
         this.id = id;
         this.sportid = sportid;
+        this.sportname = sportname;
         this.campus = campus;
         this.classes = classes;
         this.profession = profession;
+        this.currentime = currentime;
     }
 
     public Team() {
@@ -37,6 +47,14 @@ public class Team {
 
     public void setSportid(Integer sportid) {
         this.sportid = sportid;
+    }
+
+    public String getSportname() {
+        return sportname;
+    }
+
+    public void setSportname(String sportname) {
+        this.sportname = sportname == null ? null : sportname.trim();
     }
 
     public String getCampus() {
@@ -61,5 +79,13 @@ public class Team {
 
     public void setProfession(String profession) {
         this.profession = profession == null ? null : profession.trim();
+    }
+
+    public String getCurrentime() {
+        return currentime;
+    }
+
+    public void setCurrentime(String currentime) {
+        this.currentime = currentime == null ? null : currentime.trim();
     }
 }

@@ -5,12 +5,13 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sportname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="rank" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="addscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, rank, addscore
+    id, sportid, sportname, rank, addscore
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -18,18 +19,15 @@
     from role_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="getRoleList" resultType="org.wingstudio.sports.domain.Role">
-    select * from role_table where sportid=#{sportid}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from role_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.Role">
-    insert into role_table (id, sportid, rank, 
-      addscore)
-    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{rank,jdbcType=INTEGER}, 
-      #{addscore,jdbcType=DOUBLE})
+    insert into role_table (id, sportid, sportname, 
+      rank, addscore)
+    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{sportname,jdbcType=VARCHAR}, 
+      #{rank,jdbcType=INTEGER}, #{addscore,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Role">
     insert into role_table
@@ -39,6 +37,9 @@
       </if>
       <if test="sportid != null">
         sportid,
+      </if>
+      <if test="sportname != null">
+        sportname,
       </if>
       <if test="rank != null">
         rank,
@@ -54,6 +55,9 @@
       <if test="sportid != null">
         #{sportid,jdbcType=INTEGER},
       </if>
+      <if test="sportname != null">
+        #{sportname,jdbcType=VARCHAR},
+      </if>
       <if test="rank != null">
         #{rank,jdbcType=INTEGER},
       </if>
@@ -62,17 +66,14 @@
       </if>
     </trim>
   </insert>
-    <insert id="addRoles" parameterType="java.util.ArrayList">
-      insert  into role_table (id,sportid,rank,addscore) values
-      <foreach collection="list" item="item" index="index" separator=",">
-        (null ,#{item.sportid},#{item.rank},#{item.addscore})
-      </foreach>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Role">
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Role">
     update role_table
     <set>
       <if test="sportid != null">
         sportid = #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="sportname != null">
+        sportname = #{sportname,jdbcType=VARCHAR},
       </if>
       <if test="rank != null">
         rank = #{rank,jdbcType=INTEGER},
@@ -86,8 +87,20 @@
   <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Role">
     update role_table
     set sportid = #{sportid,jdbcType=INTEGER},
+      sportname = #{sportname,jdbcType=VARCHAR},
       rank = #{rank,jdbcType=INTEGER},
       addscore = #{addscore,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getRoleList" resultType="org.wingstudio.sports.domain.Role">
+    select * from role_table where sportid=#{sportid}
+  </select>
+  <insert id="addRoles" parameterType="java.util.ArrayList">
+    insert  into role_table (id,sportid,sportname,rank,addscore) values
+      <foreach collection="list" index="index" item="item" separator=",">
+        (null ,#{item.sportid},#{sportname},#{item.rank},#{item.addscore})
+      </foreach>
+    </insert>
+
+
 </mapper>

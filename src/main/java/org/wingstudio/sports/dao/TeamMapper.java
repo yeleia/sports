@@ -1,7 +1,9 @@
 package org.wingstudio.sports.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.wingstudio.sports.domain.Team;
-
+@Mapper
 public interface TeamMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TeamMapper {
     int updateByPrimaryKeySelective(Team record);
 
     int updateByPrimaryKey(Team record);
+
+    int isTeamExist(@Param("sportid") Integer sportid, @Param("profession") String profession);
 }
