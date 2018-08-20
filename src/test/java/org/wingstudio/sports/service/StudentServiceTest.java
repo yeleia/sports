@@ -79,8 +79,21 @@ public class StudentServiceTest {
         team.setSportname("100");
         team.setCampus("雅安");
         team.setClasses("信息工程学院");
-        team.setProfession("计教");
+        team.setProfession("计教02");
         team.setCurrentime(GetTimeUtil.getTime());
         System.out.println(teamService.updateTeam(team));
+    }
+    @Test
+    public void deleteTeam(){
+        Integer id=1;
+        System.out.println(teamService.deleteTeam( id));
+
+    }
+    @Test
+    public void getTeamListByPro(){
+        Page page=new Page();
+        page.setTempPage(0);
+        page.setPageCapacity(2);
+        System.out.println(teamService.getTeamList(page.getTempPage(),page.getPageCapacity()));
     }
 }

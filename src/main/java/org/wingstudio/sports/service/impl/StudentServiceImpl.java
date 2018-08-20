@@ -44,10 +44,11 @@ public class StudentServiceImpl implements StudentService {
                 if (contestantMapper.updateByPrimaryKeySelective(contestant)>0){
                     return ReturnUtil.ret(true,"修改成功");
                 }else {
-                    return ReturnUtil.ret(false,"你已参加该体育项目");
+                    return ReturnUtil.ret(false,"修改失败");
+
                 }
             }else {
-                return ReturnUtil.ret(false,"修改失败");
+                return ReturnUtil.ret(false,"你已参加该体育项目");
             }
         }
     }
