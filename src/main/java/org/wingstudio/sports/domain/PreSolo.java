@@ -15,7 +15,9 @@ public class PreSolo {
 
     private String score;
 
-    public PreSolo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, Integer group, String score) {
+    private String taketime;
+
+    public PreSolo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, Integer group, String score, String taketime) {
         this.id = id;
         this.sportid = sportid;
         this.contestantid = contestantid;
@@ -23,6 +25,7 @@ public class PreSolo {
         this.remark = remark;
         this.group = group;
         this.score = score;
+        this.taketime = taketime;
     }
 
     public PreSolo() {
@@ -83,5 +86,13 @@ public class PreSolo {
 
     public void setScore(String score) {
         this.score = score == null ? null : score.trim();
+    }
+
+    public String getTaketime() {
+        return taketime;
+    }
+
+    public void setTaketime(String taketime) {
+        this.taketime = taketime == null ? null : taketime.trim();
     }
 }
