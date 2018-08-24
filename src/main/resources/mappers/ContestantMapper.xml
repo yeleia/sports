@@ -141,7 +141,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="contestantIsExist" resultType="java.lang.Integer">
-    select count(1) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber}
+    select count(1) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber} and currentime=#{currentime}
   </select>
   <select id="getContestList" resultType="org.wingstudio.sports.domain.Contestant">
     select * from contestant_table where currentime=#{currentime} limit #{tempPage},#{pageCapacity}
@@ -149,6 +149,9 @@
   <select id="getContestantByNum" resultType="org.wingstudio.sports.domain.Contestant">
     select * from contestant_table where stunumber=#{stunumber} and currentime=#{currentime}
   </select>
+    <select id="count" resultType="java.lang.Integer">
+      select count(1) from contestant_table where currentime=#{currentime}
+    </select>
 
 
 </mapper>

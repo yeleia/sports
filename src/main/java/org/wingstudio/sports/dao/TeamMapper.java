@@ -20,7 +20,9 @@ public interface TeamMapper {
 
     int updateByPrimaryKey(Team record);
 
-    int isTeamExist(@Param("sportid") Integer sportid, @Param("profession") String profession);
+    int isTeamExist(@Param("sportid") Integer sportid, @Param("profession") String profession,@Param("currentime")String currentime);
 
     List<Team> getTeamList(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
+
+    int count(@Param("currentime") String currentime);
 }

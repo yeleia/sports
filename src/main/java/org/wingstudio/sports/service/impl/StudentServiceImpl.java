@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import org.wingstudio.sports.dao.ContestantMapper;
 import org.wingstudio.sports.domain.Contestant;
 import org.wingstudio.sports.service.StudentService;
-import org.wingstudio.sports.util.GetTimeUtil;
 import org.wingstudio.sports.util.ReturnUtil;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +17,7 @@ public class StudentServiceImpl implements StudentService {
     private ContestantMapper contestantMapper;
     @Override
     public Map<String, Object> addContestant(Contestant contestant) {
-        if (contestantMapper.contestantIsExist(contestant.getSportid(),contestant.getStunumber())<1){
-            contestant.setCurrentime(GetTimeUtil.getTime());
+        if (contestantMapper.contestantIsExist(contestant.getSportid(),contestant.getStunumber(),contestant.getCurrentime())<1){
             if (contestantMapper.insert(contestant)>0){
                 return ReturnUtil.ret(true,"报名成功");
             }else {
@@ -40,7 +39,7 @@ public class StudentServiceImpl implements StudentService {
                 return ReturnUtil.ret(false,"修改失败");
             }
         }else {
-            if(contestantMapper.contestantIsExist(contestant.getSportid(),contestant.getStunumber())<1){
+            if(contestantMapper.contestantIsExist(contestant.getSportid(),contestant.getStunumber(),contestant.getCurrentime())<1){
                 if (contestantMapper.updateByPrimaryKeySelective(contestant)>0){
                     return ReturnUtil.ret(true,"修改成功");
                 }else {
@@ -63,15 +62,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Contestant> getContantList(Integer tempPage, Integer pageCapacity) {
-        String time=GetTimeUtil.getTime();
-        return contestantMapper.getContestList(tempPage*pageCapacity,pageCapacity,time);
+    public Map<String,Object> getContantList(Integer tempPage, Integer pageCapacity,String currentime) {
+        Map<String,Object> resultMap=new LinkedHashMap<>();
+        resultMap.put("contestant",contestantMapper.getContestList(tempPage*pageCapacity,pageCapacity,currentime));
+        resultMap.put("count",contestantMapper.count(currentime));
+        return resultMap;
     }
 
     @Override
-    public List<Contestant> getContestantByNum(String stuNum) {
-        String time=GetTimeUtil.getTime();
-        return contestantMapper.getContestantByNum(stuNum,time);
+    public List<Contestant> getContestantByNum(String stuNum,String currentime) {
+        return contestantMapper.getContestantByNum(stuNum,currentime);
     }
 
 }

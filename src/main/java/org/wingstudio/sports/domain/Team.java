@@ -2,13 +2,13 @@ package org.wingstudio.sports.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 
 @ApiModel("集体项目报名信息")
 public class Team {
     private Integer id;
-
     private Integer sportid;
-
+    @ApiModelProperty("项目名")
     private String sportname;
     @ApiModelProperty("校区")
     private String campus;
@@ -16,7 +16,7 @@ public class Team {
     private String classes;
     @ApiModelProperty("专业")
     private String profession;
-
+    @ApiModelProperty("第几届")
     private String currentime;
 
     public Team(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String currentime) {

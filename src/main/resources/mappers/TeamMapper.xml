@@ -22,11 +22,15 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="isTeamExist" resultType="java.lang.Integer">
-      select count(1) from team_table where sportid=#{sportid} and profession=#{profession}
+      select count(1) from team_table where sportid=#{sportid} and profession=#{profession} and currentime=#{currentime}
     </select>
   <select id="getTeamList" resultType="org.wingstudio.sports.domain.Team">
     select * from team_table where currentime=#{currentime}  limit #{tempPage},#{pageCapacity};
   </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(1) from team_table where currentime=#{currentime}
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from team_table

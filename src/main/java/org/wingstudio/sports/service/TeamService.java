@@ -27,7 +27,8 @@ public interface TeamService {
      * 查询所有团队信息
      * @param tempPage
      * @param pageCapacity
+     * @Param time  根据届数查询
      * @return
      */
-    List<Team> getTeamList(Integer tempPage, Integer pageCapacity);
+    Map<String,Object> getTeamList(Integer tempPage, Integer pageCapacity,String time);
 }

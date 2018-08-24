@@ -31,13 +31,13 @@ public interface StudentService {
      * 查询所有参赛学生
      * @return
      */
-    List<Contestant> getContantList(Integer tempPage, Integer pageCapacity);
+    Map<String,Object> getContantList(Integer tempPage, Integer pageCapacity,String time);
 
     /**
      * 根据学号查询参赛者信息
      * @param stuNum
      * @return
      */
-    List<Contestant> getContestantByNum(String stuNum);
+    List<Contestant> getContestantByNum(String stuNum,String time);
 
 }

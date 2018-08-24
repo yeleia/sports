@@ -2,13 +2,14 @@ package org.wingstudio.sports.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ApiModel("参赛人员信息")
 public class Contestant {
     private Integer id;
 
     private Integer sportid;
-
+    @ApiModelProperty("项目名")
     private String sportname;
     @ApiModelProperty("校区")
     private String campus;
@@ -20,7 +21,7 @@ public class Contestant {
     private String stunumber;
     @ApiModelProperty("姓名")
     private String stuname;
-    @ApiModelProperty("时间")
+    @ApiModelProperty("第几届")
     private String currentime;
 
     public Contestant(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String stunumber, String stuname, String currentime) {

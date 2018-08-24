@@ -21,9 +21,11 @@ public interface ContestantMapper {
     int updateByPrimaryKey(Contestant record);
 
 
-    int contestantIsExist(@Param("sportid") Integer sportid, @Param("stunumber") String stunumber);
+    int contestantIsExist(@Param("sportid") Integer sportid, @Param("stunumber") String stunumber,@Param("currentime") String currentime);
 
     List<Contestant> getContestList(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
 
     List<Contestant> getContestantByNum(@Param("stunumber") String stunumber,@Param("currentime") String currentime);
+
+    int count(@Param("currentime") String currentime);
 }
