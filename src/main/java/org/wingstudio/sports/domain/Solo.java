@@ -15,7 +15,9 @@ public class Solo {
 
     private String taketime;
 
-    public Solo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, String score, String taketime) {
+    private Integer checked;
+
+    public Solo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, String score, String taketime, Integer checked) {
         this.id = id;
         this.sportid = sportid;
         this.contestantid = contestantid;
@@ -23,6 +25,7 @@ public class Solo {
         this.remark = remark;
         this.score = score;
         this.taketime = taketime;
+        this.checked = checked;
     }
 
     public Solo() {
@@ -83,5 +86,13 @@ public class Solo {
 
     public void setTaketime(String taketime) {
         this.taketime = taketime == null ? null : taketime.trim();
+    }
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

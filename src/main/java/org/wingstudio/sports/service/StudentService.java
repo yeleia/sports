@@ -39,4 +39,5 @@ public interface StudentService {
      * @return
      */
     List<Contestant> getContestantByNum(String stuNum);
+
 }

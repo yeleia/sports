@@ -11,10 +11,11 @@
       <arg column="group" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="score" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, contestantid, gate, remark, group, score, taketime
+    id, sportid, contestantid, gate, remark, group, score, taketime, checked
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,10 +30,12 @@
   <insert id="insert" parameterType="org.wingstudio.sports.domain.PreSolo">
     insert into presolo_table (id, sportid, contestantid, 
       gate, remark, group, 
-      score, taketime)
+      score, taketime, checked
+      )
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, 
       #{gate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{group,jdbcType=INTEGER}, 
-      #{score,jdbcType=VARCHAR}, #{taketime,jdbcType=VARCHAR})
+      #{score,jdbcType=VARCHAR}, #{taketime,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.PreSolo">
     insert into presolo_table
@@ -61,6 +64,9 @@
       <if test="taketime != null">
         taketime,
       </if>
+      <if test="checked != null">
+        checked,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -86,6 +92,9 @@
       </if>
       <if test="taketime != null">
         #{taketime,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null">
+        #{checked,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -113,6 +122,9 @@
       <if test="taketime != null">
         taketime = #{taketime,jdbcType=VARCHAR},
       </if>
+      <if test="checked != null">
+        checked = #{checked,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -124,8 +136,10 @@
       remark = #{remark,jdbcType=VARCHAR},
       group = #{group,jdbcType=INTEGER},
       score = #{score,jdbcType=VARCHAR},
-      taketime = #{taketime,jdbcType=VARCHAR}
+      taketime = #{taketime,jdbcType=VARCHAR},
+      checked = #{checked,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 
 </mapper>

@@ -13,13 +13,16 @@ public class TeamScore {
 
     private String taketime;
 
-    public TeamScore(Integer id, Integer sportid, Integer teamid, String score, Double finalscore, String taketime) {
+    private Integer checked;
+
+    public TeamScore(Integer id, Integer sportid, Integer teamid, String score, Double finalscore, String taketime, Integer checked) {
         this.id = id;
         this.sportid = sportid;
         this.teamid = teamid;
         this.score = score;
         this.finalscore = finalscore;
         this.taketime = taketime;
+        this.checked = checked;
     }
 
     public TeamScore() {
@@ -72,5 +75,13 @@ public class TeamScore {
 
     public void setTaketime(String taketime) {
         this.taketime = taketime == null ? null : taketime.trim();
+    }
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

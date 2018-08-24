@@ -17,7 +17,9 @@ public class PreSolo {
 
     private String taketime;
 
-    public PreSolo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, Integer group, String score, String taketime) {
+    private Integer checked;
+
+    public PreSolo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, Integer group, String score, String taketime, Integer checked) {
         this.id = id;
         this.sportid = sportid;
         this.contestantid = contestantid;
@@ -26,6 +28,7 @@ public class PreSolo {
         this.group = group;
         this.score = score;
         this.taketime = taketime;
+        this.checked = checked;
     }
 
     public PreSolo() {
@@ -94,5 +97,13 @@ public class PreSolo {
 
     public void setTaketime(String taketime) {
         this.taketime = taketime == null ? null : taketime.trim();
+    }
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

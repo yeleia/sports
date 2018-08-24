@@ -13,10 +13,6 @@ public class AddScoreServiceTest {
     @Autowired
     private ScoreService scoreService;
 
-    @Test
-    public void addPreSoloScore(){
-        PreSolo preSolo=new PreSolo();
-        System.out.println(scoreService.addPreSoloScore());
-    }
+
 
 }
