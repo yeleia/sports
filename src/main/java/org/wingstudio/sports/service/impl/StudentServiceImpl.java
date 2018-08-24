@@ -3,6 +3,7 @@ package org.wingstudio.sports.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wingstudio.sports.dao.ContestantMapper;
+import org.wingstudio.sports.dao.StudentMapper;
 import org.wingstudio.sports.domain.Contestant;
 import org.wingstudio.sports.service.StudentService;
 import org.wingstudio.sports.util.ReturnUtil;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private ContestantMapper contestantMapper;
+    @Autowired
+    private StudentMapper studentMapper;
     @Override
     public Map<String, Object> addContestant(Contestant contestant) {
         if (contestantMapper.contestantIsExist(contestant.getSportid(),contestant.getStunumber(),contestant.getCurrentime())<1){
@@ -72,6 +75,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Contestant> getContestantByNum(String stuNum,String currentime) {
         return contestantMapper.getContestantByNum(stuNum,currentime);
+    }
+
+    @Override
+    public Map<String, Object> getCCP() {
+        Map<String,Object> resultMap=new LinkedHashMap<>();
+        resultMap.put("campus",studentMapper.getCampus());
+        resultMap.put("classes",studentMapper.getClasses());
+        resultMap.put("profession",studentMapper.getProfession());
+        return resultMap;
     }
 
 }

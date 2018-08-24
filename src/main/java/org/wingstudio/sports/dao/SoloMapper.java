@@ -1,7 +1,8 @@
 package org.wingstudio.sports.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.wingstudio.sports.domain.Solo;
-
+@Mapper
 public interface SoloMapper {
     int deleteByPrimaryKey(Integer id);
 

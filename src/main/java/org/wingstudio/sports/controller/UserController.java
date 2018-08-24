@@ -105,7 +105,7 @@ public class UserController {
         return userService.deleteRole(id);
     }
 
-    @ApiOperation(value = "查询该项目所有的决赛加分规则",notes = "查询该项目的所有加分规则，需传入sportid")
+    @ApiOperation(value = "查询该项目决赛加分规则",notes = "查询该项目的所有加分规则，需传入sportid")
     @RequestMapping(value = "/getRole/{sportid}",method = RequestMethod.GET)
     public List<Role> getRoleList(@PathVariable("sportid")int sportid){
         return userService.getRoleList(sportid);

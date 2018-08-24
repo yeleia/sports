@@ -62,7 +62,13 @@ public class StudentController {
         return teamService.deleteTeam(id);
     }
     @ApiOperation(value = "获取该届运动会所有参赛团队信息",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
+    @RequestMapping(value = "/getTeamList",method = RequestMethod.GET)
     public Map<String,Object>getTeamList(@ModelAttribute Page page,@PathVariable("currentime")String currentime){
         return teamService.getTeamList(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+    @ApiOperation(value = "获得学校校区，学院，专业信息",notes ="")
+    @RequestMapping(value = "/getCCP",method = RequestMethod.GET)
+    public Map<String,Object> getCCP(){
+        return studentService.getCCP();
     }
 }

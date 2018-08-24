@@ -52,13 +52,13 @@ public class StudentServiceTest {
         page.setTempPage(0);
         page.setPageCapacity(2);
         String currenTime="20188";
-        System.out.println(studentService.getContantList(page.getTempPage(),page.getPageCapacity()));
+        //System.out.println(studentService.getContantList(page.getTempPage(),page.getPageCapacity()));
     }
     @Test
     public void getContestantByNum(){
         String stuNum="20158618";
         String currenTime="20188";
-        System.out.println(studentService.getContestantByNum(stuNum));
+        //System.out.println(studentService.getContestantByNum(stuNum));
     }
     @Test
     public void addTeam(){
@@ -94,6 +94,11 @@ public class StudentServiceTest {
         Page page=new Page();
         page.setTempPage(0);
         page.setPageCapacity(2);
-        System.out.println(teamService.getTeamList(page.getTempPage(),page.getPageCapacity()));
+        //System.out.println(teamService.getTeamList(page.getTempPage(),page.getPageCapacity()));
+    }
+    @Test
+    public void getCCP(){
+        System.out.println(studentService.getCCP().get("campus"));
+
     }
 }

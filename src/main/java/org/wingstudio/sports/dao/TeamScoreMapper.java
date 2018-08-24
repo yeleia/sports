@@ -1,7 +1,8 @@
 package org.wingstudio.sports.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.wingstudio.sports.domain.TeamScore;
-
+@Mapper
 public interface TeamScoreMapper {
     int deleteByPrimaryKey(Integer id);
 

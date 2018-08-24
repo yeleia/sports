@@ -21,6 +21,16 @@
     from stu
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="getClasses" resultType="java.lang.String">
+    select distinct stuClasses from stu
+  </select>
+  <select id="getProfession" resultType="java.lang.String">
+    select distinct stuProfession from stu
+  </select>
+  <select id="getCampus" resultType="java.lang.String">
+    select distinct stuCampus from stu
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from stu
     where id = #{id,jdbcType=INTEGER}

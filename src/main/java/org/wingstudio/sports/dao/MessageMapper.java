@@ -1,7 +1,8 @@
 package org.wingstudio.sports.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.wingstudio.sports.domain.Message;
-
+@Mapper
 public interface MessageMapper {
     int deleteByPrimaryKey(Integer id);
 

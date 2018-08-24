@@ -40,4 +40,9 @@ public interface StudentService {
      */
     List<Contestant> getContestantByNum(String stuNum,String time);
 
+    /**
+     * 获取全校校区，学院，专业信息
+     * @return
+     */
+    Map<String,Object> getCCP();
 }
