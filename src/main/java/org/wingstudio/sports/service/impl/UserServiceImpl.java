@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, Object> addPreRoles(String role) {
+        Map<String,Object> resultMap=new LinkedHashMap<>();
         JSONArray jsonArray=JSONArray.fromObject(role);
         List<PreRole> preRoles=new ArrayList<>();
         for (int i=0;i<jsonArray.size();i++){
@@ -109,14 +110,22 @@ public class UserServiceImpl implements UserService {
             preRole.setSportid(json.getInt("sportid"));
             preRole.setRank(json.getInt("rank"));
             preRole.setAddscore(json.getDouble("addscore"));
+            preRole.setCampus(json.getString("campus"));
             preRoles.add(preRole);
         }
-        int i= preRoleMapper.addPreRoles(preRoles);
-        if (i<preRoles.size()){
-            return ReturnUtil.ret(false,"部分数据插入失败");
-        }else {
-            return ReturnUtil.ret(true,"添加成功");
+        List<PreRole> failProRole=new ArrayList<>();
+        for (int i=0;i<preRoles.size();i++){
+            //检查该规则是否存在
+            System.out.println(preRoleMapper.isexist(preRoles.get(i)));
+                if (preRoleMapper.isexist(preRoles.get(i))<1){
+                    preRoleMapper.insertSelective(preRoles.get(i));
+                }else {
+                    failProRole.add(preRoles.get(i));
+                }
         }
+        resultMap.put("message","失败"+failProRole.size()+"条");
+        resultMap.put("proRoleList",failProRole);
+        return resultMap;
     }
 
     @Override
@@ -151,6 +160,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, Object> addRoles(String role) {
+        Map<String,Object> resultMap=new LinkedHashMap<>();
         JSONArray jsonArray=JSONArray.fromObject(role);
         List<Role> roleList=new ArrayList<>();
         for (int i=0;i<jsonArray.size();i++){
@@ -162,12 +172,18 @@ public class UserServiceImpl implements UserService {
             roles.setAddscore(json.getDouble("addscore"));
             roleList.add(roles);
         }
-        int i= roleMapper.addRoles(roleList);
-        if (i<roleList.size()){
-            return ReturnUtil.ret(false,"部分数据插入失败");
-        }else {
-            return ReturnUtil.ret(true,"添加成功");
-        }
+        List<Role> failRole=new ArrayList<>();
+         for (int i=0;i<roleList.size();i++){
+            //检查该规则是否存在
+             if (roleMapper.isExist(roleList.get(i))<1){
+                 roleMapper.insertSelective(roleList.get(i));
+             }else {
+                 failRole.add(roleList.get(i));
+             }
+         }
+         resultMap.put("message","失败"+failRole.size()+"条");
+         resultMap.put("RoleList",failRole);
+         return resultMap;
     }
 
     @Override

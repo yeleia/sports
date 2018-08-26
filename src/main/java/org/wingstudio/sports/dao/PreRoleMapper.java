@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wingstudio.sports.domain.PreRole;
 
 import java.util.List;
+
 @Mapper
 public interface PreRoleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,10 +20,10 @@ public interface PreRoleMapper {
 
     int updateByPrimaryKey(PreRole record);
 
-    @Transactional
-    int addPreRoles(List<PreRole> preRoles);
 
     int updatePreRole(PreRole role);
 
     List<PreRole> getPreRoleList(Integer sportId);
+
+    int isexist(PreRole role);
 }

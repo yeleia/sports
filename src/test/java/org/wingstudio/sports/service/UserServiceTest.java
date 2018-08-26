@@ -60,11 +60,13 @@ public class UserServiceTest {
         preRole.setSportid(4);
         preRole.setRank(1);
         preRole.setAddscore(8.0);
+        preRole.setCampus("雅安");
         preRoles.add(preRole);
         PreRole preRole1=new PreRole();
         preRole1.setSportid(4);
         preRole1.setRank(2);
         preRole1.setAddscore(7.0);
+        preRole.setCampus("雅安");
         preRoles.add(preRole1);
         JSONArray array = JSONArray.fromObject(preRoles);
         role=array.toString();

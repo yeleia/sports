@@ -8,10 +8,11 @@
       <arg column="sportname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="rank" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="addscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, sportname, rank, addscore
+    id, sportid, sportname, rank, addscore, campus
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,9 +26,11 @@
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.PreRole">
     insert into prerole_table (id, sportid, sportname, 
-      rank, addscore)
+      rank, addscore, campus
+      )
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{sportname,jdbcType=VARCHAR}, 
-      #{rank,jdbcType=INTEGER}, #{addscore,jdbcType=DOUBLE})
+      #{rank,jdbcType=INTEGER}, #{addscore,jdbcType=DOUBLE}, #{campus,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.PreRole">
     insert into prerole_table
@@ -47,6 +50,9 @@
       <if test="addscore != null">
         addscore,
       </if>
+      <if test="campus != null">
+        campus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -63,6 +69,9 @@
       </if>
       <if test="addscore != null">
         #{addscore,jdbcType=DOUBLE},
+      </if>
+      <if test="campus != null">
+        #{campus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -81,6 +90,9 @@
       <if test="addscore != null">
         addscore = #{addscore,jdbcType=DOUBLE},
       </if>
+      <if test="campus != null">
+        campus = #{campus,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -89,18 +101,20 @@
     set sportid = #{sportid,jdbcType=INTEGER},
       sportname = #{sportname,jdbcType=VARCHAR},
       rank = #{rank,jdbcType=INTEGER},
-      addscore = #{addscore,jdbcType=DOUBLE}
+      addscore = #{addscore,jdbcType=DOUBLE},
+      campus = #{campus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="getPreRoleList" resultType="org.wingstudio.sports.domain.PreRole">
-    select * from prerole_table where sportid=#{sportid}
+    select * from prerole_table where sportid=#{sportid} order by campus,rank
   </select>
-  <insert id="addPreRoles" parameterType="java.util.ArrayList">
-    insert into prerole_table (id, sportid, rank, addscore) values
-    <foreach collection="list" index="index" item="item" separator=",">
-      (null ,#{item.sportid},#{item.rank},#{item.addscore})
-    </foreach>
-  </insert>
+  <select id="isexist" resultType="java.lang.Integer">
+        select count(*) from prerole_table where sportid=#{sportid} and rank=#{rank} and campus=#{campus}
+
+  </select>
+
+
   <update id="updatePreRole">
     update prerole_table set  addscore=#{addscore}  where id=#{id};
   </update>

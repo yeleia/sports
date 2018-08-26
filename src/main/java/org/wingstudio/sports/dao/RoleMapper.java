@@ -1,9 +1,10 @@
 package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.transaction.annotation.Transactional;
 import org.wingstudio.sports.domain.Role;
+
 import java.util.List;
+
 @Mapper
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,9 +19,8 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
 
-    @Transactional
-    int addRoles(List<Role> roleList);
 
     List<Role> getRoleList(int sportid);
 
+    int isExist(Role role);
 }

@@ -62,7 +62,7 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "修改预赛加分规则",notes ="修改预赛加分规则操作，只能修改分数，返回id，addscore")
+    @ApiOperation(value = "修改预赛加分规则",notes ="只能修改分数,需要传入的参数为 id，addscore")
     @RequestMapping(value = "/updatePreRole",method = RequestMethod.POST)
     public Map<String,Object> updatePreRole(@ModelAttribute PreRole role){
         return userService.updatePreRole(role);
@@ -93,13 +93,13 @@ public class UserController {
         return userService.addRoles(role);
     }
 
-    @ApiOperation(value = "修改决赛加分规则",notes = "修改决赛加分规则，只能根据id修改加分值addScore")
+    @ApiOperation(value = "修改决赛加分规则",notes = "只能修改分数,需要传入的参数为 id，addscore")
     @RequestMapping(value = "/updateRole",method = RequestMethod.POST)
     public Map<String,Object> updateRole(Role role){
         return userService.updateRole(role);
     }
 
-    @ApiOperation(value = "删除决赛加分规则",notes = "删除决赛加分规则，能不能只从最后一个名次删起走")
+    @ApiOperation(value = "删除决赛加分规则",notes = "删除决赛加分规则，能不能只从最后一个名次删起走，需要参数为id")
     @RequestMapping(value = "/deleteRole",method = RequestMethod.DELETE)
     public Map<String,Object> deleteRole(@PathVariable("id")Integer id){
         return userService.deleteRole(id);
