@@ -1,6 +1,7 @@
 package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.wingstudio.sports.domain.PreSolo;
 @Mapper
 public interface PreSoloMapper {
@@ -15,4 +16,6 @@ public interface PreSoloMapper {
     int updateByPrimaryKeySelective(PreSolo record);
 
     int updateByPrimaryKey(PreSolo record);
+
+    int isPreSoloExsit(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
 }

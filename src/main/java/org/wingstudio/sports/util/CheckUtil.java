@@ -15,7 +15,7 @@ public class CheckUtil {
         double min=convert(inmin);
         //时间排序
         if (sortrule==1){
-            if (max>min){
+            if (TimeRegexUtil.regex(inmax)&&TimeRegexUtil.regex(inmin)&&max>min){
                 return false;
             }else{
                 return true;
@@ -36,6 +36,33 @@ public class CheckUtil {
            str=string.replace(":","");
         }
         return Double.valueOf(str);
+    }
+
+    /**
+     * 检查成绩录入时的输入
+     * @param sortrule 0：距离排序，1：时间排序
+     * @param inMax
+     * @param inMin
+     * @return
+     */
+    public static boolean checkScore(int sortrule,String inScore,String inMax,String inMin){
+        double scores=convert(inScore);
+        double max=convert(inMax);
+        double min=convert(inMin);
+        if (sortrule==1){
+            if (TimeRegexUtil.regex(inScore)&&max<=scores&&min>=scores){
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            if (scores>min&&scores<max){
+                return true;
+            }else {
+                return false;
+            }
+        }
+
     }
 
     public static void main(String[] args) {

@@ -27,4 +27,5 @@ public interface SportMapper {
     Integer countSportList();
 
     List<Sport> getSportIdList();
+
 }

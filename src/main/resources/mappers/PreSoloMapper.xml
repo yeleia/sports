@@ -23,7 +23,10 @@
     from presolo_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="isPreSoloExsit" resultType="java.lang.Integer">
+      select count(*) from presolo_table where sportid=#{taketime} and contestantid=#{contestantid} and taketime=#{taketime}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from presolo_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

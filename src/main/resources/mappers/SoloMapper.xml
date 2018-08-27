@@ -22,6 +22,9 @@
     from solo_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="isSoloExsit" resultType="java.lang.Integer">
+    select count(*) from solo_table where contestantid=#{contestantid} and sportid=#{sportid} and taketime=#{taketime}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from solo_table
     where id = #{id,jdbcType=INTEGER}

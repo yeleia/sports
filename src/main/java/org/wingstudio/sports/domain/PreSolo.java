@@ -1,22 +1,27 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("添加预赛成绩")
 public class PreSolo {
     private Integer id;
-
+    @ApiModelProperty("体育项目id")
     private Integer sportid;
-
+    @ApiModelProperty("参赛人id")
     private Integer contestantid;
-
+    @ApiModelProperty("道次")
     private Integer gate;
-
+    @ApiModelProperty("备注")
     private String remark;
-
+    @ApiModelProperty("小组")
     private Integer group;
-
+    @ApiModelProperty("成绩")
     private String score;
-
+    @ApiModelProperty("届数")
     private String taketime;
-
+    @ApiModelProperty("审核")
     private Integer checked;
 
     public PreSolo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, Integer group, String score, String taketime, Integer checked) {
