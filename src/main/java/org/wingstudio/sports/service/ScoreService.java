@@ -1,9 +1,12 @@
 package org.wingstudio.sports.service;
 
 import io.swagger.models.auth.In;
+import org.wingstudio.sports.VO.PreSoloVO;
 import org.wingstudio.sports.domain.PreSolo;
 import org.wingstudio.sports.domain.Solo;
+import org.wingstudio.sports.domain.TeamScore;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ScoreService {
@@ -22,12 +25,26 @@ public interface ScoreService {
     Map<String,Object> updatePreSoloScore(PreSolo preSolo);
 
     /**
-     * 删除单项成绩
+     * 删除预赛单项成绩
      * @param id
      * @return
      */
     Map<String,Object> deletePreSoloScore(Integer id, Integer check);
 
+    /**
+     * 查询没有审核的预赛单项
+     * @return
+     */
+    Map<String,Object> getPreSoloNoCheck(Integer tempPage, Integer pageCapacity, String taketime);
+
+    /**
+     * 查询已经审核的预赛单项
+     * @param tempPage
+     * @param pageCapacity
+     * @param taketime
+     * @return
+     */
+    Map<String,Object> getPreSoloChecked(Integer tempPage, Integer pageCapacity, String taketime);
     /**
      * 添加决赛单项成绩
      * @param solo
@@ -49,4 +66,61 @@ public interface ScoreService {
      * @return
      */
     Map<String,Object> deleteSoloScore(Integer id,Integer check);
+
+    /**
+     * 查询决赛未审核的成绩
+     * @param tempPage
+     * @param pageCapacity
+     * @param taketime
+     * @return
+     */
+    Map<String,Object> getSoloScoreNoCheck(Integer tempPage, Integer pageCapacity, String taketime);
+
+    /**
+     * 查询决赛已经审核过的成绩
+     * @param tempPage
+     * @param pageCapacity
+     * @param taketime
+     * @return
+     */
+    Map<String,Object> getSoloScoreCheck(Integer tempPage, Integer pageCapacity, String taketime);
+    /**
+     * 添加集体项目成绩
+     * @param teamScore
+     * @return
+     */
+    Map<String,Object> addTeamScore(TeamScore teamScore);
+
+    /**
+     * 修改集体项目的成绩
+     * @param teamScore
+     * @return
+     */
+    Map<String,Object> updateTeamScore(TeamScore teamScore);
+
+    /**
+     * 删除集项目的成绩
+     * @param id
+     * @param check
+     * @return
+     */
+    Map<String,Object> deleteTeamScore(Integer id,Integer check);
+
+    /**
+     * 查询集体项目未审核成绩
+     * @param tempPage
+     * @param pageCapacity
+     * @param taketime
+     * @return
+     */
+    Map<String,Object> getTeamScoreNoCheck(Integer tempPage, Integer pageCapacity, String taketime);
+
+    /**
+     * 查询集体项目已经审核的
+     * @param tempPage
+     * @param pageCapacity
+     * @param taketime
+     * @return
+     */
+    Map<String,Object> getTeamScoreCheck(Integer tempPage, Integer pageCapacity, String taketime);
 }

@@ -21,6 +21,21 @@
     from teamscore_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="isTeamScoreExsit" resultType="java.lang.Integer">
+      select count(*) from teamscore_table where sportid=#{sportid} and teamid=#{teamid} and taketime=#{taketime}
+    </select>
+    <select id="getTeamScoreNoCheck" resultType="org.wingstudio.sports.domain.TeamScore">
+      select * from teamscore_table where checked=0 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+    </select>
+  <select id="getTeamScoreNoCheckNu" resultType="java.lang.Integer">
+    select count (*) from teamscore_table where checked=0 and taketime=#{taketime}
+  </select>
+  <select id="getTeamScoreChecked" resultType="org.wingstudio.sports.domain.TeamScore">
+    select * from teamscore_table where checked=1 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="getTeamScoreCheckNu" resultType="java.lang.Integer">
+    select count (*) from teamscore_table where checked=1 and taketime=#{taketime}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from teamscore_table
     where id = #{id,jdbcType=INTEGER}

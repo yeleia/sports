@@ -1,20 +1,24 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("决赛单项成绩")
 public class Solo {
     private Integer id;
-
+    @ApiModelProperty("体育项目id")
     private Integer sportid;
-
+    @ApiModelProperty("参赛人员")
     private Integer contestantid;
-
+    @ApiModelProperty("道次")
     private Integer gate;
-
+    @ApiModelProperty("备注")
     private String remark;
-
+    @ApiModelProperty("成绩")
     private String score;
-
+    @ApiModelProperty("届数")
     private String taketime;
-
+    @ApiModelProperty("是否审核")
     private Integer checked;
 
     public Solo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, String score, String taketime, Integer checked) {

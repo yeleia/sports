@@ -26,7 +26,19 @@
     <select id="isPreSoloExsit" resultType="java.lang.Integer">
       select count(*) from presolo_table where sportid=#{taketime} and contestantid=#{contestantid} and taketime=#{taketime}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getPreSoloNoCheck" resultType="org.wingstudio.sports.domain.PreSolo">
+      select * from presolo_table where checked=0 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+    </select>
+  <select id="getPreSoloNoCheckNu" resultType="java.lang.Integer">
+    select count(*) from presolo_table where checked=0 and taketime=#{taketime}
+  </select>
+  <select id="getPreSoloChecked" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where checked=1 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
+    select count(*) from presolo_table where checked=1 and taketime=#{taketime}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from presolo_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

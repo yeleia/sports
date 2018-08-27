@@ -25,6 +25,18 @@
   <select id="isSoloExsit" resultType="java.lang.Integer">
     select count(*) from solo_table where contestantid=#{contestantid} and sportid=#{sportid} and taketime=#{taketime}
   </select>
+    <select id="getSoloNoCheck" resultType="org.wingstudio.sports.domain.Solo">
+      select * from solo_table where checked=0 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+    </select>
+  <select id="getPreSoloNoCheckNu" resultType="java.lang.Integer">
+    select count(*) from solo_table where checked=0 and taketime=#{taketime}
+  </select>
+  <select id="getSoloChecked" resultType="org.wingstudio.sports.domain.Solo">
+    select * from solo_table where checked=1 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
+    select count(*) from solo_table where checked=1 and taketime=#{taketime}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from solo_table
     where id = #{id,jdbcType=INTEGER}

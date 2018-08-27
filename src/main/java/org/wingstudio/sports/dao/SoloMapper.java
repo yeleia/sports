@@ -3,6 +3,9 @@ package org.wingstudio.sports.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.wingstudio.sports.domain.Solo;
+
+import java.util.List;
+
 @Mapper
 public interface SoloMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,4 +21,12 @@ public interface SoloMapper {
     int updateByPrimaryKey(Solo record);
 
     int isSoloExsit(@Param("contestantid") Integer contestantid,@Param("sportid") Integer sportid, @Param("taketime") String taketime);
+
+    List<Solo> getSoloNoCheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
+
+    int getPreSoloNoCheckNu(@Param("taketime") String taketime);
+
+    List<Solo> getSoloChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
+
+    int getPreSoloCheckNu(@Param("taketime") String taketime);
 }
