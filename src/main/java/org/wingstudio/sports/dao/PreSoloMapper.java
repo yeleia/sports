@@ -30,4 +30,11 @@ public interface PreSoloMapper {
     List<PreSolo> getPreSoloChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
 
     int getPreSoloCheckNu(@Param("taketime") String taketime);
+
+    void updateCheck(Integer id);
+
+
+    List<PreSolo> getPreSoloBySportId(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    List<PreSolo> getPreSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 }

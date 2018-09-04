@@ -29,4 +29,10 @@ public interface SoloMapper {
     List<Solo> getSoloChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
 
     int getPreSoloCheckNu(@Param("taketime") String taketime);
+
+    List<Solo> getSoloBySportId(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    List<Solo> getSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    void updateCheck(@Param("id") Integer id);
 }

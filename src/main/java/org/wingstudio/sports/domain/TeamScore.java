@@ -18,6 +18,8 @@ public class TeamScore {
     private String taketime;
     @ApiModelProperty("是否审核")
     private Integer checked;
+    @ApiModelProperty("计算临时变量")
+    private Integer temp;
 
     public TeamScore(Integer id, Integer sportid, Integer teamid, String score, Double finalscore, String taketime, Integer checked) {
         this.id = id;
@@ -87,5 +89,13 @@ public class TeamScore {
 
     public void setChecked(Integer checked) {
         this.checked = checked;
+    }
+
+    public Integer getTemp() {
+        return temp;
+    }
+
+    public void setTemp(Integer temp) {
+        this.temp = temp;
     }
 }

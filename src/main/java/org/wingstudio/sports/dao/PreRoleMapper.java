@@ -1,6 +1,7 @@
 package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
 import org.wingstudio.sports.domain.PreRole;
 
@@ -26,4 +27,6 @@ public interface PreRoleMapper {
     List<PreRole> getPreRoleList(Integer sportId);
 
     int isexist(PreRole role);
+
+    List<PreRole> getPreRoleBySportId(@Param("sportid") Integer sportid,@Param("campus")String campus);
 }

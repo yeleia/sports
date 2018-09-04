@@ -1,12 +1,9 @@
 package org.wingstudio.sports.service;
 
-import io.swagger.models.auth.In;
-import org.wingstudio.sports.VO.PreSoloVO;
 import org.wingstudio.sports.domain.PreSolo;
 import org.wingstudio.sports.domain.Solo;
 import org.wingstudio.sports.domain.TeamScore;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ScoreService {
@@ -123,4 +120,25 @@ public interface ScoreService {
      * @return
      */
     Map<String,Object> getTeamScoreCheck(Integer tempPage, Integer pageCapacity, String taketime);
+
+    /**
+     * 审核预赛成绩，添加时并计算
+     * @param id
+     * @return
+     */
+    Map<String,Object> checkPreSolo(Integer id);
+
+    /**
+     * 审核决赛成绩，添加时并计算
+     * @param id
+     * @return
+     */
+    Map<String,Object> checkSolo(Integer id);
+
+    /**
+     * 审核集体项目成绩
+     * @param id
+     * @return
+     */
+    Map<String,Object> checkTeamScore(Integer id);
 }

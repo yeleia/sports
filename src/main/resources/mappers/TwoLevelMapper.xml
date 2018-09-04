@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wingstudio.sports.dao.TwoLevelMapper">
+  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.TwoLevel">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="contestantid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="mark" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, contestantid, sportid, mark, taketime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from twoLevel_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getBySportIdConsId" resultType="org.wingstudio.sports.domain.TwoLevel">
+      select * from twoLevel_table where sportid=#{sportid} and contestantid=#{contestantid} and taketime=#{taketime} and mark=0
+    </select>
+  <select id="getBySportIdConsIds" resultType="org.wingstudio.sports.domain.TwoLevel">
+          select * from twoLevel_table where sportid=#{sportid} and contestantid=#{contestantid} and taketime=#{taketime} and mark=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from twoLevel_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.wingstudio.sports.domain.TwoLevel">
+    insert into twoLevel_table (id, contestantid, sportid, 
+      mark, taketime)
+    values (#{id,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, 
+      #{mark,jdbcType=INTEGER}, #{taketime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.TwoLevel">
+    insert into twoLevel_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="contestantid != null">
+        contestantid,
+      </if>
+      <if test="sportid != null">
+        sportid,
+      </if>
+      <if test="mark != null">
+        mark,
+      </if>
+      <if test="taketime != null">
+        taketime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contestantid != null">
+        #{contestantid,jdbcType=INTEGER},
+      </if>
+      <if test="sportid != null">
+        #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null">
+        #{mark,jdbcType=INTEGER},
+      </if>
+      <if test="taketime != null">
+        #{taketime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.TwoLevel">
+    update twoLevel_table
+    <set>
+      <if test="contestantid != null">
+        contestantid = #{contestantid,jdbcType=INTEGER},
+      </if>
+      <if test="sportid != null">
+        sportid = #{sportid,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null">
+        mark = #{mark,jdbcType=INTEGER},
+      </if>
+      <if test="taketime != null">
+        taketime = #{taketime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.TwoLevel">
+    update twoLevel_table
+    set contestantid = #{contestantid,jdbcType=INTEGER},
+      sportid = #{sportid,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=INTEGER},
+      taketime = #{taketime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

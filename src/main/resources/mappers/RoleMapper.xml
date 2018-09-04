@@ -111,7 +111,9 @@
   <select id="isExist"  parameterType="org.wingstudio.sports.domain.Role" resultType="java.lang.Integer">
     select count(*) from  role_table where sportid=#{sportid} and rank=#{rank} and campus=#{campus}
   </select>
-
+    <select id="getRoleBySportId" resultType="org.wingstudio.sports.domain.Role">
+      select * from role_table where sportid=#{sportid} and campus=#{campus} order by rank
+    </select>
 
 
 </mapper>

@@ -8,7 +8,9 @@ import org.wingstudio.sports.VO.TeamVO;
 import org.wingstudio.sports.dao.*;
 import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.service.ScoreService;
+import org.wingstudio.sports.util.CampareUtil;
 import org.wingstudio.sports.util.CheckUtil;
+import org.wingstudio.sports.util.CountUtil;
 import org.wingstudio.sports.util.ReturnUtil;
 
 import java.util.ArrayList;
@@ -30,6 +32,16 @@ public class ScoreServiceImpl implements ScoreService {
     private ContestantMapper contestantMapper;
     @Autowired
     private TeamMapper teamMapper;
+    @Autowired
+    private ScoreMapper scoreMapper;
+    @Autowired
+    private PreRoleMapper preRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private TwoLevelMapper twoLevelMapper;
+    @Autowired
+    private RecordMapper recordMapper;
 
     @Override
     public Map<String, Object> addPreSoloScore(PreSolo preSolo) {
@@ -40,7 +52,7 @@ public class ScoreServiceImpl implements ScoreService {
             if (preSoloMapper.isPreSoloExsit(preSolo.getSportid(), preSolo.getContestantid(), preSolo.getTaketime()) < 1) {
                 preSolo.setChecked(0);
                 preSoloMapper.insertSelective(preSolo);
-                return ReturnUtil.ret(true, "添加成功");
+                return ReturnUtil.ret(true, "添加成功,待审核");
             } else {
                 return ReturnUtil.ret(false, "添加失败，该成绩已经添加");
             }
@@ -60,11 +72,28 @@ public class ScoreServiceImpl implements ScoreService {
                 //直接修改
                 preSoloMapper.updateByPrimaryKeySelective(preSolo);
                 if (preSolo.getChecked()==1){
+                    TwoLevel twoLevel0=twoLevelMapper.getBySportIdConsId(preSolo.getSportid(),preSolo.getContestantid(),preSolo.getTaketime());
+                    //是否达到二级运动员标准
+                    TwoLevel twoLevel=twoLevel(preSolo,sport);
+                    if (twoLevel!=null&&twoLevel0==null){
+                        twoLevelMapper.insertSelective(twoLevel);
+                    }else if (twoLevel==null&& twoLevel0!=null){
+                        twoLevelMapper.deleteByPrimaryKey(twoLevel0.getId());
+                    }
+                    //是否创新记录
+                    Record record0=recordMapper.getBySportIdConsId(preSolo.getSportid(),preSolo.getContestantid(),preSolo.getTaketime());
+                    Record record=records(preSolo,sport);
+                    if (record!=null&& record0==null){
+                        recordMapper.insertSelective(record);
+                    }else if (record==null&& record0!=null){
+                        recordMapper.deleteByPrimaryKey(record0.getId());
+                    }
                     //该成绩已经审核，故需要重新计算成绩
-
-                    /////////
-
-
+                    String campus=contestantMapper.selectByPrimaryKey(preSolo.getContestantid()).getCampus();
+                    List<Score> scores= count(preSolo.getSportid(),preSolo.getTaketime(),campus,sport.getSortrule());
+                    for (int i = 0; i <scores.size() ; i++) {
+                        scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+                    }
                 }
                 return ReturnUtil.ret(true, "'修改成功");
             } else {
@@ -73,10 +102,28 @@ public class ScoreServiceImpl implements ScoreService {
                     //该记录不存在
                     preSoloMapper.updateByPrimaryKeySelective(preSolo);
                     if (preSolo.getChecked()==1){
+                        TwoLevel twoLevel0=twoLevelMapper.getBySportIdConsId(preSolo.getSportid(),preSolo.getContestantid(),preSolo.getTaketime());
+                        //是否达到二级运动员标准
+                        TwoLevel twoLevel=twoLevel(preSolo,sport);
+                        if (twoLevel!=null&&twoLevel0==null){
+                            twoLevelMapper.insertSelective(twoLevel);
+                        }else if (twoLevel==null&& twoLevel0!=null){
+                            twoLevelMapper.deleteByPrimaryKey(twoLevel0.getId());
+                        }
+                        //是否创新记录
+                        Record record0=recordMapper.getBySportIdConsId(preSolo.getSportid(),preSolo.getContestantid(),preSolo.getTaketime());
+                        Record record=records(preSolo,sport);
+                        if (record!=null&& record0==null){
+                            recordMapper.insertSelective(record);
+                        }else if (record==null&& record0!=null){
+                            recordMapper.deleteByPrimaryKey(record0.getId());
+                        }
                         //该成绩已经审核，故需要重新计算
-                        ////
-
-                        //
+                        String campus=contestantMapper.selectByPrimaryKey(preSolo.getContestantid()).getCampus();
+                        List<Score> scores= count(preSolo.getSportid(),preSolo.getTaketime(),campus,sport.getSortrule());
+                        for (int i = 0; i <scores.size() ; i++) {
+                            scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+                        }
                     }
                     return ReturnUtil.ret(true, "修改成功");
                 } else {
@@ -90,14 +137,25 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Map<String, Object> deletePreSoloScore(Integer id, Integer check) {
+            PreSolo preSolo=preSoloMapper.selectByPrimaryKey(id);
+            Sport sport=sportMapper.selectByPrimaryKey(preSolo.getSportid());
             if (preSoloMapper.deleteByPrimaryKey(id) > 0) {
-
+                //同时删除记录和二级达标
                 if (check==1){
+                    Record record=recordMapper.getBySportIdConsId(preSolo.getSportid(),preSolo.getContestantid(),preSolo.getTaketime());
+                    if (record!=null){
+                        recordMapper.deleteByPrimaryKey(record.getId());
+                    }
+                    TwoLevel twoLevel=twoLevelMapper.getBySportIdConsId(preSolo.getSportid(),preSolo.getContestantid(),preSolo.getTaketime());
+                    if (twoLevel!=null){
+                        twoLevelMapper.deleteByPrimaryKey(twoLevel.getId());
+                    }
                     //该成绩已经审核，故需要重新计算
-
-
-
-                }
+                    String campus=contestantMapper.selectByPrimaryKey(preSolo.getContestantid()).getCampus();
+                    List<Score> scores= count(preSolo.getSportid(),preSolo.getTaketime(),campus,sport.getSortrule());
+                    for (int i = 0; i <scores.size() ; i++) {
+                        scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+                    }                }
                 return ReturnUtil.ret(true,"删除成功");
             } else {
                return ReturnUtil.ret(false,"删除失败");
@@ -151,7 +209,28 @@ public class ScoreServiceImpl implements ScoreService {
                 //直接修改
                 soloMapper.updateByPrimaryKeySelective(solo);
                 if (solo.getChecked()==1){
-                    //已经审核，重新计算
+                    TwoLevel twoLevel0=twoLevelMapper.getBySportIdConsIds(solo.getSportid(),solo.getContestantid(),solo.getTaketime());
+                    //是否达到二级运动员标准
+                    TwoLevel twoLevel=twoLevel(solo,sport);
+                    if (twoLevel!=null&&twoLevel0==null){
+                        twoLevelMapper.insertSelective(twoLevel);
+                    }else if (twoLevel==null&& twoLevel0!=null){
+                        twoLevelMapper.deleteByPrimaryKey(twoLevel0.getId());
+                    }
+                    //是否创新记录
+                    Record record0=recordMapper.getBySportIdConsIds(solo.getSportid(),solo.getContestantid(),solo.getTaketime());
+                    Record record=records(solo,sport);
+                    if (record!=null&& record0==null){
+                        recordMapper.insertSelective(record);
+                    }else if (record==null&& record0!=null){
+                        recordMapper.deleteByPrimaryKey(record0.getId());
+                    }
+                    //重新计算
+                    String campus=contestantMapper.selectByPrimaryKey(solo.getContestantid()).getCampus();
+                    List<Score> scores=countSolo(solo.getSportid(),solo.getTaketime(),campus,sport.getSortrule());
+                    for (int i = 0; i <scores.size() ; i++) {
+                        scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+                    }
                 }
                 return ReturnUtil.ret(true,"修改成功");
             }else {
@@ -159,8 +238,28 @@ public class ScoreServiceImpl implements ScoreService {
                 if (soloMapper.isSoloExsit(solo.getContestantid(),solo.getSportid(),solo.getTaketime())<1){
                     soloMapper.updateByPrimaryKeySelective(solo);
                     if (solo.getChecked()==1){
+                        TwoLevel twoLevel0=twoLevelMapper.getBySportIdConsIds(solo.getSportid(),solo.getContestantid(),solo.getTaketime());
+                        //是否达到二级运动员标准
+                        TwoLevel twoLevel=twoLevel(solo,sport);
+                        if (twoLevel!=null&&twoLevel0==null){
+                            twoLevelMapper.insertSelective(twoLevel);
+                        }else if (twoLevel==null&& twoLevel0!=null){
+                            twoLevelMapper.deleteByPrimaryKey(twoLevel0.getId());
+                        }
+                        //是否创新记录
+                        Record record0=recordMapper.getBySportIdConsIds(solo.getSportid(),solo.getContestantid(),solo.getTaketime());
+                        Record record=records(solo,sport);
+                        if (record!=null&& record0==null){
+                            recordMapper.insertSelective(record);
+                        }else if (record==null&& record0!=null){
+                            recordMapper.deleteByPrimaryKey(record0.getId());
+                        }
                         //重新计算
-
+                        String campus=contestantMapper.selectByPrimaryKey(solo.getContestantid()).getCampus();
+                        List<Score> scores=countSolo(solo.getSportid(),solo.getTaketime(),campus,sport.getSortrule());
+                        for (int i = 0; i <scores.size() ; i++) {
+                            scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+                        }
 
                     }
                     return ReturnUtil.ret(true,"修改成功");
@@ -177,10 +276,21 @@ public class ScoreServiceImpl implements ScoreService {
     public Map<String, Object> deleteSoloScore(Integer id, Integer check) {
         if (soloMapper.deleteByPrimaryKey(id)>0){
             if (check==1){
-                //该记录已经审核。故重新计算
-
-
-
+                Solo solo=soloMapper.selectByPrimaryKey(id);
+                Sport sport=sportMapper.selectByPrimaryKey(solo.getSportid());
+                Record record=recordMapper.getBySportIdConsId(solo.getSportid(),solo.getContestantid(),solo.getTaketime());
+                if (record!=null){
+                    recordMapper.deleteByPrimaryKey(record.getId());
+                }
+                TwoLevel twoLevel=twoLevelMapper.getBySportIdConsId(solo.getSportid(),solo.getContestantid(),solo.getTaketime());
+                if (twoLevel!=null){
+                    twoLevelMapper.deleteByPrimaryKey(twoLevel.getId());
+                }
+                String campus=contestantMapper.selectByPrimaryKey(solo.getContestantid()).getCampus();
+                List<Score> scores=countSolo(solo.getSportid(),solo.getTaketime(),campus,sport.getSortrule());
+                for (int i = 0; i <scores.size() ; i++) {
+                    scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+                }
             }
             return ReturnUtil.ret(true,"删除成功");
         }else {
@@ -230,11 +340,16 @@ public class ScoreServiceImpl implements ScoreService {
     public Map<String, Object> updateTeamScore(TeamScore teamScore) {
         Sport sport=sportMapper.selectByPrimaryKey(teamScore.getSportid());
         TeamScore teamScore1=teamScoreMapper.selectByPrimaryKey(teamScore.getId());
+        String campus=teamMapper.selectByPrimaryKey(teamScore.getTeamid()).getCampus();
         if (CheckUtil.checkScore(sport.getSortrule(),teamScore.getScore(),sport.getInmax(),sport.getInmin())) {
             if (teamScore.getTaketime().equals(teamScore1.getTaketime()) && teamScore.getTeamid().equals(teamScore1.getTeamid()) && teamScore.getSportid().equals(teamScore1.getSportid())) {
                 teamScoreMapper.updateByPrimaryKeySelective(teamScore);
                 if (teamScore.getChecked() == 1) {
                     //重新计算
+                    List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sport.getSortrule());
+                    for (int i=0;i<teamScores.size();i++){
+                        teamScoreMapper.updateByPrimaryKeySelective(teamScores.get(i));
+                    }
                 }
                 return ReturnUtil.ret(true,"修改成功");
             }else {
@@ -243,7 +358,10 @@ public class ScoreServiceImpl implements ScoreService {
                     teamScoreMapper.updateByPrimaryKeySelective(teamScore);
                     if (teamScore.getChecked()==1){
                         //重新计算
-
+                        List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sport.getSortrule());
+                        for (int i=0;i<teamScores.size();i++){
+                            teamScoreMapper.updateByPrimaryKeySelective(teamScores.get(i));
+                        }
 
                     }
                     return ReturnUtil.ret(true,"修改成功");
@@ -258,12 +376,15 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Map<String, Object> deleteTeamScore(Integer id, Integer check) {
+        TeamScore teamScore=teamScoreMapper.selectByPrimaryKey(id);
+        Sport sport=sportMapper.selectByPrimaryKey(teamScore.getSportid());
+        String campus=teamMapper.selectByPrimaryKey(teamScore.getTeamid()).getCampus();
         if (teamScoreMapper.deleteByPrimaryKey(id)>0){
             if (check==1){
-                //重新计算
-
-
-
+                List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sport.getSortrule());
+                for (int i=0;i<teamScores.size();i++){
+                    teamScoreMapper.updateByPrimaryKeySelective(teamScores.get(i));
+                }
             }
             return ReturnUtil.ret(true,"删除成功");
         }else {
@@ -289,6 +410,110 @@ public class ScoreServiceImpl implements ScoreService {
         resultMap.put("soloVO",getTeamVO(teamScores));
         resultMap.put("count",teamScoreMapper.getTeamScoreCheckNu(taketime));
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> checkPreSolo(Integer id) {
+        //首先更新状态
+        preSoloMapper.updateCheck(id);
+        PreSolo preSolo=preSoloMapper.selectByPrimaryKey(id);
+        Sport sport=sportMapper.selectByPrimaryKey(preSolo.getSportid());
+        String campus=contestantMapper.selectByPrimaryKey(preSolo.getContestantid()).getCampus();
+        int sortrule=sport.getSortrule();
+        //是否到二级，创记录
+        TwoLevel twoLevel=twoLevel(preSolo,sport);
+        if (twoLevel!=null){
+            twoLevelMapper.insertSelective(twoLevel);
+        }
+        Record record=records(preSolo,sport);
+        if (record!=null){
+            recordMapper.insertSelective(record);
+        }
+        //计算，查询已经审核的
+        List<Score> scores=count(preSolo.getSportid(),preSolo.getTaketime(),campus,sortrule);
+        for (int i = 0; i <scores.size() ; i++) {
+            scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+        }
+        return ReturnUtil.ret(true,"审核成功");
+    }
+
+    @Override
+    public Map<String, Object> checkSolo(Integer id) {
+        //首先先更新状态
+        soloMapper.updateCheck(id);
+        Solo solo=soloMapper.selectByPrimaryKey(id);
+        String campus=contestantMapper.selectByPrimaryKey(solo.getContestantid()).getCampus();
+        int sortRole=sportMapper.selectByPrimaryKey(solo.getSportid()).getSortrule();
+        //计算，查询已经审核过的
+        List<Score> scores=countSolo(solo.getSportid(),solo.getTaketime(),campus,sortRole);
+        for (int i = 0; i <scores.size() ; i++) {
+            scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+        }
+        return ReturnUtil.ret(true,"审核成功");
+    }
+
+    @Override
+    public Map<String, Object> checkTeamScore(Integer id) {
+        teamScoreMapper.updateCheck(id);
+        TeamScore teamScore=teamScoreMapper.selectByPrimaryKey(id);
+        String campus=teamMapper.selectByPrimaryKey(teamScore.getTeamid()).getCampus();
+        int sortRole=sportMapper.selectByPrimaryKey(teamScore.getSportid()).getSortrule();
+        //计算，查询已经审核过的
+        List<TeamScore> scores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sortRole);
+        for (int i = 0; i <scores.size() ; i++) {
+            teamScoreMapper.updateByPrimaryKeySelective(scores.get(i));
+        }
+        return ReturnUtil.ret(true,"审核成功");
+    }
+
+
+    /**
+     * 计算预赛
+     * @param sportid
+     * @param taketime
+     */
+    private List<Score> count(Integer sportid, String taketime,String campus,int sortrole) {
+        List<PreSolo> preSolos=new ArrayList<>();
+        if (sortrole==1) {
+             preSolos = preSoloMapper.getPreSoloBySportId(sportid, taketime);
+        }else {
+             preSolos = preSoloMapper.getPreSoloBySportIdAsc(sportid, taketime);
+        }
+        List<PreRole> preRoles=preRoleMapper.getPreRoleBySportId(sportid,campus);
+        List<Score> scores=CountUtil.count(preSolos,preRoles);
+       return scores;
+    }
+    /**
+     * 计算决赛
+     * @param sportid
+     * @param taketime
+     */
+    private List<Score> countSolo(Integer sportid, String taketime,String campus,int sortrole) {
+        List<Solo> solos=new ArrayList<>();
+        if (sortrole==1) {
+            solos = soloMapper.getSoloBySportId(sportid, taketime);
+        }else {
+            solos = soloMapper.getSoloBySportIdAsc(sportid, taketime);
+        }
+        List<Role> roles=roleMapper.getRoleBySportId(sportid,campus);
+        List<Score> scores=CountUtil.countSolo(solos,roles);
+        return scores;
+    }
+    /**
+     * 计算集体项目
+     * @param sportid
+     * @param taketime
+     */
+    private List<TeamScore> countTeam(Integer sportid, String taketime,String campus,int sortrole) {
+        List<TeamScore> teams=new ArrayList<>();
+        if (sortrole==1) {
+            teams = teamScoreMapper.getTeamBySportId(sportid, taketime);
+        }else {
+            teams = teamScoreMapper.getTeamBySportIdAsc(sportid, taketime);
+        }
+        List<PreRole> roles=preRoleMapper.getPreRoleBySportId(sportid,campus);
+        List<TeamScore> scores=CountUtil.countTeam(teams,roles);
+        return scores;
     }
 
     public  List<PreSoloVO> getPreSoloVO(List<PreSolo> preSolo){
@@ -341,6 +566,62 @@ public class ScoreServiceImpl implements ScoreService {
         return teamVOS;
     }
 
+    /***
+     * 预赛是否达二级运动员标准
+     * @param preSolo
+     */
+    public static TwoLevel twoLevel(PreSolo preSolo,Sport sport){
+            if (CampareUtil.eqTwoLevel(preSolo.getScore(),sport.getTwolevel(),sport.getSortrule())){
+                TwoLevel twoLevel=new TwoLevel();
+                twoLevel.setContestantid(preSolo.getContestantid());
+                twoLevel.setMark(0);
+                twoLevel.setSportid(sport.getId());
+                twoLevel.setTaketime(preSolo.getTaketime());
+                return twoLevel;
+            }else {
+                return null;
+            }
+        }
+    public static TwoLevel twoLevel(Solo solo,Sport sport){
+        if (CampareUtil.eqTwoLevel(solo.getScore(),sport.getTwolevel(),sport.getSortrule())){
+            TwoLevel twoLevel=new TwoLevel();
+            twoLevel.setContestantid(solo.getContestantid());
+            twoLevel.setMark(1);
+            twoLevel.setSportid(sport.getId());
+            twoLevel.setTaketime(solo.getTaketime());
+            return twoLevel;
+        }else {
+            return null;
+        }
+    }
 
+    /**
+     * 预赛是否破纪录
+     * @param preSolo
+     * @param sport
+     * @return
+     */
+    public static Record records(PreSolo preSolo,Sport sport){
+        if (CampareUtil.eqRecord(preSolo.getScore(),sport.getRecord(),sport.getSortrule())){
+            Record record=new Record();
+            record.setContestantid(preSolo.getContestantid());
+            record.setMark(0);
+            record.setSportid(preSolo.getSportid());
+            record.setTaketime(preSolo.getTaketime());
+            return record;
+        }
+        return null;
+    }
+    public static Record records(Solo solo,Sport sport){
+        if (CampareUtil.eqRecord(solo.getScore(),sport.getRecord(),sport.getSortrule())){
+            Record record=new Record();
+            record.setContestantid(solo.getContestantid());
+            record.setMark(1);
+            record.setSportid(solo.getSportid());
+            record.setTaketime(solo.getTaketime());
+            return record;
+        }
+        return null;
+    }
 
 }

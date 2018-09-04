@@ -36,6 +36,12 @@
   <select id="getTeamScoreCheckNu" resultType="java.lang.Integer">
     select count (*) from teamscore_table where checked=1 and taketime=#{taketime}
   </select>
+    <select id="getTeamBySportId" resultType="org.wingstudio.sports.domain.TeamScore">
+    select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by rank desc
+    </select>
+  <select id="getTeamBySportIdAsc" resultType="org.wingstudio.sports.domain.TeamScore">
+    select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by rank
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from teamscore_table
     where id = #{id,jdbcType=INTEGER}
@@ -130,6 +136,9 @@
       taketime = #{taketime,jdbcType=VARCHAR},
       checked = #{checked,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateCheck">
+    update teamscore_table set checked=1 where id=#{id}
   </update>
 
 </mapper>

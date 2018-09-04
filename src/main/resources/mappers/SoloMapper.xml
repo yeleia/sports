@@ -37,6 +37,14 @@
   <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
     select count(*) from solo_table where checked=1 and taketime=#{taketime}
   </select>
+  <select id="getSoloBySportId" resultType="org.wingstudio.sports.domain.Solo">
+    select * from solo_table where checked=1 and taketime=#{taketime} order by score desc;
+  </select>
+  <select id="getSoloBySportIdAsc" resultType="org.wingstudio.sports.domain.Solo">
+    select * from solo_table where checked=1 and taketime=#{taketime} order by score ;
+
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from solo_table
     where id = #{id,jdbcType=INTEGER}
@@ -141,6 +149,9 @@
       taketime = #{taketime,jdbcType=VARCHAR},
       checked = #{checked,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateCheck">
+    update solo_table set checked=1 where  id=#{id}
   </update>
 
 </mapper>

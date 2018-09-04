@@ -38,6 +38,12 @@
   <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
     select count(*) from presolo_table where checked=1 and taketime=#{taketime}
   </select>
+  <select id="getPreSoloBySportId" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where checked=1 and taketime=#{taketime} order by score desc;
+  </select>
+  <select id="getPreSoloBySportIdAsc" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where checked=1 and taketime=#{taketime} order by score
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from presolo_table
     where id = #{id,jdbcType=INTEGER}
@@ -155,6 +161,9 @@
       checked = #{checked,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateCheck">
+      update presolo_table set checked=1 where id=#{id}
+    </update>
 
 
 </mapper>

@@ -84,4 +84,17 @@ public class Score {
     public void setTaketime(String taketime) {
         this.taketime = taketime == null ? null : taketime.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "id=" + id +
+                ", sportid=" + sportid +
+                ", contestantid=" + contestantid +
+                ", presoloscore=" + presoloscore +
+                ", soloscore=" + soloscore +
+                ", finalscore=" + finalscore +
+                ", taketime='" + taketime + '\'' +
+                '}';
+    }
 }

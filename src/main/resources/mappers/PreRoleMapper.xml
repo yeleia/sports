@@ -111,11 +111,13 @@
   </select>
   <select id="isexist" resultType="java.lang.Integer">
         select count(*) from prerole_table where sportid=#{sportid} and rank=#{rank} and campus=#{campus}
-
   </select>
+    <select id="getPreRoleBySportId" resultType="org.wingstudio.sports.domain.PreRole">
+      select * from prerole_table where sportid=#{sportid} and campus=#{campus} order by rank
+    </select>
 
 
-  <update id="updatePreRole">
+    <update id="updatePreRole">
     update prerole_table set  addscore=#{addscore}  where id=#{id};
   </update>
 </mapper>

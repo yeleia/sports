@@ -25,4 +25,5 @@ public interface TeamMapper {
     List<Team> getTeamList(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
 
     int count(@Param("currentime") String currentime);
+
 }

@@ -2,6 +2,7 @@ package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.wingstudio.sports.domain.Team;
 import org.wingstudio.sports.domain.TeamScore;
 
 import java.util.List;
@@ -29,4 +30,10 @@ public interface TeamScoreMapper {
     List<TeamScore> getTeamScoreChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
 
     int getTeamScoreCheckNu(@Param("taketime") String taketime);
+
+    List<TeamScore> getTeamBySportId(@Param("sportid") Integer sportid, @Param("taketime") String taketime);
+
+    List<TeamScore> getTeamBySportIdAsc(@Param("sportid") Integer sportid, @Param("taketime") String taketime);
+
+    void updateCheck(@Param("id") Integer id);
 }

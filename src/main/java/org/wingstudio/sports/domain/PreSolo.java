@@ -23,22 +23,8 @@ public class PreSolo {
     private String taketime;
     @ApiModelProperty("审核")
     private Integer checked;
-
-    public PreSolo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, Integer group, String score, String taketime, Integer checked) {
-        this.id = id;
-        this.sportid = sportid;
-        this.contestantid = contestantid;
-        this.gate = gate;
-        this.remark = remark;
-        this.group = group;
-        this.score = score;
-        this.taketime = taketime;
-        this.checked = checked;
-    }
-
-    public PreSolo() {
-        super();
-    }
+    @ApiModelProperty("计算临时属性")
+    private Integer temp;
 
     public Integer getId() {
         return id;
@@ -77,7 +63,7 @@ public class PreSolo {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
     }
 
     public Integer getGroup() {
@@ -93,7 +79,7 @@ public class PreSolo {
     }
 
     public void setScore(String score) {
-        this.score = score == null ? null : score.trim();
+        this.score = score;
     }
 
     public String getTaketime() {
@@ -101,7 +87,7 @@ public class PreSolo {
     }
 
     public void setTaketime(String taketime) {
-        this.taketime = taketime == null ? null : taketime.trim();
+        this.taketime = taketime;
     }
 
     public Integer getChecked() {
@@ -110,5 +96,13 @@ public class PreSolo {
 
     public void setChecked(Integer checked) {
         this.checked = checked;
+    }
+
+    public Integer getTemp() {
+        return temp;
+    }
+
+    public void setTemp(Integer temp) {
+        this.temp = temp;
     }
 }
