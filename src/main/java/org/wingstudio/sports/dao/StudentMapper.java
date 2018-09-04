@@ -1,6 +1,7 @@
 package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.wingstudio.sports.domain.Student;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface StudentMapper {
     List<String> getClasses();
 
     List<String> getProfession();
+
+    Student getByNuNa(@Param("stuname") String stuname, @Param("stunum") String stunum);
 }

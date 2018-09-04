@@ -28,4 +28,7 @@ public interface ContestantMapper {
     List<Contestant> getContestantByNum(@Param("stunumber") String stunumber,@Param("currentime") String currentime);
 
     int count(@Param("currentime") String currentime);
+
+
+    List<Contestant> getByClasses(@Param("classes") String classes, @Param("currentime") String currentime);
 }

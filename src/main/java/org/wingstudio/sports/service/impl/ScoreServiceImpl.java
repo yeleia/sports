@@ -42,6 +42,12 @@ public class ScoreServiceImpl implements ScoreService {
     private TwoLevelMapper twoLevelMapper;
     @Autowired
     private RecordMapper recordMapper;
+    @Autowired
+    private LevelScoreMapper levelScoreMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private ClassesMapper classesMapper;
 
     @Override
     public Map<String, Object> addPreSoloScore(PreSolo preSolo) {
@@ -432,7 +438,7 @@ public class ScoreServiceImpl implements ScoreService {
         //计算，查询已经审核的
         List<Score> scores=count(preSolo.getSportid(),preSolo.getTaketime(),campus,sortrule);
         for (int i = 0; i <scores.size() ; i++) {
-            scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+            scoreMapper.insertSelective(scores.get(i));
         }
         return ReturnUtil.ret(true,"审核成功");
     }
@@ -447,7 +453,7 @@ public class ScoreServiceImpl implements ScoreService {
         //计算，查询已经审核过的
         List<Score> scores=countSolo(solo.getSportid(),solo.getTaketime(),campus,sortRole);
         for (int i = 0; i <scores.size() ; i++) {
-            scoreMapper.updateByPrimaryKeySelective(scores.get(i));
+            scoreMapper.insertSelective(scores.get(i));
         }
         return ReturnUtil.ret(true,"审核成功");
     }
@@ -465,6 +471,8 @@ public class ScoreServiceImpl implements ScoreService {
         }
         return ReturnUtil.ret(true,"审核成功");
     }
+
+
 
 
     /**
@@ -622,6 +630,72 @@ public class ScoreServiceImpl implements ScoreService {
             return record;
         }
         return null;
+    }
+
+    @Override
+    public Map<String, Object> countAll(String taketime) {
+        List<Score> scoreList=scoreMapper.getAllScore(taketime);
+        for (int i=0;i<scoreList.size();i++){
+            //PreSolo preSolo=preSoloMapper.select(scoreList.get(i).getContestantid(),scoreList.get(i).getSportid(),taketime);
+            //预赛
+            TwoLevel twoLevel=twoLevelMapper.getBySportIdConsId(scoreList.get(i).getSportid(),scoreList.get(i).getContestantid(),taketime);
+            //决赛
+            TwoLevel twoLevel1=twoLevelMapper.getBySportIdConsIds(scoreList.get(i).getSportid(),scoreList.get(i).getContestantid(),taketime);
+            if (twoLevel!=null){
+                double score=levelScoreMapper.selectPreScore();
+                scoreList.get(i).setPresoloscore(scoreList.get(i).getPresoloscore()+score);
+            }
+            if (twoLevel1!=null){
+                double score=levelScoreMapper.selectScore();
+                scoreList.get(i).setSoloscore(scoreList.get(i).getSoloscore()+score);
+            }
+            //添加预赛时，决赛成绩设为0
+            if (scoreList.get(i).getPresoloscore()>scoreList.get(i).getSoloscore()){
+                scoreList.get(i).setFinalscore(scoreList.get(i).getPresoloscore());
+            }else {
+                scoreList.get(i).setFinalscore(scoreList.get(i).getSoloscore());
+            }
+            if (twoLevel!=null){
+                double score=levelScoreMapper.selectPreScore();
+                scoreList.get(i).setPresoloscore(scoreList.get(i).getPresoloscore()-score);
+            }
+            if (twoLevel1!=null){
+                double score=levelScoreMapper.selectScore();
+                scoreList.get(i).setSoloscore(scoreList.get(i).getSoloscore()-score);
+            }
+        }
+        for (int i=0;i<scoreList.size();i++){
+            scoreMapper.updateByPrimaryKeySelective(scoreList.get(i));
+        }
+        List<String> classes=studentMapper.getClasses();
+        for (int i=0;i<classes.size();i++){
+            double count=0;
+            List<Contestant> contestants=contestantMapper.getByClasses(classes.get(i),taketime);
+            List<Team> teams=teamMapper.getByClasses(classes.get(i),taketime);
+            for (int j=0;j<contestants.size();j++){
+                Score score=scoreMapper.getcount(contestants.get(j).getCurrentime(),contestants.get(j).getSportid(),contestants.get(j).getId());
+                count=count+score.getFinalscore();
+            }
+            for (int j=0;j<teams.size();j++){
+                TeamScore teamScore=teamScoreMapper.getcount(teams.get(j).getCurrentime(),teams.get(j).getSportid(),teams.get(j).getId());
+                count=count+teamScore.getFinalscore();
+            }
+            Classes classes1=new Classes();
+            classes1.setClasses(classes.get(i));
+            classes1.setScore(count);
+            classes1.setTeketime(taketime);
+            //先删除后添加，避免该学院不存在
+            classesMapper.deleteByClasses(classes.get(i),taketime);
+            classesMapper.insertSelective(classes1);
+        }
+
+        return ReturnUtil.ret(true,"刷新成功");
+    }
+
+    @Override
+    public Map<String, Object> updateTwoScore(LevelScore levelScore) {
+        levelScoreMapper.updateByPrimaryKeySelective(levelScore);
+        return ReturnUtil.ret(true,"更新成功");
     }
 
 }

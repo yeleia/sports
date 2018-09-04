@@ -15,4 +15,8 @@ public interface LevelScoreMapper {
     int updateByPrimaryKeySelective(LevelScore record);
 
     int updateByPrimaryKey(LevelScore record);
+
+    double selectPreScore();
+
+    double selectScore();
 }

@@ -2,6 +2,7 @@ package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.wingstudio.sports.domain.Contestant;
 import org.wingstudio.sports.domain.Team;
 
 import java.util.List;
@@ -26,4 +27,5 @@ public interface TeamMapper {
 
     int count(@Param("currentime") String currentime);
 
+    List<Team> getByClasses(@Param("classes") String classes, @Param("currentime") String currentime);
 }

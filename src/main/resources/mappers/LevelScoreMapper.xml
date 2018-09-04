@@ -17,6 +17,12 @@
     from levelscore_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="selectPreScore" resultType="java.lang.Double">
+      select twolevel from twoLevel_table where id=1
+    </select>
+  <select id="selectScore" resultType="java.lang.Double">
+    select recordlevel from twoLevel_table where id=1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from levelscore_table
     where id = #{id,jdbcType=INTEGER}

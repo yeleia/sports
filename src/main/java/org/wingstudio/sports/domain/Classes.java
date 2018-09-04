@@ -3,17 +3,14 @@ package org.wingstudio.sports.domain;
 public class Classes {
     private Integer id;
 
-    private Integer sportid;
-
     private String classes;
 
     private Double score;
 
     private String teketime;
 
-    public Classes(Integer id, Integer sportid, String classes, Double score, String teketime) {
+    public Classes(Integer id, String classes, Double score, String teketime) {
         this.id = id;
-        this.sportid = sportid;
         this.classes = classes;
         this.score = score;
         this.teketime = teketime;
@@ -29,14 +26,6 @@ public class Classes {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getSportid() {
-        return sportid;
-    }
-
-    public void setSportid(Integer sportid) {
-        this.sportid = sportid;
     }
 
     public String getClasses() {

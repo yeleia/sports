@@ -1,9 +1,8 @@
 package org.wingstudio.sports.service;
 
-import org.wingstudio.sports.domain.PreSolo;
-import org.wingstudio.sports.domain.Solo;
-import org.wingstudio.sports.domain.TeamScore;
+import org.wingstudio.sports.domain.*;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ScoreService {
@@ -141,4 +140,16 @@ public interface ScoreService {
      * @return
      */
     Map<String,Object> checkTeamScore(Integer id);
+
+    /**
+     * 计算单项总分
+     */
+    Map<String,Object> countAll(String taketime);
+
+    /**
+     * 更新二级运动员和破记录加分规则
+     * @param levelScore
+     * @return
+     */
+    Map<String,Object> updateTwoScore(LevelScore levelScore);
 }

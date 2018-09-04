@@ -19,6 +19,12 @@
     from message_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getNocheck" resultType="org.wingstudio.sports.domain.Message">
+    select * from message_table where checked=0
+  </select>
+  <select id="getCheck" resultType="org.wingstudio.sports.domain.Message">
+    select * from message_table where checked=1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from message_table
     where id = #{id,jdbcType=INTEGER}
@@ -66,7 +72,10 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Message">
+    <insert id="addMessage">
+      insert  into message_table values (null ,#{message},0,#{stunum},#{stuname})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Message">
     update message_table
     <set>
       <if test="message != null">
@@ -91,5 +100,8 @@
       stunum = #{stunum,jdbcType=VARCHAR},
       stuname = #{stuname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateById">
+    update message_table set checked=1 where id=#{id}
   </update>
 </mapper>

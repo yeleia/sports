@@ -31,7 +31,10 @@
   <select id="getCampus" resultType="java.lang.String">
     select distinct stuCampus from stu
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getByNuNa" resultType="org.wingstudio.sports.domain.Student">
+      select * from stu where stuName=#{stuname} and stuNumber=#{stunum}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from stu
     where id = #{id,jdbcType=INTEGER}
   </delete>

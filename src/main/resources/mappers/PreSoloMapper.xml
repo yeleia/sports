@@ -44,6 +44,13 @@
   <select id="getPreSoloBySportIdAsc" resultType="org.wingstudio.sports.domain.PreSolo">
     select * from presolo_table where checked=1 and taketime=#{taketime} order by score
   </select>
+    <select id="getAllSolo" resultType="org.wingstudio.sports.domain.PreSolo">
+      select * from presolo_table where checked=1 and taketime=#{taketime}
+    </select>
+  <select id="select" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where checked=1 and sportid=#{sportid} and contestantid=#{contestantid} and taketime=#{taketime}
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from presolo_table
     where id = #{id,jdbcType=INTEGER}

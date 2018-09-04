@@ -42,7 +42,10 @@
   <select id="getTeamBySportIdAsc" resultType="org.wingstudio.sports.domain.TeamScore">
     select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by rank
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getcount" resultType="org.wingstudio.sports.domain.TeamScore">
+      select * from teamscore_table where taketime=#{taketime} and sportid=#{sportid} and teamid=#{teamid} and checked=1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from teamscore_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

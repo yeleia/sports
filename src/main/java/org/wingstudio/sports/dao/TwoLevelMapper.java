@@ -20,4 +20,5 @@ public interface TwoLevelMapper {
     TwoLevel getBySportIdConsId(@Param("sportid") Integer sportid,@Param("contestantid") Integer contestantid, @Param("taketime") String taketime);
 
     TwoLevel getBySportIdConsIds(@Param("sportid") Integer sportid,@Param("contestantid") Integer contestantid, @Param("taketime") String taketime);
+
 }

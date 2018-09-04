@@ -4,14 +4,13 @@
   <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.Classes">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="score" javaType="java.lang.Double" jdbcType="DOUBLE" />
       <arg column="teketime" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, classes, score, teketime
+    id, classes, score, teketime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,20 +22,20 @@
     delete from classes_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.wingstudio.sports.domain.Classes">
-    insert into classes_table (id, sportid, classes, 
-      score, teketime)
-    values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{classes,jdbcType=VARCHAR}, 
-      #{score,jdbcType=DOUBLE}, #{teketime,jdbcType=VARCHAR})
+    <delete id="deleteByClasses">
+      delete  from classes_table where classes=#{classes} and taketime=#{taketime}
+    </delete>
+    <insert id="insert" parameterType="org.wingstudio.sports.domain.Classes">
+    insert into classes_table (id, classes, score, 
+      teketime)
+    values (#{id,jdbcType=INTEGER}, #{classes,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE}, 
+      #{teketime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Classes">
     insert into classes_table
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="sportid != null">
-        sportid,
       </if>
       <if test="classes != null">
         classes,
@@ -52,9 +51,6 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="sportid != null">
-        #{sportid,jdbcType=INTEGER},
-      </if>
       <if test="classes != null">
         #{classes,jdbcType=VARCHAR},
       </if>
@@ -69,9 +65,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Classes">
     update classes_table
     <set>
-      <if test="sportid != null">
-        sportid = #{sportid,jdbcType=INTEGER},
-      </if>
       <if test="classes != null">
         classes = #{classes,jdbcType=VARCHAR},
       </if>
@@ -86,8 +79,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Classes">
     update classes_table
-    set sportid = #{sportid,jdbcType=INTEGER},
-      classes = #{classes,jdbcType=VARCHAR},
+    set classes = #{classes,jdbcType=VARCHAR},
       score = #{score,jdbcType=DOUBLE},
       teketime = #{teketime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

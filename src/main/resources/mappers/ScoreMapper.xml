@@ -21,7 +21,13 @@
     from score_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getAllScore" resultType="org.wingstudio.sports.domain.Score">
+      select * from score_table where taketime=#{taketime}
+    </select>
+    <select id="getcount" resultType="org.wingstudio.sports.domain.Score">
+      select * from score_table where taketime=#{currentime} and sportid=#{sportid} and contestantid=#{contestantid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from score_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

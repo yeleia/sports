@@ -164,7 +164,7 @@ public class CountUtil {
             score[i]=new Score();
         }
         for (int i=preSolos.size();i<solos.size();i++){
-            score[i].setFinalscore(0.0);
+            score[i].setSoloscore(0.0);
         }
         int roleSize=roles.size();
         for (int j=0;j<solos.size();j++){
@@ -192,7 +192,7 @@ public class CountUtil {
                 count=count+1;
                 if (j==preSolos.size()-1){
                     for (int m=j-count+1;m<=j;m++){
-                        score[m].setFinalscore(grade/(count));
+                        score[m].setSoloscore(grade/(count));
                     }
                 }
             }else {
@@ -200,17 +200,17 @@ public class CountUtil {
                     temp=grade/(count);
 
                     for (int i=j-count;i<j;i++){
-                        score[i].setFinalscore(temp);
+                        score[i].setSoloscore(temp);
                     }
                     count=0;
                     grade=0;
                 }else {
                     if (j!=0){
-                        score[j-1].setFinalscore(roles.get(j-1).getAddscore());
+                        score[j-1].setSoloscore(roles.get(j-1).getAddscore());
                     }
                     //如果是最后一个
                     if (j==preSolos.size()-1){
-                        score[j].setFinalscore(roles.get(j).getAddscore());
+                        score[j].setSoloscore(roles.get(j).getAddscore());
                     }
                 }
                 grade=grade+roles.get(j).getAddscore();

@@ -2,6 +2,9 @@ package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.wingstudio.sports.domain.Message;
+
+import java.util.List;
+
 @Mapper
 public interface MessageMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,4 +18,12 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
+
+    void addMessage(Message message);
+
+    void updateById(Integer id);
+
+    List<Message> getNocheck();
+
+    List<Message> getCheck();
 }

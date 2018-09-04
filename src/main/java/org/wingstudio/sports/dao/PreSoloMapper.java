@@ -37,4 +37,8 @@ public interface PreSoloMapper {
     List<PreSolo> getPreSoloBySportId(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 
     List<PreSolo> getPreSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    List<PreSolo> getAllSolo(@Param("taketime") String taketime);
+
+    PreSolo select(@Param("contestantid") Integer contestantid,@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 }

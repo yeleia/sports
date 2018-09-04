@@ -2,6 +2,7 @@ package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.wingstudio.sports.domain.Score;
 import org.wingstudio.sports.domain.Team;
 import org.wingstudio.sports.domain.TeamScore;
 
@@ -36,4 +37,6 @@ public interface TeamScoreMapper {
     List<TeamScore> getTeamBySportIdAsc(@Param("sportid") Integer sportid, @Param("taketime") String taketime);
 
     void updateCheck(@Param("id") Integer id);
+
+    TeamScore getcount( @Param("taketime") String taketime, @Param("sportid") Integer sportid, @Param("teamid") Integer teamid);
 }

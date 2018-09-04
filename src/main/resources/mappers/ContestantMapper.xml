@@ -152,6 +152,9 @@
     <select id="count" resultType="java.lang.Integer">
       select count(1) from contestant_table where currentime=#{currentime}
     </select>
+    <select id="getByClasses" resultType="org.wingstudio.sports.domain.Contestant">
+      select * from contestant_table where classes=#{classes} and currentime=#{currentime}
+    </select>
 
 
 </mapper>
