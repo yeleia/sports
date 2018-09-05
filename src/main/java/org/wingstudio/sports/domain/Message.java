@@ -1,14 +1,18 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("留言实体类")
 public class Message {
     private Integer id;
-
+@ApiModelProperty("留言内容")
     private String message;
 
     private Integer checked;
-
+@ApiModelProperty("学生学号")
     private String stunum;
-
+    @ApiModelProperty("学生姓名")
     private String stuname;
 
     public Message(Integer id, String message, Integer checked, String stunum, String stuname) {

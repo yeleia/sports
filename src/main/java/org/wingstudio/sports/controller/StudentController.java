@@ -71,4 +71,5 @@ public class StudentController {
     public Map<String,Object> getCCP(){
         return studentService.getCCP();
     }
+
 }
