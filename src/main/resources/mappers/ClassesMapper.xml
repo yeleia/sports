@@ -18,6 +18,12 @@
     from classes_table
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="getAllClasses" resultType="org.wingstudio.sports.domain.Classes">
+      select * from classes_table where teketime=#{taketime} order by score desc
+    </select>
+  <select id="getByClasses" resultType="org.wingstudio.sports.domain.Classes">
+    select * from classes_table where classes=#{classes} and taketime=#{taketime}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from classes_table
     where id = #{id,jdbcType=INTEGER}

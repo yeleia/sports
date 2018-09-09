@@ -31,4 +31,7 @@ public interface ContestantMapper {
 
 
     List<Contestant> getByClasses(@Param("classes") String classes, @Param("currentime") String currentime);
+
+    List<Contestant> getByCamSpo(@Param("campus") String campus, @Param("sportId") Integer sportId,@Param("currentime") String currentime);
+
 }

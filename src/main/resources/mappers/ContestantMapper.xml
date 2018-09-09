@@ -155,6 +155,9 @@
     <select id="getByClasses" resultType="org.wingstudio.sports.domain.Contestant">
       select * from contestant_table where classes=#{classes} and currentime=#{currentime}
     </select>
+    <select id="getByCamSpo" resultType="org.wingstudio.sports.domain.Contestant">
+      select * from contestant_table where campus=#{campus} and sportId=#{sportId} and currentime=#{currentime}
+    </select>
 
 
 </mapper>

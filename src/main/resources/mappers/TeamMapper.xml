@@ -30,12 +30,15 @@
   <select id="count" resultType="java.lang.Integer">
     select count(1) from team_table where currentime=#{currentime}
   </select>
-    <select id="getByClasses" resultType="org.wingstudio.sports.domain.Contestant">
+    <select id="getByClasses" resultType="org.wingstudio.sports.domain.Team">
       select * from team_table where currentime=#{currentime} and classes=#{classes}
     </select>
+  <select id="getCamSpoid" resultType="org.wingstudio.sports.domain.Team">
+    select * from team_table where currentime=#{currentime} and campus=#{campus} and sportid=#{sportid}
+  </select>
 
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from team_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

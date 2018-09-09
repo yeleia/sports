@@ -48,6 +48,8 @@ public class ScoreServiceImpl implements ScoreService {
     private StudentMapper studentMapper;
     @Autowired
     private ClassesMapper classesMapper;
+    @Autowired
+    private TeamRoleMapper teamRoleMapper;
 
     @Override
     public Map<String, Object> addPreSoloScore(PreSolo preSolo) {
@@ -352,7 +354,7 @@ public class ScoreServiceImpl implements ScoreService {
                 teamScoreMapper.updateByPrimaryKeySelective(teamScore);
                 if (teamScore.getChecked() == 1) {
                     //重新计算
-                    List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sport.getSortrule());
+                    List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus);
                     for (int i=0;i<teamScores.size();i++){
                         teamScoreMapper.updateByPrimaryKeySelective(teamScores.get(i));
                     }
@@ -364,7 +366,7 @@ public class ScoreServiceImpl implements ScoreService {
                     teamScoreMapper.updateByPrimaryKeySelective(teamScore);
                     if (teamScore.getChecked()==1){
                         //重新计算
-                        List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sport.getSortrule());
+                        List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus);
                         for (int i=0;i<teamScores.size();i++){
                             teamScoreMapper.updateByPrimaryKeySelective(teamScores.get(i));
                         }
@@ -380,6 +382,8 @@ public class ScoreServiceImpl implements ScoreService {
         }
     }
 
+
+
     @Override
     public Map<String, Object> deleteTeamScore(Integer id, Integer check) {
         TeamScore teamScore=teamScoreMapper.selectByPrimaryKey(id);
@@ -387,7 +391,7 @@ public class ScoreServiceImpl implements ScoreService {
         String campus=teamMapper.selectByPrimaryKey(teamScore.getTeamid()).getCampus();
         if (teamScoreMapper.deleteByPrimaryKey(id)>0){
             if (check==1){
-                List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sport.getSortrule());
+                List<TeamScore> teamScores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus);
                 for (int i=0;i<teamScores.size();i++){
                     teamScoreMapper.updateByPrimaryKeySelective(teamScores.get(i));
                 }
@@ -465,7 +469,7 @@ public class ScoreServiceImpl implements ScoreService {
         String campus=teamMapper.selectByPrimaryKey(teamScore.getTeamid()).getCampus();
         int sortRole=sportMapper.selectByPrimaryKey(teamScore.getSportid()).getSortrule();
         //计算，查询已经审核过的
-        List<TeamScore> scores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus,sortRole);
+        List<TeamScore> scores=countTeam(teamScore.getSportid(),teamScore.getTaketime(),campus);
         for (int i = 0; i <scores.size() ; i++) {
             teamScoreMapper.updateByPrimaryKeySelective(scores.get(i));
         }
@@ -512,14 +516,9 @@ public class ScoreServiceImpl implements ScoreService {
      * @param sportid
      * @param taketime
      */
-    private List<TeamScore> countTeam(Integer sportid, String taketime,String campus,int sortrole) {
-        List<TeamScore> teams=new ArrayList<>();
-        if (sortrole==1) {
-            teams = teamScoreMapper.getTeamBySportId(sportid, taketime);
-        }else {
-            teams = teamScoreMapper.getTeamBySportIdAsc(sportid, taketime);
-        }
-        List<PreRole> roles=preRoleMapper.getPreRoleBySportId(sportid,campus);
+    private List<TeamScore> countTeam(Integer sportid, String taketime,String campus) {
+        List<TeamScore> teams = teamScoreMapper.getTeamBySportId(sportid, taketime);
+        List<TeamRole> roles=teamRoleMapper.getRoleBySportId(sportid,campus);
         List<TeamScore> scores=CountUtil.countTeam(teams,roles);
         return scores;
     }

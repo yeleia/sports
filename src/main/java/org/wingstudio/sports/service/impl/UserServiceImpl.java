@@ -4,14 +4,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.wingstudio.sports.dao.PreRoleMapper;
-import org.wingstudio.sports.dao.RoleMapper;
-import org.wingstudio.sports.dao.SportMapper;
-import org.wingstudio.sports.dao.UserMapper;
-import org.wingstudio.sports.domain.PreRole;
-import org.wingstudio.sports.domain.Role;
-import org.wingstudio.sports.domain.Sport;
-import org.wingstudio.sports.domain.User;
+import org.wingstudio.sports.dao.*;
+import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.service.UserService;
 import org.wingstudio.sports.util.CheckUtil;
 import org.wingstudio.sports.util.ReturnUtil;
@@ -34,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private PreRoleMapper preRoleMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private TeamRoleMapper teamRoleMapper;
     @Override
     public Map<String, Object> login(User user, HttpServletRequest request) {
         Map<String,Object> resultMap=new LinkedHashMap<>();
@@ -211,6 +207,37 @@ public class UserServiceImpl implements UserService {
         return roleMapper.getRoleList(sportid);
     }
 
+    @Override
+    public Map<String, Object> addTeamRole(TeamRole teamRole) {
+        //检查该规则是否存在
+        if (teamRoleMapper.isTeamRoleExsit(teamRole)<1){
+            teamRoleMapper.insertSelective(teamRole);
+            return ReturnUtil.ret(true,"添加成功");
+        }else{
+            return ReturnUtil.ret(false,"该规则已经存在");
+        }
+    }
+
+    @Override
+    public Map<String, Object> updateTeamRole(TeamRole teamRole) {
+        int i=teamRoleMapper.updateByPrimaryKeySelective(teamRole);
+        if (i>0){
+            return ReturnUtil.ret(true,"更新成功");
+        }else {
+            return ReturnUtil.ret(false,"更新失败");
+        }
+    }
+
+    @Override
+    public Map<String, Object> deleteTeamRole(Integer id) {
+        teamRoleMapper.deleteByPrimaryKey(id);
+        return ReturnUtil.ret(true,"成功删除");
+    }
+
+    @Override
+    public List<TeamRole> getTeamRoleList(Integer sportid) {
+        return teamRoleMapper.getBySportid(sportid);
+    }
 
 
 }

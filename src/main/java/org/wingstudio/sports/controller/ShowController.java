@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.wingstudio.sports.domain.Message;
 import org.wingstudio.sports.service.MessageService;
 
+import java.util.List;
 import java.util.Map;
 
 @Api("展示页面api")
@@ -23,4 +24,10 @@ public class ShowController {
     public Map<String,Object> addMessage(@ModelAttribute Message message){
         return messageService.addMessage(message);
     }
+    @ApiOperation(value = "查询已经审核的留言",notes = "id")
+    @RequestMapping(value = "/getCheck",method = RequestMethod.GET)
+    public List<Message> getCheck(){
+        return messageService.getCheck();
+    }
+
 }

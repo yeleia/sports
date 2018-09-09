@@ -6,7 +6,7 @@
     <groupId>org.wingstudio</groupId>
     <artifactId>sports</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>sports</name>
     <description>Demo project for Spring Boot</description>
@@ -43,6 +43,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <!--外置tomcat-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- 添加连接池druid支持 -->
         <dependency>

@@ -26,4 +26,6 @@ public interface StudentMapper {
     List<String> getProfession();
 
     Student getByNuNa(@Param("stuname") String stuname, @Param("stunum") String stunum);
+
+    List<String> getClassesByCampus(@Param("campus") String campus);
 }

@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.wingstudio.sports.dao.RoleMapper">
-  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.Role">
+<mapper namespace="org.wingstudio.sports.dao.TeamRoleMapper">
+  <resultMap id="BaseResultMap" type="org.wingstudio.sports.domain.TeamRole">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sportid" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sportname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="rank" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="addscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="score" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, sportname, rank, addscore, campus
+    id, sportid, sportname, rank, score, campus
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from role_table
+    from teamRole_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from role_table
+    <select id="getRoleBySportId" resultType="org.wingstudio.sports.domain.TeamRole">
+      select * from  teamRole_table where campus=#{campus} and sportid=#{sportid}
+    </select>
+  <select id="isTeamRoleExsit" resultType="java.lang.Integer">
+    select * from teamRole_table where campus=#{campus} and sportid=#{sportid} and rank=#{rank}
+  </select>
+    <select id="getBySportid" resultType="org.wingstudio.sports.domain.TeamRole">
+        select * from teamRole_table where sportid=#{sportid} order by campus,rank
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from teamRole_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.wingstudio.sports.domain.Role">
-    insert into role_table (id, sportid, sportname, 
-      rank, addscore, campus
+  <insert id="insert" parameterType="org.wingstudio.sports.domain.TeamRole">
+    insert into teamRole_table (id, sportid, sportname, 
+      rank, score, campus
       )
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{sportname,jdbcType=VARCHAR}, 
-      #{rank,jdbcType=INTEGER}, #{addscore,jdbcType=DOUBLE}, #{campus,jdbcType=VARCHAR}
+      #{rank,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{campus,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Role">
-    insert into role_table
+  <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.TeamRole">
+    insert into teamRole_table
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -47,8 +56,8 @@
       <if test="rank != null">
         rank,
       </if>
-      <if test="addscore != null">
-        addscore,
+      <if test="score != null">
+        score,
       </if>
       <if test="campus != null">
         campus,
@@ -67,16 +76,16 @@
       <if test="rank != null">
         #{rank,jdbcType=INTEGER},
       </if>
-      <if test="addscore != null">
-        #{addscore,jdbcType=DOUBLE},
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
       </if>
       <if test="campus != null">
         #{campus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Role">
-    update role_table
+  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.TeamRole">
+    update teamRole_table
     <set>
       <if test="sportid != null">
         sportid = #{sportid,jdbcType=INTEGER},
@@ -87,8 +96,8 @@
       <if test="rank != null">
         rank = #{rank,jdbcType=INTEGER},
       </if>
-      <if test="addscore != null">
-        addscore = #{addscore,jdbcType=DOUBLE},
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
       </if>
       <if test="campus != null">
         campus = #{campus,jdbcType=VARCHAR},
@@ -96,24 +105,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.Role">
-    update role_table
+  <update id="updateByPrimaryKey" parameterType="org.wingstudio.sports.domain.TeamRole">
+    update teamRole_table
     set sportid = #{sportid,jdbcType=INTEGER},
       sportname = #{sportname,jdbcType=VARCHAR},
       rank = #{rank,jdbcType=INTEGER},
-      addscore = #{addscore,jdbcType=DOUBLE},
+      score = #{score,jdbcType=INTEGER},
       campus = #{campus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getRoleList" resultType="org.wingstudio.sports.domain.Role">
-      select * from role_table where sportid=#{sportid} order by campus,rank
-  </select>
-  <select id="isExist"  parameterType="org.wingstudio.sports.domain.Role" resultType="java.lang.Integer">
-    select count(*) from  role_table where sportid=#{sportid} and rank=#{rank} and campus=#{campus}
-  </select>
-    <select id="getRoleBySportId" resultType="org.wingstudio.sports.domain.Role">
-      select * from role_table where sportid=#{sportid} and campus=#{campus} order by rank
-    </select>
-
-
 </mapper>

@@ -37,13 +37,16 @@
     select count (*) from teamscore_table where checked=1 and taketime=#{taketime}
   </select>
     <select id="getTeamBySportId" resultType="org.wingstudio.sports.domain.TeamScore">
-    select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by rank desc
+    select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1
     </select>
   <select id="getTeamBySportIdAsc" resultType="org.wingstudio.sports.domain.TeamScore">
-    select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by rank
+    select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1
   </select>
     <select id="getcount" resultType="org.wingstudio.sports.domain.TeamScore">
       select * from teamscore_table where taketime=#{taketime} and sportid=#{sportid} and teamid=#{teamid} and checked=1
+    </select>
+    <select id="getByTeamIdSpoid" resultType="org.wingstudio.sports.domain.TeamScore">
+      select * from teamscore_table where teamid=#{teamid}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from teamscore_table

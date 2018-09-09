@@ -2,6 +2,7 @@ package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.wingstudio.sports.domain.PreSolo;
 import org.wingstudio.sports.domain.Solo;
 
 import java.util.List;
@@ -35,4 +36,8 @@ public interface SoloMapper {
     List<Solo> getSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 
     void updateCheck(@Param("id") Integer id);
+
+    Solo select(@Param("contestantid") Integer contestantid,@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    Solo getByConId(@Param("contestantid") Integer contestantid);
 }

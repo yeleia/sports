@@ -34,9 +34,15 @@
   <select id="getSportIdList" resultType="org.wingstudio.sports.domain.Sport">
     select * from sport_table
   </select>
+    <select id="getSportName" resultType="org.wingstudio.sports.VO.SportVO">
+      select * from sport_table where sex=#{sex}
+    </select>
+  <select id="getSportNameById" resultType="java.lang.String">
+    select project from sport_table where id=#{sportid}
+  </select>
 
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sport_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

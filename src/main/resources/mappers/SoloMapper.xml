@@ -44,8 +44,14 @@
     select * from solo_table where checked=1 and taketime=#{taketime} order by score ;
 
   </select>
+    <select id="select" resultType="org.wingstudio.sports.domain.Solo">
+      select * from solo_table where checked=1 and taketime=#{taketime} and sportid=#{sportid} and contestantid=#{contestantid}
+    </select>
+    <select id="getByConId" resultType="org.wingstudio.sports.domain.Solo">
+      select * from solo_table where checked=1 and  contestantid=#{contestantid}
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from solo_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

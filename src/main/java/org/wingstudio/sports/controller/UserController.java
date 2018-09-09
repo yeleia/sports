@@ -2,12 +2,10 @@ package org.wingstudio.sports.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.wingstudio.sports.domain.PreRole;
-import org.wingstudio.sports.domain.Role;
-import org.wingstudio.sports.domain.Sport;
-import org.wingstudio.sports.domain.User;
+import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.service.UserService;
 import org.wingstudio.sports.util.Page;
 
@@ -95,7 +93,7 @@ public class UserController {
 
     @ApiOperation(value = "修改决赛加分规则",notes = "只能修改分数,需要传入的参数为 id，addscore")
     @RequestMapping(value = "/updateRole",method = RequestMethod.POST)
-    public Map<String,Object> updateRole(Role role){
+    public Map<String,Object> updateRole(@ModelAttribute Role role){
         return userService.updateRole(role);
     }
 
@@ -111,4 +109,24 @@ public class UserController {
         return userService.getRoleList(sportid);
     }
 
+    @ApiOperation(value = "添加体育项目加分规则",notes = "sportid,sportname,rank,score,campus")
+    @RequestMapping(value = "/addTeamRole",method = RequestMethod.POST)
+    public Map<String,Object> addTeamRole(@ModelAttribute TeamRole teamRole){
+        return userService.addTeamRole(teamRole);
+    }
+    @ApiOperation(value = "修改体育项目加分规则，只能修改加分分数",notes = "id,score")
+    @RequestMapping(value = "/updateTeamRole",method = RequestMethod.POST)
+    public Map<String,Object> updateTeamRole(@ModelAttribute TeamRole teamRole){
+        return userService.updateTeamRole(teamRole);
+    }
+    @ApiOperation(value = "删除集体项目规则",notes = "id")
+    @RequestMapping(value = "/deleteTeamRole/{id}",method = RequestMethod.DELETE)
+    public Map<String,Object> deleteTeamRole(@PathVariable(value = "id")Integer id){
+        return userService.deleteTeamRole(id);
+    }
+    @ApiOperation(value = "查询该集体项目的规则",notes = "查询该项目的规则，sporitid")
+    @RequestMapping(value = "/getTeamRoleList/{sportid}",method = RequestMethod.GET)
+    public List<TeamRole> getTeamRoleList(@PathVariable("sportid")Integer sportid){
+        return userService.getTeamRoleList(sportid);
+    }
 }

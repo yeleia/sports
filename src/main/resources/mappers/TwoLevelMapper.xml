@@ -25,6 +25,9 @@
   <select id="getBySportIdConsIds" resultType="org.wingstudio.sports.domain.TwoLevel">
           select * from twoLevel_table where sportid=#{sportid} and contestantid=#{contestantid} and taketime=#{taketime} and mark=1
   </select>
+    <select id="getByTaketime" resultType="org.wingstudio.sports.domain.TwoLevel">
+      select * from twoLevel_table where taketime=#{taketime}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from twoLevel_table

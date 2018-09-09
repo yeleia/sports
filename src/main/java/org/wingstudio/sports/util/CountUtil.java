@@ -225,77 +225,15 @@ public class CountUtil {
         }
         return Arrays.asList(score);
     }
-    public static List<TeamScore> countTeam(List<TeamScore> solos, List<PreRole> roles) {
-        int n=0;
-        /**
-         * 设置临时变量为temp=对应名次
-         */
-        for (int i=0;i<solos.size();i++){
-            if (i>0&&solos.get(i).getScore().equals(solos.get(i-1).getScore())){
-                solos.get(i).setTemp(n);
-            }else {
-                solos.get(i).setTemp(i);
-                n=i;
-            }
-        }
-        List<TeamScore> teamScores=new ArrayList<>();//在加分范围内
-        List<TeamScore> teamScores1=new ArrayList<>();//不在加分范围内
-        for (int i = 0; i <teamScores1.size() ; i++) {
-            teamScores1.get(i).setFinalscore(0.0);
-        }
-        int roleSize=roles.size();
-        for (int j=0;j<solos.size();j++){
-            if (solos.get(j).getTemp()<=roleSize){
-                teamScores.add(solos.get(j));
-            }else {
-                teamScores1.add(solos.get(j));
-            }
-        }
-        //确保presolos的个数和role的个数一样
-        if (teamScores.size()>roleSize){
-            for (int i=roleSize;i<teamScores.size();i++){
-                PreRole preRole=new PreRole();
-                preRole.setRank(i+1);
-                preRole.setAddscore(0.0);
-                roles.add(preRole);
-            }
-        }
-        int count=0;
-        double grade=0;
-        double temp=0;
-        for (int j=0;j<teamScores.size();j++){
-            if (j>0&&teamScores.get(j).getTemp().equals(teamScores.get(j-1).getTemp())){
-                grade=grade+roles.get(j).getAddscore();
-                count=count+1;
-                if (j==teamScores.size()-1){
-                    for (int m=j-count+1;m<=j;m++){
-                        teamScores.get(m).setFinalscore(grade/(count));
-                    }
+    public static List<TeamScore> countTeam(List<TeamScore> solos, List<TeamRole> roles) {
+        for (int i = 0; i < solos.size(); i++) {
+            for(int j=0;j<roles.size();j++){
+                if (solos.get(i).getScore().equals(roles.get(j).getRank())){
+                    solos.get(i).setFinalscore(Double.valueOf(roles.get(j).getScore()));
                 }
-            }else {
-                if (count!=0){
-                    temp=grade/(count);
-
-                    for (int i=j-count;i<j;i++){
-                        teamScores.get(i).setFinalscore(temp);
-                    }
-                    count=0;
-                    grade=0;
-                }else {
-                    if (j!=0){
-                        teamScores.get(j-1).setFinalscore(roles.get(j-1).getAddscore());
-                    }
-                    //如果是最后一个
-                    if (j==teamScores.size()-1){
-                        teamScores.get(j).setFinalscore(roles.get(j).getAddscore());
-                    }
-                }
-                grade=grade+roles.get(j).getAddscore();
-                count=count+1;
             }
         }
-        teamScores.addAll(teamScores1);
-        return teamScores;
+        return solos;
     }
 }
 

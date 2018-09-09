@@ -1,14 +1,19 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.NonNullApi;
+
+@ApiModel("校记录")
 public class Record {
     private Integer id;
-
+    @ApiModelProperty("参赛者信息")
     private Integer contestantid;
-
+    @ApiModelProperty("体育项目信息")
     private Integer sportid;
-
+    @ApiModelProperty("预赛或是决赛")
     private Integer mark;
-
+    @ApiModelProperty("届数")
     private String taketime;
 
     public Record(Integer id, Integer contestantid, Integer sportid, Integer mark, String taketime) {

@@ -23,6 +23,8 @@ public class PreSoloVO {
     private Integer group;
     @ApiModelProperty("成绩")
     private String score;
+    @ApiModelProperty("名次")
+    private Integer rank;
 
     public Integer getId() {
         return id;
@@ -94,5 +96,13 @@ public class PreSoloVO {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

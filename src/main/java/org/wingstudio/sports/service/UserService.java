@@ -1,10 +1,7 @@
 package org.wingstudio.sports.service;
 
 
-import org.wingstudio.sports.domain.PreRole;
-import org.wingstudio.sports.domain.Role;
-import org.wingstudio.sports.domain.Sport;
-import org.wingstudio.sports.domain.User;
+import org.wingstudio.sports.domain.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -114,4 +111,31 @@ public interface UserService {
      * @return
      */
     List<Role> getRoleList(int sportid);
+    /**
+     * 添加集体项目规则
+     *
+     */
+    Map<String,Object> addTeamRole(TeamRole teamRole);
+
+    /**\
+     * 修改集体项目规则
+     * @param teamRole
+     * @return
+     */
+    Map<String,Object> updateTeamRole(TeamRole teamRole);
+
+    /**
+     * 删除集体项目规则
+     * @param id
+     * @return
+     */
+    Map<String,Object> deleteTeamRole(Integer id);
+
+    /**
+     * 查询该集体项目的规则
+     * @param sportid
+     * @return
+     */
+    List<TeamRole> getTeamRoleList(Integer sportid);
+
 }

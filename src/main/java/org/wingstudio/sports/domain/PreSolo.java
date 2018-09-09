@@ -105,4 +105,6 @@ public class PreSolo {
     public void setTemp(Integer temp) {
         this.temp = temp;
     }
+
+
 }

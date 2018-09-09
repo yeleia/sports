@@ -16,6 +16,16 @@ public class TeamVO {
     private String profession;
     @ApiModelProperty("成绩")
     private String score;
+    @ApiModelProperty("奖项")
+    private String rank;
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
     public Integer getId() {
         return id;

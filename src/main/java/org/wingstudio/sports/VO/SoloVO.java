@@ -20,6 +20,8 @@ public class SoloVO {
     private Integer gate;
     @ApiModelProperty("备注")
     private String remark;
+    @ApiModelProperty("名次")
+    private Integer rank;
 
     @ApiModelProperty("成绩")
     private String score;
@@ -87,5 +89,13 @@ public class SoloVO {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

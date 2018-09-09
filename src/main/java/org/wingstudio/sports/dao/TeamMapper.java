@@ -28,4 +28,6 @@ public interface TeamMapper {
     int count(@Param("currentime") String currentime);
 
     List<Team> getByClasses(@Param("classes") String classes, @Param("currentime") String currentime);
+
+    List<Team> getCamSpoid(@Param("campus") String campus, @Param("sportid") Integer sportid,  @Param("currentime") String currentime);
 }

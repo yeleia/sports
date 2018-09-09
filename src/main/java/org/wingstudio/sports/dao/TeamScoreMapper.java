@@ -39,4 +39,6 @@ public interface TeamScoreMapper {
     void updateCheck(@Param("id") Integer id);
 
     TeamScore getcount( @Param("taketime") String taketime, @Param("sportid") Integer sportid, @Param("teamid") Integer teamid);
+
+    TeamScore getByTeamIdSpoid(@Param("teamid") Integer teamid);
 }

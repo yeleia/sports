@@ -2,6 +2,7 @@ package org.wingstudio.sports.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.wingstudio.sports.VO.SportVO;
 import org.wingstudio.sports.domain.Sport;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface SportMapper {
 
     List<Sport> getSportIdList();
 
+    List<SportVO> getSportName(@Param("sex") Integer sex);
+
+    String getSportNameById(@Param("id") Integer sportid);
 }

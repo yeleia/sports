@@ -34,6 +34,9 @@
     <select id="getByNuNa" resultType="org.wingstudio.sports.domain.Student">
       select * from stu where stuName=#{stuname} and stuNumber=#{stunum}
     </select>
+    <select id="getClassesByCampus" resultType="java.lang.String">
+      select classes from stu where stuCampus=#{campus}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from stu
     where id = #{id,jdbcType=INTEGER}
