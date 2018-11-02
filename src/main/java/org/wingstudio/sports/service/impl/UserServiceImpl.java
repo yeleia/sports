@@ -1,5 +1,6 @@
 package org.wingstudio.sports.service.impl;
 
+import io.swagger.models.auth.In;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private RoleMapper roleMapper;
     @Autowired
     private TeamRoleMapper teamRoleMapper;
+    @Autowired
+    private HistoryMapper historyMapper;
     @Override
     public Map<String, Object> login(User user, HttpServletRequest request) {
         Map<String,Object> resultMap=new LinkedHashMap<>();
@@ -237,6 +240,39 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<TeamRole> getTeamRoleList(Integer sportid) {
         return teamRoleMapper.getBySportid(sportid);
+    }
+
+    @Override
+    public Map<String, Object> addSportMeet(History history) {
+        try {
+            historyMapper.insertSelective(history);
+            return ReturnUtil.ret(true,"成功添加");
+        }catch (Exception e){
+            return ReturnUtil.ret(true,"添加失败");
+        }
+    }
+    @Override
+    public Map<String ,Object> updateSportMeet(History history){
+        try {
+            historyMapper.updateByPrimaryKeySelective(history);
+            return ReturnUtil.ret(true,"成功修改");
+        }catch (Exception e){
+            return ReturnUtil.ret(true,"修改失败");
+        }
+    }
+    @Override
+    public Map<String,Object> delSportMeet(Integer id){
+        try {
+            historyMapper.deleteByPrimaryKey(id);
+            return ReturnUtil.ret(true,"成功删除");
+        }catch (Exception e){
+            return ReturnUtil.ret(true,"删除失败");
+
+        }
+    }
+    @Override
+    public List<History> getAllSportMeet(){
+        return historyMapper.getAllHistory();
     }
 
 

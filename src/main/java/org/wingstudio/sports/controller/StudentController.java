@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Api("学生报名操作api")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/user")
 public class StudentController {
     @Autowired
     private StudentService studentService;

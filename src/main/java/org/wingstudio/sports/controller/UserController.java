@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/admin")
 @Api(value = "后台操作相关的api",description = "后台操作")
 public class UserController {
     @Autowired
@@ -129,4 +129,25 @@ public class UserController {
     public List<TeamRole> getTeamRoleList(@PathVariable("sportid")Integer sportid){
         return userService.getTeamRoleList(sportid);
     }
+    @ApiOperation(value = "添加新运动会",notes = "添加新运动会")
+    @RequestMapping(value = "/addSportMeet",method = RequestMethod.POST)
+    public Map<String,Object> addSportMeet(@ModelAttribute History history){
+        return userService.addSportMeet(history);
+    }
+    @ApiOperation(value ="修改历史记录",notes = "修改运动会")
+    @RequestMapping(value = "/updateHistory",method = RequestMethod.POST)
+    public Map<String,Object> updateSportMeet(History history){
+        return  userService.updateSportMeet(history);
+    }
+    @ApiOperation(value = "删除历史记录",notes = "删除历史记录")
+    @RequestMapping(value = "/delHistory/{id}",method = RequestMethod.GET)
+    public Map<String,Object> delHistory(@PathVariable("id")Integer id){
+        return userService.delSportMeet(id);
+    }
+    @ApiOperation(value = "获取所有记录",notes = "获取所有记录")
+    @RequestMapping(value = "/getAllSportMeet",method = RequestMethod.GET)
+    public List<History> getAllSportMeet(){
+        return userService.getAllSportMeet();
+    }
+
 }

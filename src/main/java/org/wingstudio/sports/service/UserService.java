@@ -1,6 +1,7 @@
 package org.wingstudio.sports.service;
 
 
+import io.swagger.models.auth.In;
 import org.wingstudio.sports.domain.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -137,5 +138,32 @@ public interface UserService {
      * @return
      */
     List<TeamRole> getTeamRoleList(Integer sportid);
+
+    /**
+     * 添加新一届运动会
+     * @param history
+     * @return
+     */
+    Map<String,Object> addSportMeet(History history);
+
+    /**
+     * 修改运动会
+     * @param history
+     * @return
+     */
+    Map<String,Object> updateSportMeet(History history);
+
+    /**
+     * 删除历史记录
+     * @param id
+     * @return
+     */
+    Map<String,Object> delSportMeet(Integer id);
+
+    /**
+     * 获取所有历史纪录
+     * @return
+     */
+    List<History> getAllSportMeet();
 
 }
