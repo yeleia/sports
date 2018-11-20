@@ -12,6 +12,7 @@ import java.util.Map;
 
 @Api(value = "留言api")
 @RestController
+
 @RequestMapping("/message")
 public class MessageController {
     @Autowired

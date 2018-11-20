@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @Api(value = "成绩输入计算api")
 @RequestMapping("/add")
+
 public class ScoreController {
     @Autowired
     private ScoreService scoreService;

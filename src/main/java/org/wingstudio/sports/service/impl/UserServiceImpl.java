@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> login(User user, HttpServletRequest request) {
         Map<String,Object> resultMap=new LinkedHashMap<>();
-        HttpSession session=request.getSession();
         if (userMapper.getByNamePass(user)!=null){
+            HttpSession session=request.getSession();
             session.setAttribute("token",session.getId());
             resultMap.put("status","200");
             resultMap.put("message","登陆成功");

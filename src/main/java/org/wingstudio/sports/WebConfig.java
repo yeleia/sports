@@ -30,7 +30,7 @@ public class WebConfig extends WebMvcConfigurerAdapter  {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截规则：除了login，其他都拦截判断
-        registry.addInterceptor(loginInterceptor()).addPathPatterns("/admin/**","/message/**","/add/**").excludePathPatterns("/user/login");
+        registry.addInterceptor(loginInterceptor()).addPathPatterns("/admin/**","/message/**","/add/**").excludePathPatterns("/admin/login");
         super.addInterceptors(registry);
     }
     @Bean
