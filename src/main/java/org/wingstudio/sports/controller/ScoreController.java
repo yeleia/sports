@@ -32,18 +32,18 @@ public class ScoreController {
     }
     @ApiOperation(value = "删除预赛成绩",notes = "id,checked")
     @RequestMapping(value = "/deletePreSoloScore/{id}",method = RequestMethod.DELETE)
-    public Map<String,Object> deletePreSoloScore(@PathVariable("id")Integer id,@PathVariable("checked")Integer checked){
+    public Map<String,Object> deletePreSoloScore(@PathVariable("id")Integer id,@RequestParam("checked")Integer checked){
         return scoreService.deletePreSoloScore(id,checked);
 
     }
     @ApiOperation(value = "查询没有审核的预赛单赛成绩",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getPreSoloNoCheck",method = RequestMethod.GET)
-    public Map<String,Object> getPreSoloNoCheck(@ModelAttribute Page page, @PathVariable("taketime") String taketime){
+    public Map<String,Object> getPreSoloNoCheck(@ModelAttribute Page page, @RequestParam("taketime") String taketime){
         return scoreService.getPreSoloNoCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
     @ApiOperation(value = "查询已经审核的预赛单项",notes = "")
     @RequestMapping(value = "/getPreSoloChecked",method = RequestMethod.GET)
-    public Map<String,Object> getPreSoloChecked(@ModelAttribute Page page,@PathVariable("taketime")String taketime){
+    public Map<String,Object> getPreSoloChecked(@ModelAttribute Page page,@RequestParam("taketime")String taketime){
         return scoreService.getPreSoloChecked(page.getTempPage(),page.getPageCapacity(),taketime);
     }
     @ApiOperation(value = "添加决赛单项成绩",notes = "sportid,contestantid,gate,remark,score,taketime")
@@ -58,17 +58,17 @@ public class ScoreController {
     }
     @ApiOperation(value = "删除决赛单项成绩",notes = "id,checked")
     @RequestMapping(value = "/deleteSoloScore/{id}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteSoloScore(@PathVariable("id")Integer id, @PathVariable("checked")Integer checked){
+    public Map<String,Object> deleteSoloScore(@PathVariable("id")Integer id, @RequestParam("checked")Integer checked){
         return scoreService.deleteSoloScore(id,checked);
     }
     @ApiOperation(value = "查询决赛未审核的成绩",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getSoloScoreNoCheck",method = RequestMethod.GET)
-    public Map<String,Object> getSoloScoreNoCheck(@ModelAttribute Page page,@PathVariable("taketime")String taketime){
+    public Map<String,Object> getSoloScoreNoCheck(@ModelAttribute Page page,@RequestParam("taketime")String taketime){
         return scoreService.getSoloScoreNoCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
     @ApiOperation(value = "查询决赛已经审核过的成绩",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "getSoloScoreCheck",method = RequestMethod.GET)
-    public Map<String,Object> getSoloScoreCheck(@ModelAttribute Page page,@PathVariable("taketime")String taketime){
+    public Map<String,Object> getSoloScoreCheck(@ModelAttribute Page page,@RequestParam("taketime")String taketime){
         return scoreService.getSoloScoreCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
     @ApiOperation(value = "添加集体项目成绩",notes = "sportid,teamid,score,taketime")
@@ -83,17 +83,17 @@ public class ScoreController {
     }
     @ApiOperation(value = "删除集项目的成绩",notes = "id,checked")
     @RequestMapping(value = "/deleteTeamScore/{id}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteTeamScore(@PathVariable("id")Integer id,@PathVariable("checked")Integer checked){
+    public Map<String,Object> deleteTeamScore(@PathVariable("id")Integer id,@RequestParam("checked")Integer checked){
         return scoreService.deleteTeamScore(id,checked);
     }
     @ApiOperation(value = "查询集体项目未审核成绩",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getTeamScoreNoCheck",method = RequestMethod.GET)
-    public Map<String,Object> getTeamScoreNoCheck(@ModelAttribute Page page,@PathVariable("taketime")String taketime){
+    public Map<String,Object> getTeamScoreNoCheck(@ModelAttribute Page page,@RequestParam("taketime")String taketime){
         return scoreService.getTeamScoreNoCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
     @ApiOperation(value = "查询集体项目已经审核的",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getTeamScoreCheck",method = RequestMethod.GET)
-    public Map<String,Object> getTeamScoreCheck(@ModelAttribute Page page ,@PathVariable("taketime")String taketime){
+    public Map<String,Object> getTeamScoreCheck(@ModelAttribute Page page ,@RequestParam("taketime")String taketime){
         return scoreService.getTeamScoreCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
     @ApiOperation(value = "审核预赛成绩",notes = "id")
