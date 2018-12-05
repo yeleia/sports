@@ -534,7 +534,7 @@ public class ScoreServiceImpl implements ScoreService {
             preSoloVO.setStunumber(contestant.getStunumber());
             preSoloVO.setId(preSolo.get(i).getId());
             preSoloVO.setGate(preSolo.get(i).getGate());
-            preSoloVO.setGroup(preSolo.get(i).getGroup());
+            preSoloVO.setGroups(preSolo.get(i).getGroup());
             preSoloVO.setRemark(preSolo.get(i).getRemark());
             preSoloVO.setScore(preSolo.get(i).getScore());
             preSoloVOS.add(preSoloVO);

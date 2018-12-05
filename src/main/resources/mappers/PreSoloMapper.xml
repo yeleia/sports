@@ -8,14 +8,14 @@
       <arg column="contestantid" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="gate" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="group" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="groups" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="score" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, contestantid, gate, remark, group, score, taketime, checked
+    id, sportid, contestantid, gate, remark, groups, score, taketime, checked
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -59,11 +59,11 @@
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.PreSolo">
     insert into presolo_table (id, sportid, contestantid, 
-      gate, remark, group, 
+      gate, remark, groups, 
       score, taketime, checked
       )
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, 
-      #{gate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{group,jdbcType=INTEGER}, 
+      #{gate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{groups,jdbcType=INTEGER}, 
       #{score,jdbcType=VARCHAR}, #{taketime,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER}
       )
   </insert>
@@ -85,8 +85,8 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="group != null">
-        group,
+      <if test="groups != null">
+        groups,
       </if>
       <if test="score != null">
         score,
@@ -114,8 +114,8 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="group != null">
-        #{group,jdbcType=INTEGER},
+      <if test="groups != null">
+        #{groups,jdbcType=INTEGER},
       </if>
       <if test="score != null">
         #{score,jdbcType=VARCHAR},
@@ -143,8 +143,8 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="group != null">
-        group = #{group,jdbcType=INTEGER},
+      <if test="groups != null">
+        groups = #{groups,jdbcType=INTEGER},
       </if>
       <if test="score != null">
         score = #{score,jdbcType=VARCHAR},
@@ -164,7 +164,7 @@
       contestantid = #{contestantid,jdbcType=INTEGER},
       gate = #{gate,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      group = #{group,jdbcType=INTEGER},
+      groups = #{groups,jdbcType=INTEGER},
       score = #{score,jdbcType=VARCHAR},
       taketime = #{taketime,jdbcType=VARCHAR},
       checked = #{checked,jdbcType=INTEGER}

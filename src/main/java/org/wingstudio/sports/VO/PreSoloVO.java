@@ -20,7 +20,7 @@ public class PreSoloVO {
     @ApiModelProperty("备注")
     private String remark;
     @ApiModelProperty("小组")
-    private Integer group;
+    private Integer groups;
     @ApiModelProperty("成绩")
     private String score;
     @ApiModelProperty("名次")
@@ -82,12 +82,12 @@ public class PreSoloVO {
         this.remark = remark;
     }
 
-    public Integer getGroup() {
-        return group;
+    public Integer getGroups() {
+        return groups;
     }
 
-    public void setGroup(Integer group) {
-        this.group = group;
+    public void setGroups(Integer groups) {
+        this.groups = groups;
     }
 
     public String getScore() {

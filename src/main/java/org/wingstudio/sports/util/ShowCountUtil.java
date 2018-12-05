@@ -58,7 +58,7 @@ public class ShowCountUtil {
             PreSoloVO preSoloVO=new PreSoloVO();
             preSoloVO.setScore(preSolos.get(i).getScore());
             preSoloVO.setRemark(preSolos.get(i).getRemark());
-            preSoloVO.setGroup(preSolos.get(i).getGroup());
+            preSoloVO.setGroups(preSolos.get(i).getGroup());
             preSoloVO.setGate(preSolos.get(i).getGate());
             preSoloVO.setRank(preSolos.get(i).getTemp());
             preSoloVO.setContestantid(preSolos.get(i).getContestantid());

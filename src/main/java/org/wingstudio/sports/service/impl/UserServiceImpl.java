@@ -110,6 +110,7 @@ public class UserServiceImpl implements UserService {
             preRole.setRank(json.getInt("rank"));
             preRole.setAddscore(json.getDouble("addscore"));
             preRole.setCampus(json.getString("campus"));
+            preRole.setSportname(json.getString("sportname"));
             preRoles.add(preRole);
         }
         List<PreRole> failProRole=new ArrayList<>();
