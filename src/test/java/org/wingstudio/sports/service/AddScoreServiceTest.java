@@ -8,6 +8,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.wingstudio.sports.domain.PreSolo;
 import org.wingstudio.sports.domain.Solo;
 
+import java.util.Map;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AddScoreServiceTest {
@@ -38,6 +40,13 @@ public class AddScoreServiceTest {
     public void addSoloScore(){
         Solo solo=new Solo();
         System.out.println(scoreService.addSoloScore(solo));
+    }
+    @Test
+    public void test(){
+        Map<String,Object> resultMap=scoreService.getPreSoloNoCheck(0,2,"39");
+
+        System.out.println(resultMap.get("preSoloVO"));
+        System.out.println(resultMap.get("count"));
     }
 
 }

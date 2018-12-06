@@ -38,7 +38,7 @@ public class StudentController {
     }
     @ApiOperation(value = "查询参赛者信息列表",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
     @RequestMapping(value = "/getContestantList",method = RequestMethod.GET)
-    public Map<String,Object> getContestantList(@ModelAttribute Page page,@RequestParam("currentime")String currentime){
+    public Map<String,Object> getContestantList(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
         return studentService.getContantList(page.getTempPage(),page.getPageCapacity(),currentime);
     }
     @ApiOperation(value = "根据学号查询改参赛者信息",notes = "stunumber(学号),currentime(第几届)")
@@ -63,7 +63,7 @@ public class StudentController {
     }
     @ApiOperation(value = "获取该届运动会所有参赛团队信息",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
     @RequestMapping(value = "/getTeamList",method = RequestMethod.GET)
-    public Map<String,Object>getTeamList(@ModelAttribute Page page,@RequestParam("currentime")String currentime){
+    public Map<String,Object>getTeamList(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
         return teamService.getTeamList(page.getTempPage(),page.getPageCapacity(),currentime);
     }
     @ApiOperation(value = "获得学校校区，学院，专业信息",notes ="")

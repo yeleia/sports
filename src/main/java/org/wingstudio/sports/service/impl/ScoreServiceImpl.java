@@ -524,6 +524,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     public  List<PreSoloVO> getPreSoloVO(List<PreSolo> preSolo){
+        System.out.println(preSolo.get(0).getScore()+"gggggggggg");
         List<PreSoloVO> preSoloVOS=new ArrayList<>();
         for (int i=0;i<preSolo.size();i++){
             PreSoloVO preSoloVO=new PreSoloVO();

@@ -98,14 +98,14 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除决赛加分规则",notes = "删除决赛加分规则，能不能只从最后一个名次删起走，需要参数为id")
-    @RequestMapping(value = "/deleteRole",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteRole/{id}",method = RequestMethod.DELETE)
     public Map<String,Object> deleteRole(@PathVariable("id")Integer id){
         return userService.deleteRole(id);
     }
 
     @ApiOperation(value = "查询该项目决赛加分规则",notes = "查询该项目的所有加分规则，需传入sportid")
     @RequestMapping(value = "/getRole/{sportid}",method = RequestMethod.GET)
-    public List<Role> getRoleList(@PathVariable("sportid")int sportid){
+    public List<Role> getRoleList(@PathVariable(value = "sportid")int sportid){
         return userService.getRoleList(sportid);
     }
 
@@ -126,7 +126,7 @@ public class UserController {
     }
     @ApiOperation(value = "查询该集体项目的规则",notes = "查询该项目的规则，sporitid")
     @RequestMapping(value = "/getTeamRoleList/{sportid}",method = RequestMethod.GET)
-    public List<TeamRole> getTeamRoleList(@PathVariable("sportid")Integer sportid){
+    public List<TeamRole> getTeamRoleList(@PathVariable(value = "sportid")Integer sportid){
         return userService.getTeamRoleList(sportid);
     }
     @ApiOperation(value = "添加新运动会",notes = "添加新运动会")
@@ -141,7 +141,7 @@ public class UserController {
     }
     @ApiOperation(value = "删除历史记录",notes = "删除历史记录")
     @RequestMapping(value = "/delHistory/{id}",method = RequestMethod.GET)
-    public Map<String,Object> delHistory(@PathVariable("id")Integer id){
+    public Map<String,Object> delHistory(@PathVariable(value = "id")Integer id){
         return userService.delSportMeet(id);
     }
     @ApiOperation(value = "获取所有记录",notes = "获取所有记录")
