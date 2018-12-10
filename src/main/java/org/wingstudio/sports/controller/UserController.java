@@ -2,10 +2,11 @@ package org.wingstudio.sports.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.wingstudio.sports.domain.*;
+import org.wingstudio.sports.service.StudentService;
+import org.wingstudio.sports.service.TeamService;
 import org.wingstudio.sports.service.UserService;
 import org.wingstudio.sports.util.Page;
 
@@ -20,7 +21,10 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private TeamService teamService;
 
     @ApiOperation(value = "根据用户名和密码查询登陆信息", notes = "登陆操作")
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -51,7 +55,6 @@ public class UserController {
         result.put("count",userService.countSportList());
         return result;
     }
-
 
     @ApiOperation(value = "添加预赛加分规则",notes = "添加预赛加分规则，操作为批量添加")
     @RequestMapping(value = "/addPreRoles",method = RequestMethod.POST)
@@ -149,5 +152,67 @@ public class UserController {
     public List<History> getAllSportMeet(){
         return userService.getAllSportMeet();
     }
+
+    @ApiOperation(value = "查询参赛者信息列表(已审核）",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
+    @RequestMapping(value = "/getContestantList",method = RequestMethod.GET)
+    public Map<String,Object> getContestantList(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
+        return userService.getContantList(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+    @ApiOperation(value = "查询参赛者信息列表（未审核)",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
+    @RequestMapping(value = "/getContestantNoCheck",method = RequestMethod.GET)
+    public Map<String,Object> getContestantListNoCheck(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
+        return userService.getContantListNoCheck(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+    @ApiOperation(value = "查询参赛者修改信息列表",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
+    @RequestMapping(value = "/getContestantUp",method = RequestMethod.GET)
+    public Map<String,Object> getContestantUp(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
+        return userService.getContestantUp(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+    @ApiOperation(value = "审核参赛者报名和修改",notes = "id")
+    @RequestMapping(value = "/checkContestant/{id}",method = RequestMethod.POST)
+    public Map<String,Object> checkContestant(@PathVariable(value = "id")Integer id){
+        return userService.checkContestant(id);
+    }
+    @ApiOperation(value = "审核参赛者修改报名信息",notes = "id")
+    @RequestMapping(value = "/checkUpdate/{id}",method = RequestMethod.POST)
+    public Map<String,Object> checkUpdate(@PathVariable(value = "id")Integer id){
+        return userService.checkContestant(id);
+    }
+    @ApiOperation(value = "删除参赛者信息",notes = "id")
+    @RequestMapping(value = "/deleteContestant/{id}",method = RequestMethod.DELETE)
+    public Map<String,Object> deleteContestant(@PathVariable("id")Integer id){
+        return studentService.deleteContestant(id);
+    }
+    @ApiOperation(value = "根据学号查询改参赛者信息",notes = "stunumber(学号),currentime(第几届)")
+    @RequestMapping(value = "/getContestantByNum/{stunumber}/{currentime}",method = RequestMethod.GET)
+    public List<Contestant> getContestantByNum(@PathVariable("stunumber")String stunumber,@PathVariable("currentime")String currentime){
+        return studentService.getContestantByNum(stunumber,currentime);
+    }
+    @ApiOperation(value = "获取该届运动会所有参赛团队信息(已审核）",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
+    @RequestMapping(value = "/getTeamList",method = RequestMethod.GET)
+    public Map<String,Object>getTeamList(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
+        return teamService.getTeamList(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+    @ApiOperation(value = "获取该团队参赛信息",notes = "classes(学院），profession(专业），currentime(第几届),tempPage(当前页数)，pageCapacity(每页显示的数据量)")
+    @RequestMapping(value = "/getTeam",method = RequestMethod.GET)
+    public Map<String,Object> getTeam(@ModelAttribute Page page,@ModelAttribute Team team){
+        return teamService.getTeam(page.getTempPage(),page.getPageCapacity(),team);
+    }
+    @ApiOperation(value = "获取未审核的团队信息",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）" )
+    @RequestMapping(value = "/getTeamNoCheck",method = RequestMethod.GET)
+    public Map<String,Object> getTeamNoCheck(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
+        return teamService.getTeamNoCheck(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+    @ApiOperation(value = "审核团队添加和修改信息",notes ="id" )
+    @RequestMapping(value = "/checkedTeam/{id}",method = RequestMethod.POST)
+    public Map<String,Object> checkedTeam(@PathVariable(value = "id")Integer id){
+        return teamService.checkTeam(id);
+    }
+    @ApiOperation(value = "获取未审核修改的团队信息",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）" )
+    @RequestMapping(value = "/getTeamNoCheckUp",method = RequestMethod.GET)
+    public Map<String,Object> getTeamNoCheckUp(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
+        return teamService.getTeamNoCheckUp(page.getTempPage(),page.getPageCapacity(),currentime);
+    }
+
 
 }

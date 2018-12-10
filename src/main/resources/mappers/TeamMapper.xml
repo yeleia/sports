@@ -10,10 +10,11 @@
       <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="profession" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="currentime" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, sportname, campus, classes, profession, currentime
+    id, sportid, sportname, campus, classes, profession, currentime,checked
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,10 +26,10 @@
       select count(1) from team_table where sportid=#{sportid} and profession=#{profession} and currentime=#{currentime}
     </select>
   <select id="getTeamList" resultType="org.wingstudio.sports.domain.Team">
-    select * from team_table where currentime=#{currentime}  limit #{tempPage},#{pageCapacity};
+    select * from team_table where currentime=#{currentime} and checked=#{checked}  limit #{tempPage},#{pageCapacity} ;
   </select>
   <select id="count" resultType="java.lang.Integer">
-    select count(1) from team_table where currentime=#{currentime}
+    select count(1) from team_table where currentime=#{currentime} and checked=#{checked}
   </select>
     <select id="getByClasses" resultType="org.wingstudio.sports.domain.Team">
       select * from team_table where currentime=#{currentime} and classes=#{classes}
@@ -36,8 +37,9 @@
   <select id="getCamSpoid" resultType="org.wingstudio.sports.domain.Team">
     select * from team_table where currentime=#{currentime} and campus=#{campus} and sportid=#{sportid}
   </select>
-
-
+  <select id="getTeam" resultType="org.wingstudio.sports.domain.Team">
+    select * from team_table where currentime=#{currentime} and classes=#{classes} and profession=#{profession} and checked=1 limit #{tempPage},#{pageCapacity}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from team_table
     where id = #{id,jdbcType=INTEGER}
@@ -74,6 +76,9 @@
       <if test="currentime != null">
         currentime,
       </if>
+      <if test="checked !=null">
+        checked,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -97,9 +102,12 @@
       <if test="currentime != null">
         #{currentime,jdbcType=VARCHAR},
       </if>
+      <if test="checked != null">
+        #{checked,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Team">
+    <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Team">
     update team_table
     <set>
       <if test="sportid != null">
@@ -120,6 +128,9 @@
       <if test="currentime != null">
         currentime = #{currentime,jdbcType=VARCHAR},
       </if>
+      <if test="checked != null">
+        checked = #{currentime,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -133,7 +144,9 @@
       currentime = #{currentime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
+  <update id="updateTeam">
+    update team_table set checked =#{checked}  where id=#{id} ;
+  </update>
 
 
 </mapper>

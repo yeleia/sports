@@ -8,8 +8,10 @@ import org.wingstudio.sports.domain.Contestant;
 import org.wingstudio.sports.domain.Team;
 import org.wingstudio.sports.service.StudentService;
 import org.wingstudio.sports.service.TeamService;
+import org.wingstudio.sports.service.UserService;
 import org.wingstudio.sports.util.Page;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import java.util.Map;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private TeamService teamService;
     @ApiOperation(value ="添加参赛信息",notes = "sportid，sportname，campus，classes，profession，stunumber，stuname，currentime")
@@ -35,11 +39,6 @@ public class StudentController {
     @RequestMapping(value = "/deleteContestant/{id}",method = RequestMethod.DELETE)
     public Map<String,Object> deleteContestant(@PathVariable("id")Integer id){
         return studentService.deleteContestant(id);
-    }
-    @ApiOperation(value = "查询参赛者信息列表",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
-    @RequestMapping(value = "/getContestantList",method = RequestMethod.GET)
-    public Map<String,Object> getContestantList(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
-        return studentService.getContantList(page.getTempPage(),page.getPageCapacity(),currentime);
     }
     @ApiOperation(value = "根据学号查询改参赛者信息",notes = "stunumber(学号),currentime(第几届)")
     @RequestMapping(value = "/getContestantByNum/{stunumber}/{currentime}",method = RequestMethod.GET)
@@ -61,15 +60,24 @@ public class StudentController {
     public Map<String,Object> deleteTeam(@PathVariable("id")Integer id){
         return teamService.deleteTeam(id);
     }
-    @ApiOperation(value = "获取该届运动会所有参赛团队信息",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),currentime(第几届）")
-    @RequestMapping(value = "/getTeamList",method = RequestMethod.GET)
-    public Map<String,Object>getTeamList(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
-        return teamService.getTeamList(page.getTempPage(),page.getPageCapacity(),currentime);
+    @ApiOperation(value = "获取该团队参赛信息",notes = "classes(学院），profession(专业），currentime(第几届),tempPage(当前页数)，pageCapacity(每页显示的数据量)")
+    @RequestMapping(value = "/getTeam",method = RequestMethod.GET)
+    public Map<String,Object> getTeam(@ModelAttribute Page page,@ModelAttribute Team team){
+        return teamService.getTeam(page.getTempPage(),page.getPageCapacity(),team);
     }
+
     @ApiOperation(value = "获得学校校区，学院，专业信息",notes ="")
     @RequestMapping(value = "/getCCP",method = RequestMethod.GET)
     public Map<String,Object> getCCP(){
         return studentService.getCCP();
+    }
+    @ApiOperation(value = "查询所有体育项目",notes = "查询所有体育项目，并分页")
+    @RequestMapping(value = "/getSportList",method = RequestMethod.GET)
+    public Map<String,Object> getSportList(@ModelAttribute Page page){
+        Map<String,Object> result=new LinkedHashMap<>();
+        result.put("sport", userService.getSportList(page.getTempPage(),page.getPageCapacity()));
+        result.put("count",userService.countSportList());
+        return result;
     }
 
 }

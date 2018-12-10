@@ -23,8 +23,10 @@ public class Contestant {
     private String stuname;
     @ApiModelProperty("第几届")
     private String currentime;
+    @ApiModelProperty("审核")
+    private Integer cheched;
 
-    public Contestant(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String stunumber, String stuname, String currentime) {
+    public Contestant(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String stunumber, String stuname, String currentime, Integer cheched) {
         this.id = id;
         this.sportid = sportid;
         this.sportname = sportname;
@@ -34,6 +36,15 @@ public class Contestant {
         this.stunumber = stunumber;
         this.stuname = stuname;
         this.currentime = currentime;
+        this.cheched = cheched;
+    }
+
+    public Integer getCheched() {
+        return cheched;
+    }
+
+    public void setCheched(Integer cheched) {
+        this.cheched = cheched;
     }
 
     public Contestant() {

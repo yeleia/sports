@@ -23,11 +23,17 @@ public interface TeamMapper {
 
     int isTeamExist(@Param("sportid") Integer sportid, @Param("profession") String profession,@Param("currentime")String currentime);
 
-    List<Team> getTeamList(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
+    List<Team> getTeamList(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime,@Param("checked")Integer checked);
 
-    int count(@Param("currentime") String currentime);
+    int count(@Param("currentime") String currentime,@Param("checked")Integer checked);
 
     List<Team> getByClasses(@Param("classes") String classes, @Param("currentime") String currentime);
 
     List<Team> getCamSpoid(@Param("campus") String campus, @Param("sportid") Integer sportid,  @Param("currentime") String currentime);
+
+    List<Team> getTeam(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, Team team);
+
+
+    int updateTeam(Integer id,@Param("checked")Integer checked);
+
 }

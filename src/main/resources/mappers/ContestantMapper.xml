@@ -12,10 +12,11 @@
       <arg column="stunumber" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="stuname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="currentime" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, sportname, campus, classes, profession, stunumber, stuname, currentime
+    id, sportid, sportname, campus, classes, profession, stunumber, stuname, currentime,checked
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,11 +31,12 @@
   <insert id="insert" parameterType="org.wingstudio.sports.domain.Contestant">
     insert into contestant_table (id, sportid, sportname, 
       campus, classes, profession, 
-      stunumber, stuname, currentime
+      stunumber, stuname, currentime,checked
       )
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{sportname,jdbcType=VARCHAR}, 
       #{campus,jdbcType=VARCHAR}, #{classes,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, 
-      #{stunumber,jdbcType=VARCHAR}, #{stuname,jdbcType=VARCHAR}, #{currentime,jdbcType=VARCHAR}
+      #{stunumber,jdbcType=VARCHAR}, #{stuname,jdbcType=VARCHAR}, #{currentime,jdbcType=VARCHAR},
+      #{checked}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Contestant">
@@ -67,6 +69,9 @@
       <if test="currentime != null">
         currentime,
       </if>
+      <if test="checked != null">
+        checked,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -95,6 +100,9 @@
       </if>
       <if test="currentime != null">
         #{currentime,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null">
+        #{checked,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -125,6 +133,9 @@
       <if test="currentime != null">
         currentime = #{currentime,jdbcType=VARCHAR},
       </if>
+      <if test="checked != null">
+        checked =#{checked,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -140,24 +151,40 @@
       currentime = #{currentime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="check">
+    update contestant_table set checked=1 where id=#{id}
+  </update>
+
   <select id="contestantIsExist" resultType="java.lang.Integer">
-    select count(1) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber} and currentime=#{currentime}
+    select count(*) from contestant_table where sportid=#{sportid} and stunumber=#{stunumber} and currentime=#{currentime}
   </select>
   <select id="getContestList" resultType="org.wingstudio.sports.domain.Contestant">
-    select * from contestant_table where currentime=#{currentime} limit #{tempPage},#{pageCapacity}
+    select * from contestant_table where currentime=#{currentime} and checked=1 limit #{tempPage},#{pageCapacity}
   </select>
   <select id="getContestantByNum" resultType="org.wingstudio.sports.domain.Contestant">
-    select * from contestant_table where stunumber=#{stunumber} and currentime=#{currentime}
+    select * from contestant_table where stunumber=#{stunumber} and currentime=#{currentime} and checked=1
   </select>
     <select id="count" resultType="java.lang.Integer">
-      select count(1) from contestant_table where currentime=#{currentime}
+      select count(1) from contestant_table where currentime=#{currentime} and checked=1
     </select>
     <select id="getByClasses" resultType="org.wingstudio.sports.domain.Contestant">
-      select * from contestant_table where classes=#{classes} and currentime=#{currentime}
+      select * from contestant_table where classes=#{classes} and currentime=#{currentime} and checked=1
     </select>
     <select id="getByCamSpo" resultType="org.wingstudio.sports.domain.Contestant">
-      select * from contestant_table where campus=#{campus} and sportId=#{sportId} and currentime=#{currentime}
+      select * from contestant_table where campus=#{campus} and sportId=#{sportId} and currentime=#{currentime} and checked=1
     </select>
+  <select id="getContestListNocheck" resultType="org.wingstudio.sports.domain.Contestant">
+    select * from contestant_table where currentime=#{currentime} and checked=0 limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="countNoCheck" resultType="java.lang.Integer">
+     select count(1) from contestant_table where currentime=#{currentime} and checked=0
+  </select>
+  <select id="getContestantUp" resultType="org.wingstudio.sports.domain.Contestant">
+    select * from contestant_table where currentime=#{currentime} and checked=2 limit #{tempPage},#{pageCapacity}
+  </select>
+  <select id="countUp" resultType="java.lang.Integer">
+     select count(1) from contestant_table where currentime=#{currentime} and checked=2
+  </select>
 
 
 </mapper>

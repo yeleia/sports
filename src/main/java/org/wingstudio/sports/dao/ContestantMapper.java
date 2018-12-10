@@ -34,4 +34,15 @@ public interface ContestantMapper {
 
     List<Contestant> getByCamSpo(@Param("campus") String campus, @Param("sportId") Integer sportId,@Param("currentime") String currentime);
 
+    List<Contestant> getContestListNocheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
+
+    int countNoCheck(@Param("currentime") String currentime);
+
+    int check(Integer id);
+
+    List<Contestant> getContestantUp(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
+
+    int  countUp(@Param("currentime") String currentime);
+
+
 }

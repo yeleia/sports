@@ -14,7 +14,7 @@ public interface StudentService {
     Map<String,Object> addContestant(Contestant contestant);
 
     /**
-     * 修改学生报名信息
+     * 学生审核修改报名信息
      * @param contestant
      * @return
      */
@@ -27,11 +27,7 @@ public interface StudentService {
      */
     Map<String,Object> deleteContestant(Integer id);
 
-    /**
-     * 查询所有参赛学生
-     * @return
-     */
-    Map<String,Object> getContantList(Integer tempPage, Integer pageCapacity,String time);
+
 
     /**
      * 根据学号查询参赛者信息

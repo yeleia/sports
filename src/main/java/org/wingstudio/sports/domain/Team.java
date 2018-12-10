@@ -18,8 +18,18 @@ public class Team {
     private String profession;
     @ApiModelProperty("第几届")
     private String currentime;
+    @ApiModelProperty("审核")
+    private Integer checked;
 
-    public Team(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String currentime) {
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
+    }
+
+    public Team(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String currentime, Integer checked) {
         this.id = id;
         this.sportid = sportid;
         this.sportname = sportname;
@@ -27,6 +37,7 @@ public class Team {
         this.classes = classes;
         this.profession = profession;
         this.currentime = currentime;
+        this.checked = checked;
     }
 
     public Team() {

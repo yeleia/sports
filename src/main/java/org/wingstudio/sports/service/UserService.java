@@ -43,6 +43,7 @@ public interface UserService {
      */
     List<Sport> getSportList(Integer tempPage, Integer pageCapacity);
 
+
     /**
      * 获得所有体育项目的总数
      * @return
@@ -166,4 +167,24 @@ public interface UserService {
      */
     List<History> getAllSportMeet();
 
+    /**
+     * 查询所有参赛学生,
+     * @return
+     */
+    Map<String,Object> getContantList(Integer tempPage, Integer pageCapacity,String time);
+    /**
+     * 查询所有未审核参赛学生
+     *
+     */
+    Map<String,Object> getContantListNoCheck(Integer tempPage, Integer pageCapacity,String time);
+
+    /**
+     * 审核添加和修改
+     * @param id
+     * @return
+     */
+    Map<String,Object> checkContestant(Integer id);
+
+
+    Map<String,Object> getContestantUp(Integer tempPage, Integer pageCapacity, String currentime);
 }

@@ -24,7 +24,7 @@
       select * from  teamRole_table where campus=#{campus} and sportid=#{sportid}
     </select>
   <select id="isTeamRoleExsit" resultType="java.lang.Integer">
-    select * from teamRole_table where campus=#{campus} and sportid=#{sportid} and rank=#{rank}
+    select count(*) from teamRole_table where campus=#{campus} and sportid=#{sportid} and rank=#{rank}
   </select>
     <select id="getBySportid" resultType="org.wingstudio.sports.domain.TeamRole">
         select * from teamRole_table where sportid=#{sportid} order by campus,rank

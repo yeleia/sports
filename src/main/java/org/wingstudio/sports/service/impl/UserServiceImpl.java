@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private TeamRoleMapper teamRoleMapper;
     @Autowired
     private HistoryMapper historyMapper;
+    @Autowired
+    private ContestantMapper contestantMapper;
     @Override
     public Map<String, Object> login(User user, HttpServletRequest request) {
         Map<String,Object> resultMap=new LinkedHashMap<>();
@@ -169,6 +171,8 @@ public class UserServiceImpl implements UserService {
             Role roles=new Role();
             roles.setSportid(json.getInt("sportid"));
             roles.setRank(json.getInt("rank"));
+            roles.setCampus(json.getString("campus"));
+            roles.setSportname(json.getString("sportname"));
             roles.setAddscore(json.getDouble("addscore"));
             roleList.add(roles);
         }
@@ -274,6 +278,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<History> getAllSportMeet(){
         return historyMapper.getAllHistory();
+    }
+    @Override
+    public Map<String,Object> getContantList(Integer tempPage, Integer pageCapacity,String currentime) {
+        Map<String,Object> resultMap=new LinkedHashMap<>();
+        resultMap.put("contestant",contestantMapper.getContestList(tempPage*pageCapacity,pageCapacity,currentime));
+        resultMap.put("count",contestantMapper.count(currentime));
+        return resultMap;
+    }
+    @Override
+    public Map<String,Object> getContantListNoCheck(Integer tempPage, Integer pageCapacity,String currentime){
+        Map<String,Object> resultMap=new LinkedHashMap<>();
+        resultMap.put("contestant",contestantMapper.getContestListNocheck(tempPage*pageCapacity,pageCapacity,currentime));
+        resultMap.put("count",contestantMapper.countNoCheck(currentime));
+        return resultMap;
+    }
+    @Override
+    public Map<String,Object> getContestantUp(Integer tempPage, Integer pageCapacity,String currentime){
+        Map<String,Object> resultMap=new LinkedHashMap<>();
+        resultMap.put("contestant",contestantMapper.getContestantUp(tempPage*pageCapacity,pageCapacity,currentime));
+        resultMap.put("count",contestantMapper.countUp(currentime));
+        return resultMap;
+    }
+    @Override
+    public Map<String,Object> checkContestant(Integer id){
+        if (contestantMapper.check(id)>0){
+           return ReturnUtil.ret(true,"审核成功");
+        }else {
+            return ReturnUtil.ret(false,"审核失败");
+        }
     }
 
 

@@ -31,4 +31,12 @@ public interface TeamService {
      * @return
      */
     Map<String,Object> getTeamList(Integer tempPage, Integer pageCapacity,String time);
+
+    Map<String,Object> getTeam(Integer tempPage, Integer pageCapacity, Team team);
+
+    Map<String,Object> getTeamNoCheck(Integer tempPage, Integer pageCapacity, String currentime);
+
+    Map<String,Object> checkTeam(Integer id);
+
+    Map<String,Object> getTeamNoCheckUp(Integer tempPage, Integer pageCapacity, String currentime);
 }
