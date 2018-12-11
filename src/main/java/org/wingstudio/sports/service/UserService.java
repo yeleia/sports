@@ -185,6 +185,21 @@ public interface UserService {
      */
     Map<String,Object> checkContestant(Integer id);
 
-
+    /**
+     * 获取申请修改未审核的信息
+     * @param tempPage
+     * @param pageCapacity
+     * @param currentime
+     * @return
+     */
     Map<String,Object> getContestantUp(Integer tempPage, Integer pageCapacity, String currentime);
+
+    /**
+     * 根据性别查询体育项目
+     * @param tempPage
+     * @param pageCapacity
+     * @param sex
+     * @return
+     */
+    List<Sport> getSportBySex(Integer tempPage, Integer pageCapacity, Integer sex);
 }

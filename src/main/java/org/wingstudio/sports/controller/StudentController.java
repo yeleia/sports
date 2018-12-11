@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.wingstudio.sports.domain.Contestant;
+import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.Team;
 import org.wingstudio.sports.service.StudentService;
 import org.wingstudio.sports.service.TeamService;
@@ -71,7 +72,7 @@ public class StudentController {
     public Map<String,Object> getCCP(){
         return studentService.getCCP();
     }
-    @ApiOperation(value = "查询所有体育项目",notes = "查询所有体育项目，并分页")
+    @ApiOperation(value = "查询所有体育项目",notes = "查询所有体育项目，并分页tempPage(当前页数)，pageCapacity(每页显示的数据量)")
     @RequestMapping(value = "/getSportList",method = RequestMethod.GET)
     public Map<String,Object> getSportList(@ModelAttribute Page page){
         Map<String,Object> result=new LinkedHashMap<>();
@@ -79,5 +80,15 @@ public class StudentController {
         result.put("count",userService.countSportList());
         return result;
     }
+    @ApiOperation(value = "根据性别查询体育项目",notes = "tempPage(当前页数)，pageCapacity(每页显示的数据量),sex  0：男，1：女，2：集体")
+    @RequestMapping(value = "/getSportM",method = RequestMethod.GET)
+    public Map<String,Object> getSportM(@ModelAttribute Page page,@RequestParam(value = "sex")Integer sex){
+        Map<String,Object> result=new LinkedHashMap<>();
+        List<Sport> sports=userService.getSportBySex(page.getTempPage(),page.getPageCapacity(),sex);
+        result.put("sport",sports);
+        result.put("count",sports.size());
+        return result;
+    }
+
 
 }

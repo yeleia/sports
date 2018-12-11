@@ -308,6 +308,9 @@ public class UserServiceImpl implements UserService {
             return ReturnUtil.ret(false,"审核失败");
         }
     }
-
+    @Override
+    public List<Sport> getSportBySex(Integer tempPage, Integer pageCapacity,Integer sex){
+        return sportMapper.getSportsBySex(tempPage*pageCapacity,pageCapacity,sex);
+    }
 
 }
