@@ -312,5 +312,9 @@ public class UserServiceImpl implements UserService {
     public List<Sport> getSportBySex(Integer tempPage, Integer pageCapacity,Integer sex){
         return sportMapper.getSportsBySex(tempPage*pageCapacity,pageCapacity,sex);
     }
+    @Override
+    public int getSportCount(Integer sex){
+        return sportMapper.getSportCount(sex);
+    }
 
 }

@@ -202,4 +202,11 @@ public interface UserService {
      * @return
      */
     List<Sport> getSportBySex(Integer tempPage, Integer pageCapacity, Integer sex);
+
+    /**
+     * 根据性别获得体育项目计数
+     * @param sex
+     * @return
+     */
+    int getSportCount(Integer sex);
 }

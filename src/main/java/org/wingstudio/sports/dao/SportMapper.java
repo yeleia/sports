@@ -34,4 +34,6 @@ public interface SportMapper {
     String getSportNameById(@Param("id") Integer sportid);
 
     List<Sport> getSportsBySex(@Param("tempPage") Integer tempPage, @Param("pageCapacity") Integer pageCapacity, @Param("sex")Integer sex);
+
+    int getSportCount(Integer sex);
 }

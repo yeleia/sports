@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.wingstudio.sports.constant.Common;
 import org.wingstudio.sports.domain.Contestant;
 import org.wingstudio.sports.domain.Sport;
 import org.wingstudio.sports.domain.Team;
@@ -85,8 +86,10 @@ public class StudentController {
     public Map<String,Object> getSportM(@ModelAttribute Page page,@RequestParam(value = "sex")Integer sex){
         Map<String,Object> result=new LinkedHashMap<>();
         List<Sport> sports=userService.getSportBySex(page.getTempPage(),page.getPageCapacity(),sex);
+        int count=userService.getSportCount(sex);
         result.put("sport",sports);
-        result.put("count",sports.size());
+
+        result.put("count",count);
         return result;
     }
 

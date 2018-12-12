@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.wingstudio.sports.VO.PreSoloVO;
 import org.wingstudio.sports.VO.SoloVO;
 import org.wingstudio.sports.VO.TeamVO;
+import org.wingstudio.sports.constant.Common;
 import org.wingstudio.sports.dao.*;
 import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.service.ScoreService;
@@ -58,14 +59,15 @@ public class ScoreServiceImpl implements ScoreService {
         if (CheckUtil.checkScore(sport.getSortrule(), preSolo.getScore(), sport.getInmax(), sport.getInmin())) {
             //检查该成绩是否已添加
             if (preSoloMapper.isPreSoloExsit(preSolo.getSportid(), preSolo.getContestantid(), preSolo.getTaketime()) < 1) {
-                preSolo.setChecked(0);
+                //新添加的设置为未审核
+                preSolo.setChecked(Common.NOCHECK);
                 preSoloMapper.insertSelective(preSolo);
                 return ReturnUtil.ret(true, "添加成功,待审核");
             } else {
                 return ReturnUtil.ret(false, "添加失败，该成绩已经添加");
             }
         } else {
-            return ReturnUtil.ret(false, "添加失败，检查输入是否合格");
+            return ReturnUtil.ret(false, "添加失败，检查输入是否合格，注意成绩的合理性，是否在规定范围内");
         }
     }
 

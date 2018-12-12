@@ -1,5 +1,7 @@
 package org.wingstudio.sports.util;
 
+import org.wingstudio.sports.constant.Common;
+
 /**
  * 输入成绩的大小限制
  */
@@ -66,7 +68,9 @@ public class CheckUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(incheck(0,"30.4","30.5"));
+        System.out.println(incheck(1,"30:25:35","30:25:36"));
+        System.out.println(checkScore(0,"12.3","13.7","9.4"));
     }
+
 
 }
