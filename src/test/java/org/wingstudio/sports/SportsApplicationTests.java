@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.wingstudio.sports.domain.User;
+import org.wingstudio.sports.service.ShowService;
 import org.wingstudio.sports.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SportsApplicationTests {
     @Autowired
     private UserService userService;
+
     @Test
     public void contextLoads() {
     }
@@ -26,4 +28,6 @@ public class SportsApplicationTests {
         user.setUsername("sicau");
         Assert.assertNull(userService.login(user,request));
     }
+
+
 }

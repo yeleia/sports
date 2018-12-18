@@ -34,12 +34,20 @@ public interface PreSoloMapper {
     void updateCheck(Integer id);
 
 
-    List<PreSolo> getPreSoloBySportId(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+    List<PreSolo> getPreSoloBySportIdDesc(@Param("sportid") Integer sportid,@Param("taketime") String taketime,@Param("campus")String campus);
 
-    List<PreSolo> getPreSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+    List<PreSolo> getPreSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime,@Param("campus")String campus);
 
     List<PreSolo> getAllSolo(@Param("taketime") String taketime);
 
 
     PreSolo getByConId(@Param("contestantid") Integer contestantid);
+
+    String getTop();
+
+    List<PreSolo> getBySportId(@Param("sportid") Integer sportid, @Param("taketime")String taketime,@Param("campus")String campus);
+
+    List<String> getCampus(@Param("taketime")String taketime);
+
+    List<PreSolo> getSport(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 }

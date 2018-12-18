@@ -11,10 +11,12 @@
       <arg column="score" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, contestantid, gate, remark, score, taketime, checked
+    id, sportid, contestantid, gate, remark, score, taketime, checked,campus,classes
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -41,7 +43,7 @@
     select * from solo_table where checked=1 and taketime=#{taketime} order by score desc;
   </select>
   <select id="getSoloBySportIdAsc" resultType="org.wingstudio.sports.domain.Solo">
-    select * from solo_table where checked=1 and taketime=#{taketime} order by score ;
+    select * from solo_table where checked=1 and taketime=#{taketime} and sportid=#{sportid} and campus=#{campus} order by score ;
 
   </select>
     <select id="select" resultType="org.wingstudio.sports.domain.Solo">
@@ -50,18 +52,30 @@
     <select id="getByConId" resultType="org.wingstudio.sports.domain.Solo">
       select * from solo_table where checked=1 and  contestantid=#{contestantid}
     </select>
+    <select id="getTop" resultType="java.lang.String">
+       select taketime from solo_table order by id desc limit 1
+    </select>
+  <select id="getCampus" resultType="java.lang.String">
+    select campus from solo_table where taketime=#{taketime} group by campus
+  </select>
+  <select id="getSoloBySportIdDesc" resultType="org.wingstudio.sports.domain.Solo">
+    select * from solo_table where sportid=#{sportid} and taketime=#{taketime} and campus=#{campus} and checked=1 order by score desc
+  </select>
+  <select id="getSport" resultType="org.wingstudio.sports.domain.Solo">
+    select * from solo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1
+  </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from solo_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.wingstudio.sports.domain.Solo">
     insert into solo_table (id, sportid, contestantid, 
       gate, remark, score, 
-      taketime, checked)
+      taketime, checked,campus)
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, 
       #{gate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, 
-      #{taketime,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER})
+      #{taketime,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER},#{campus,jdbcType=VARCHAR},#{classes,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.Solo">
     insert into solo_table
@@ -90,6 +104,12 @@
       <if test="checked != null">
         checked,
       </if>
+      <if test="campus != null">
+        campus,
+      </if>
+      <if test="classes != null">
+        classes,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,6 +135,12 @@
       </if>
       <if test="checked != null">
         #{checked,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        #{classes,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

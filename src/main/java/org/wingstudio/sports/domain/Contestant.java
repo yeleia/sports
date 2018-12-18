@@ -24,9 +24,9 @@ public class Contestant {
     @ApiModelProperty("第几届")
     private String currentime;
     @ApiModelProperty("审核")
-    private Integer cheched;
+    private Integer checked;
 
-    public Contestant(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String stunumber, String stuname, String currentime, Integer cheched) {
+    public Contestant(Integer id, Integer sportid, String sportname, String campus, String classes, String profession, String stunumber, String stuname, String currentime, Integer checked) {
         this.id = id;
         this.sportid = sportid;
         this.sportname = sportname;
@@ -36,15 +36,7 @@ public class Contestant {
         this.stunumber = stunumber;
         this.stuname = stuname;
         this.currentime = currentime;
-        this.cheched = cheched;
-    }
-
-    public Integer getCheched() {
-        return cheched;
-    }
-
-    public void setCheched(Integer cheched) {
-        this.cheched = cheched;
+        this.checked = checked;
     }
 
     public Contestant() {
@@ -121,5 +113,13 @@ public class Contestant {
 
     public void setCurrentime(String currentime) {
         this.currentime = currentime == null ? null : currentime.trim();
+    }
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

@@ -12,10 +12,12 @@
       <arg column="score" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, contestantid, gate, remark, groups, score, taketime, checked
+    id, sportid, contestantid, gate, remark, groups, score, taketime, checked,campus,classes
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -38,11 +40,11 @@
   <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
     select count(*) from presolo_table where checked=1 and taketime=#{taketime}
   </select>
-  <select id="getPreSoloBySportId" resultType="org.wingstudio.sports.domain.PreSolo">
-    select * from presolo_table where checked=1 and taketime=#{taketime} order by score desc;
+  <select id="getPreSoloBySportIdDesc" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where checked=1 and sportid=#{sportid} and taketime=#{taketime} and campus=#{campus} order by score desc;
   </select>
   <select id="getPreSoloBySportIdAsc" resultType="org.wingstudio.sports.domain.PreSolo">
-    select * from presolo_table where checked=1 and taketime=#{taketime} order by score
+    select * from presolo_table where checked=1 and sportid=#{sportid} and taketime=#{taketime} and campus=#{campus} order by score
   </select>
     <select id="getAllSolo" resultType="org.wingstudio.sports.domain.PreSolo">
       select * from presolo_table where checked=1 and taketime=#{taketime}
@@ -50,6 +52,18 @@
 
   <select id="getByConId" resultType="org.wingstudio.sports.domain.PreSolo">
     select * from presolo_table where checked=1 and contestantid=#{contestantid}
+  </select>
+  <select id="getTop" resultType="java.lang.String">
+    select taketime from presolo_table order by id desc limit 1
+  </select>
+  <select id="getBySportId" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where sportid=#{sportid} and taketime=#{taketime} and campus=#{campus}
+  </select>
+  <select id="getCampus" resultType="java.lang.String">
+    select campus from presolo_table where taketime=#{taketime} group by campus
+  </select>
+  <select id="getSport" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1
   </select>
 
 
@@ -60,11 +74,11 @@
   <insert id="insert" parameterType="org.wingstudio.sports.domain.PreSolo">
     insert into presolo_table (id, sportid, contestantid, 
       gate, remark, groups, 
-      score, taketime, checked
+      score, taketime, checked,campus,classes
       )
     values (#{id,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, 
       #{gate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{groups,jdbcType=INTEGER}, 
-      #{score,jdbcType=VARCHAR}, #{taketime,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER}
+      #{score,jdbcType=VARCHAR}, #{taketime,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER},#{campus,jdbcType=VARCHAR},#{classes,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.wingstudio.sports.domain.PreSolo">
@@ -97,6 +111,12 @@
       <if test="checked != null">
         checked,
       </if>
+      <if test="campus != null">
+        campus,
+      </if>
+      <if test="classes != null">
+        classes,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -125,6 +145,12 @@
       </if>
       <if test="checked != null">
         #{checked,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        #{classes,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

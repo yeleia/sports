@@ -33,11 +33,20 @@ public interface SoloMapper {
 
     List<Solo> getSoloBySportId(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 
-    List<Solo> getSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 
     void updateCheck(@Param("id") Integer id);
 
     Solo select(@Param("contestantid") Integer contestantid,@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 
     Solo getByConId(@Param("contestantid") Integer contestantid);
+
+    String getTop();
+
+    List<String> getCampus(@Param("taketime") String taketime);
+
+    List<Solo> getSoloBySportIdDesc(@Param("sportid") Integer sportid, @Param("taketime") String taketime, @Param("campus") String campus);
+
+    List<Solo> getSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime, @Param("campus") String campus);
+
+    List<Solo> getSport(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 }

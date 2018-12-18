@@ -46,9 +46,12 @@
     <select id="getSportCount" resultType="java.lang.Integer">
       select count(*) from sport_table where sex=#{sex}
     </select>
+  <select id="getSportBySex" resultType="org.wingstudio.sports.domain.Sport">
+    select * from sport_table where sex=#{sex}
+  </select>
 
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sport_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

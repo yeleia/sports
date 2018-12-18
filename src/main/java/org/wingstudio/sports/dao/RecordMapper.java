@@ -26,4 +26,7 @@ public interface RecordMapper {
     Record getBySportIdConsIds(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid, @Param("taketime") String taketime);
 
     List<Record> getByTaketime(@Param("taketime") String taketime);
+
+    int isExsit(Record record);
+
 }

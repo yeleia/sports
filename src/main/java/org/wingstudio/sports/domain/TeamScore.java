@@ -18,18 +18,22 @@ public class TeamScore {
     private String taketime;
     @ApiModelProperty("是否审核")
     private Integer checked;
+    @ApiModelProperty("校区")
+    private String campus;
+    @ApiModelProperty("学院")
+    private String classes;
     @ApiModelProperty("计算临时变量")
     private Integer temp;
 
-    public TeamScore(Integer id, Integer sportid, Integer teamid, String score, Double finalscore, String taketime, Integer checked) {
-        this.id = id;
-        this.sportid = sportid;
-        this.teamid = teamid;
-        this.score = score;
-        this.finalscore = finalscore;
-        this.taketime = taketime;
-        this.checked = checked;
+    public String getClasses() {
+        return classes;
     }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+
 
     public TeamScore() {
         super();
@@ -97,5 +101,13 @@ public class TeamScore {
 
     public void setTemp(Integer temp) {
         this.temp = temp;
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
     }
 }

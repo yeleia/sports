@@ -112,8 +112,11 @@
     select count(*) from  role_table where sportid=#{sportid} and rank=#{rank} and campus=#{campus}
   </select>
     <select id="getRoleBySportId" resultType="org.wingstudio.sports.domain.Role">
-      select * from role_table where sportid=#{sportid} and campus=#{campus} order by rank
+      select * from role_table where sportid=#{sportid} and campus=#{campus} and rank>0 order by rank
     </select>
+  <select id="getScoreByRank" resultType="java.lang.Double">
+    select addscore from role_table where sportid=#{sportid} and campus=#{campus} and rank=#{rank}
+  </select>
 
 
 </mapper>

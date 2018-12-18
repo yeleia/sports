@@ -10,10 +10,12 @@
       <arg column="finalscore" javaType="java.lang.Double" jdbcType="DOUBLE" />
       <arg column="taketime" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="checked" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="campus" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classes" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, sportid, teamid, score, finalscore, taketime, checked
+    id, sportid, teamid, score, finalscore, taketime, checked,campus,classes
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -48,7 +50,16 @@
     <select id="getByTeamIdSpoid" resultType="org.wingstudio.sports.domain.TeamScore">
       select * from teamscore_table where teamid=#{teamid}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getTop" resultType="java.lang.String">
+      select taketime from teamscore_table order by id desc limit 1
+    </select>
+  <select id="getCampus" resultType="java.lang.String">
+    select campus from teamscore_table where taketime=#{takeTime} group by campus
+  </select>
+  <select id="getByClasses" resultType="java.lang.Double">
+    select finalscore from teamscore_table where classes=#{classes} and taketime=#{taketime} and checked=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from teamscore_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -84,6 +95,12 @@
       <if test="checked != null">
         checked,
       </if>
+      <if test="campus != null">
+        campus,
+      </if>
+      <if test="classes != null">
+        classes,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -106,6 +123,12 @@
       </if>
       <if test="checked != null">
         #{checked,jdbcType=INTEGER},
+      </if>
+      <if test="campus != null">
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        #{classes,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

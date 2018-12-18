@@ -25,4 +25,6 @@ public interface ClassesMapper {
     List<Classes> getAllClasses(@Param("taketime") String taketime);
 
     Classes getByClasses(@Param("classes") String classes, @Param("taketime") String taketime);
+
+
 }

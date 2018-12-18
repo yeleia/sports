@@ -5,9 +5,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.wingstudio.sports.dao.ScoreMapper;
 import org.wingstudio.sports.domain.PreSolo;
+import org.wingstudio.sports.domain.Score;
 import org.wingstudio.sports.domain.Solo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
@@ -15,6 +19,10 @@ import java.util.Map;
 public class AddScoreServiceTest {
     @Autowired
     private ScoreService scoreService;
+    @Autowired
+    private ShowService showService;
+    @Autowired
+    private ScoreMapper scoreMapper;
 
     @Test
     public void addPreScore(){
@@ -47,6 +55,27 @@ public class AddScoreServiceTest {
 
         System.out.println(resultMap.get("preSoloVO"));
         System.out.println(resultMap.get("count"));
+    }
+    @Test
+    public void test1(){
+        showService.getSport(0);
+    }
+    @Test
+    public void patch(){
+        List<Score> scoreList=new ArrayList<>();
+        Score score1=new Score();
+        score1.setSportid(1);
+        score1.setPresoloscore(2.3);
+        Score score2=new Score();
+        score1.setSportid(1);
+        score2.setPresoloscore(2.3);
+        Score score3=new Score();
+        score1.setSportid(1);
+        score3.setPresoloscore(2.3);
+        scoreList.add(score1);
+        scoreList.add(score2);
+        scoreList.add(score3);
+        scoreMapper.insertAndUpdate(scoreList);
     }
 
 }

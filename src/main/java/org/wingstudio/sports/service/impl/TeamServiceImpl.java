@@ -78,7 +78,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Map<String,Object> getTeam(Integer tempPage, Integer pageCapacity,Team team){
         Map<String,Object> resultMap=new LinkedHashMap<>();
-        List<Team> teams=teamMapper.getTeam(tempPage*pageCapacity,pageCapacity,team);
+        List<Team> teams=teamMapper.getTeam(team.getCurrentime(),team.getClasses(),team.getProfession(),tempPage*pageCapacity,pageCapacity);
         resultMap.put("team",teams);
         resultMap.put("count",teams.size());
         return resultMap;

@@ -185,6 +185,12 @@
   <select id="countUp" resultType="java.lang.Integer">
      select count(1) from contestant_table where currentime=#{currentime} and checked=2
   </select>
+    <select id="getClasses" resultType="java.lang.String">
+      select classes from contestant_table where currentime=#{currentime} and checked=1 group by classes
+    </select>
+    <select id="getIByClasses" resultType="java.lang.Integer">
+      select id from contestant_table where classes=#{classes} and currentime=#{currentime} and checked=1
+    </select>
 
 
 </mapper>

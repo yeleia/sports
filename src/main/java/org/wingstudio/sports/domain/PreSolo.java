@@ -3,6 +3,7 @@ package org.wingstudio.sports.domain;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 
 @ApiModel("添加预赛成绩")
 public class PreSolo {
@@ -23,6 +24,10 @@ public class PreSolo {
     private String taketime;
     @ApiModelProperty("审核")
     private Integer checked;
+    @ApiModelProperty("校区")
+    private String campus;
+    @ApiModelProperty("学院")
+    private String classes;
     @ApiModelProperty("计算临时属性")
     private Integer temp;
 
@@ -106,5 +111,19 @@ public class PreSolo {
         this.temp = temp;
     }
 
+    public String getCampus() {
+        return campus;
+    }
 
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
+
+    public String getClasses() {
+        return classes;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
 }

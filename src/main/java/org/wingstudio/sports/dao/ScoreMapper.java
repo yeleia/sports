@@ -22,6 +22,18 @@ public interface ScoreMapper {
 
     List<Score> getAllScore(@Param("taketime") String taketime);
 
-    Score getcount(@Param("currentime") String currentime, @Param("sportid") Integer sportid,@Param("contestantid") Integer contestantid);
+    Score getcount(@Param("taketime") String taketime, @Param("sportid") Integer sportid,@Param("contestantid") Integer contestantid);
+
+    int insertAndUpdate(List<Score> scores);
+
+    int isExsit(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
+
+    Score isExsitAndGet(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
+
+    String getTop();
+
+
+    List<Double> getByContestantId(@Param("contestantid") Integer contestantid, @Param("taketime") String taketime);
+
 
 }

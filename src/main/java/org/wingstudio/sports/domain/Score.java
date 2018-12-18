@@ -1,18 +1,20 @@
 package org.wingstudio.sports.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Score {
     private Integer id;
-
+    @ApiModelProperty("体育项目id")
     private Integer sportid;
-
+    @ApiModelProperty("参赛人员id")
     private Integer contestantid;
-
+    @ApiModelProperty("预赛成绩")
     private Double presoloscore;
-
+    @ApiModelProperty("决赛成绩")
     private Double soloscore;
-
+    @ApiModelProperty("最终成绩")
     private Double finalscore;
-
+    @ApiModelProperty("届数")
     private String taketime;
 
     public Score(Integer id, Integer sportid, Integer contestantid, Double presoloscore, Double soloscore, Double finalscore, String taketime) {

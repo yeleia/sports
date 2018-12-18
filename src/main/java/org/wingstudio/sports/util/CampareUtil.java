@@ -1,5 +1,7 @@
 package org.wingstudio.sports.util;
 
+import org.wingstudio.sports.constant.Common;
+
 public class CampareUtil {
     /**
      * 比较二级运动员标准
@@ -32,7 +34,7 @@ public class CampareUtil {
      * @return
      */
     public static boolean eqRecord(String score,String record,int method){
-        if (method==1){
+        if (method==Common.TIMESORT){
             if (convert(score)<convert(record)){
                 return true;
             }else {

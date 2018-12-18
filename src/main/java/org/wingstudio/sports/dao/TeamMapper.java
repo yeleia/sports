@@ -31,9 +31,9 @@ public interface TeamMapper {
 
     List<Team> getCamSpoid(@Param("campus") String campus, @Param("sportid") Integer sportid,  @Param("currentime") String currentime);
 
-    List<Team> getTeam(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, Team team);
+    List<Team> getTeam(@Param("currentime") String currentime,@Param("classes") String classes,@Param("profession") String profession,@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity);
 
 
-    int updateTeam(Integer id,@Param("checked")Integer checked);
+    int updateTeam(@Param("id") Integer id,@Param("checked")Integer checked);
 
 }

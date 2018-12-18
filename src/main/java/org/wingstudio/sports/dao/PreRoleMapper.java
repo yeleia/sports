@@ -29,4 +29,6 @@ public interface PreRoleMapper {
     int isexist(PreRole role);
 
     List<PreRole> getPreRoleBySportId(@Param("sportid") Integer sportid,@Param("campus")String campus);
+
+    Double getScoreByRank(@Param("sportid") Integer sportid,@Param("campus")String campus,@Param("rank")Integer rank);
 }

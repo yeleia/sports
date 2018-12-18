@@ -145,7 +145,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateTeam">
-    update team_table set checked =#{checked}  where id=#{id} ;
+    update team_table set checked=#{checked} where id=#{id}
   </update>
 
 

@@ -113,11 +113,14 @@
         select count(*) from prerole_table where sportid=#{sportid} and rank=#{rank} and campus=#{campus}
   </select>
     <select id="getPreRoleBySportId" resultType="org.wingstudio.sports.domain.PreRole">
-      select * from prerole_table where sportid=#{sportid} and campus=#{campus} order by rank
+      select * from prerole_table where sportid=#{sportid} and campus=#{campus} and rank>0 order by rank
     </select>
+  <select id="getScoreByRank" resultType="java.lang.Double">
+    select addscore from prerole_table where sportid=#{sportid} and campus=#{campus} and rank=#{rank}
+  </select>
 
 
-    <update id="updatePreRole">
+  <update id="updatePreRole">
     update prerole_table set  addscore=#{addscore}  where id=#{id};
   </update>
 </mapper>

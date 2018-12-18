@@ -20,18 +20,19 @@ public class Solo {
     private String taketime;
     @ApiModelProperty("是否审核")
     private Integer checked;
+    @ApiModelProperty("校区")
+    private String campus;
+    @ApiModelProperty("学院")
+    private String classes;
     @ApiModelProperty("计算临时变量")
     private Integer temp;
 
-    public Solo(Integer id, Integer sportid, Integer contestantid, Integer gate, String remark, String score, String taketime, Integer checked) {
-        this.id = id;
-        this.sportid = sportid;
-        this.contestantid = contestantid;
-        this.gate = gate;
-        this.remark = remark;
-        this.score = score;
-        this.taketime = taketime;
-        this.checked = checked;
+    public String getClasses() {
+        return classes;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
     }
 
     public Solo() {
@@ -108,5 +109,13 @@ public class Solo {
 
     public void setTemp(Integer temp) {
         this.temp = temp;
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
     }
 }

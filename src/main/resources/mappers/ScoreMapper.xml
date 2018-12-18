@@ -25,8 +25,22 @@
       select * from score_table where taketime=#{taketime}
     </select>
     <select id="getcount" resultType="org.wingstudio.sports.domain.Score">
-      select * from score_table where taketime=#{currentime} and sportid=#{sportid} and contestantid=#{contestantid}
+      select * from score_table where taketime=#{taketime} and sportid=#{sportid} and contestantid=#{contestantid}
     </select>
+  <select id="isExsit" resultType="java.lang.Integer">
+    select count(1) from score_table where sportid=#{sportid} and contestantid=#{contestantid} and taketime=#{taketime}
+  </select>
+    <select id="isExsitAndGet" resultType="org.wingstudio.sports.domain.Score">
+    select * from score_table where sportid=#{sportid} and contestantid=#{contestantid} and taketime=#{taketime}
+    </select>
+  <select id="getTop" resultType="java.lang.String">
+    select taketime from score_table order by id desc limit 1
+  </select>
+  <select id="getByContestantId" resultType="java.lang.Double">
+    select finalscore from score_table where contestantid=#{contestantid} and taketime=#{taketime}
+  </select>
+
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from score_table
     where id = #{id,jdbcType=INTEGER}
@@ -88,7 +102,16 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Score">
+    <insert id="insertAndUpdate" parameterType="java.util.List">
+      insert into score_table (sportid, contestantid, presoloscore,  taketime) values
+      <foreach collection="list" item="item" index="index" separator=",">
+        (#{sportid},#{contestantid},#{presoloscore},#{taketime})
+      </foreach>
+      ON DUPLICATE KEY UPDATE
+      presoloscore=#{presoloscore}
+
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.wingstudio.sports.domain.Score">
     update score_table
     <set>
       <if test="sportid != null">

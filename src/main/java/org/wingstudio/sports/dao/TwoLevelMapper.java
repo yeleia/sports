@@ -25,4 +25,7 @@ public interface TwoLevelMapper {
     TwoLevel getBySportIdConsIds(@Param("sportid") Integer sportid,@Param("contestantid") Integer contestantid, @Param("taketime") String taketime);
 
     List<TwoLevel> getByTaketime(@Param("taketime") String taketime);
+
+    int isExsit(TwoLevel twoLevel);
+
 }

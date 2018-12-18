@@ -101,4 +101,8 @@ public class StudentServiceTest {
         System.out.println(studentService.getCCP().get("campus"));
 
     }
+    @Test
+    public void test(){
+        System.out.println(studentService.getContestantByNum("201703844","40届").get(0).getStuname());
+    }
 }

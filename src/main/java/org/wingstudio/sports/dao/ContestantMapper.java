@@ -45,4 +45,7 @@ public interface ContestantMapper {
     int  countUp(@Param("currentime") String currentime);
 
 
+    List<String> getClasses(@Param("currentime") String currentime);
+
+    List<Integer> getIByClasses(@Param("classes") String classes, @Param("currentime") String currentime);
 }

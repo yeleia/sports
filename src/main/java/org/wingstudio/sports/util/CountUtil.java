@@ -18,43 +18,44 @@ public class CountUtil {
     }
 
     public static void main(String[] args) {
-        List<PreSolo> solos=new ArrayList<>();
-        List<PreRole> roles=new ArrayList<>();
-        PreSolo solo=new PreSolo();
+        List<Solo> solos=new ArrayList<>();
+        List<Role> roles=new ArrayList<>();
+        Solo solo=new Solo();
         solo.setSportid(4);
-        solo.setContestantid(2);
+        solo.setContestantid(1);
         solo.setTaketime("23");
-        solo.setScore("1:22");
+        solo.setScore("2:1:5");
         solos.add(solo);
-        PreSolo solo1=new PreSolo();
-        solo1.setScore("1:21");
+        Solo solo1=new Solo();
+        solo1.setScore("2:1:6");
         solo1.setSportid(4);
         solo1.setContestantid(2);
         solo1.setTaketime("23");
         solos.add(solo1);
-        PreSolo solo2=new PreSolo();
-        solo2.setScore("1:21");
+        Solo solo2=new Solo();
+        solo2.setScore("2:1:7");
         solo2.setSportid(4);
-        solo2.setContestantid(2);
+        solo2.setContestantid(3);
         solo2.setTaketime("23");
         solos.add(solo2);
-        PreSolo solo3=new PreSolo();
-        solo3.setScore("1:21");
+        Solo solo3=new Solo();
+        solo3.setScore("2:1:8");
         solo3.setSportid(4);
-        solo3.setContestantid(2);
+        solo3.setContestantid(4);
         solo3.setTaketime("23");
         solos.add(solo3);
-        PreRole role=new PreRole();
+        Role role=new Role();
         role.setAddscore(5.0);
-        role.setRank(0);
+        role.setRank(1);
         roles.add(role);
-        PreRole role1=new PreRole();
+        Role role1=new Role();
         role1.setAddscore(4.0);
-        role1.setRank(1);
+        role1.setRank(2);
         roles.add(role1);
-
-        System.out.println(count(solos,roles).get(3).toString());
-
+        List<Score> scores=countSolo(solos,roles);
+        for (int i = 0; i <scores.size() ; i++) {
+            System.out.println(scores.get(i).getContestantid()+"...."+scores.get(i).getPresoloscore());
+        }
     }
     /**
      * 计算预赛加分,注意分数相等的情况，如果两个成绩相等，则两个成绩的加分是两个等级加分的一半
@@ -158,13 +159,12 @@ public class CountUtil {
         }
         List<Solo> preSolos=new ArrayList<>();//在加分范围内
         List<Solo> preSolos1=new ArrayList<>();//不在加分范围内
-
         Score score[]=new Score[solos.size()];
         for (int i=0;i<solos.size();i++){
             score[i]=new Score();
         }
         for (int i=preSolos.size();i<solos.size();i++){
-            score[i].setSoloscore(0.0);
+            score[i].setPresoloscore(0.0);
         }
         int roleSize=roles.size();
         for (int j=0;j<solos.size();j++){
@@ -192,7 +192,7 @@ public class CountUtil {
                 count=count+1;
                 if (j==preSolos.size()-1){
                     for (int m=j-count+1;m<=j;m++){
-                        score[m].setSoloscore(grade/(count));
+                        score[m].setPresoloscore(grade/(count));
                     }
                 }
             }else {
@@ -200,17 +200,17 @@ public class CountUtil {
                     temp=grade/(count);
 
                     for (int i=j-count;i<j;i++){
-                        score[i].setSoloscore(temp);
+                        score[i].setPresoloscore(temp);
                     }
                     count=0;
                     grade=0;
                 }else {
                     if (j!=0){
-                        score[j-1].setSoloscore(roles.get(j-1).getAddscore());
+                        score[j-1].setPresoloscore(roles.get(j-1).getAddscore());
                     }
                     //如果是最后一个
                     if (j==preSolos.size()-1){
-                        score[j].setSoloscore(roles.get(j).getAddscore());
+                        score[j].setPresoloscore(roles.get(j).getAddscore());
                     }
                 }
                 grade=grade+roles.get(j).getAddscore();
@@ -226,15 +226,54 @@ public class CountUtil {
         return Arrays.asList(score);
     }
     public static List<TeamScore> countTeam(List<TeamScore> solos, List<TeamRole> roles) {
-        for (int i = 0; i < solos.size(); i++) {
+        /*for (int i = 0; i < solos.size(); i++) {
             for(int j=0;j<roles.size();j++){
                 if (solos.get(i).getScore().equals(roles.get(j).getRank())){
                     solos.get(i).setFinalscore(Double.valueOf(roles.get(j).getScore()));
                 }
             }
+        }*/
+        for (int i = 0; i <roles.size() ; i++) {
+            for (int j = 0; j <solos.size() ; j++) {
+                System.out.println(solos.get(j).getScore()+"---"+roles.get(i).getRank());
+                if (solos.get(j).getScore().equals(String.valueOf(roles.get(i).getRank()))){
+                    System.out.println("j");
+                    solos.get(j).setFinalscore(Double.valueOf(roles.get(i).getScore()));
+                }
+            }
         }
         return solos;
     }
+
+  /*  public static void main(String[] args) {
+        List<TeamScore> scores=new ArrayList<>();
+        TeamScore teamScore=new TeamScore();
+        teamScore.setTeamid(1);
+        teamScore.setScore("1");
+        TeamScore teamScore2=new TeamScore();
+        teamScore2.setTeamid(2);
+        teamScore2.setScore("2");
+        TeamScore teamScore3=new TeamScore();
+        teamScore3.setTeamid(2);
+        teamScore3.setScore("2");
+        scores.add(teamScore);
+        scores.add(teamScore2);
+        scores.add(teamScore3);
+        List<TeamRole> teamRoles=new ArrayList<>();
+        TeamRole teamRole=new TeamRole();
+        teamRole.setRank(1);
+        teamRole.setScore(5);
+        teamRoles.add(teamRole);
+        TeamRole teamRole1=new TeamRole();
+        teamRole1.setRank(2);
+        teamRole1.setScore(3);
+        teamRoles.add(teamRole1);
+        List<TeamScore> teamScores=countTeam(scores,teamRoles);
+        for (int i = 0; i <teamScores.size() ; i++) {
+            System.out.println(teamScores.get(i).getTeamid()+"-----"+teamScores.get(i).getFinalscore());
+        }
+
+    }*/
 }
 
 

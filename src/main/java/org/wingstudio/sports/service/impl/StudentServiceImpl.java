@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
         //审核学号和姓名是否对得上
         if (studentMapper.getByNuNa(contestant.getStuname(),contestant.getStunumber())!=null) {
             if (contestantMapper.contestantIsExist(contestant.getSportid(), contestant.getStunumber(), contestant.getCurrentime()) == 0) {
-                contestant.setCheched(Common.NOCHECK);
+                contestant.setChecked(Common.NOCHECK);
                 if (contestantMapper.insert(contestant) > 0) {
                     return ReturnUtil.ret(true, "报名成功");
                 } else {
@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Map<String, Object> updateContestant(Contestant contestant) {
-        contestant.setCheched(Common.UPCHECK);
+        contestant.setChecked(Common.UPCHECK);
         Contestant contestant1=contestantMapper.selectByPrimaryKey(contestant.getId());
         //没有修改参加的项目
         if (contestant.getStunumber().equals(contestant1.getStunumber())&&contestant.getSportid().equals(contestant1.getSportid())){

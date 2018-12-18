@@ -26,4 +26,6 @@ public interface RoleMapper {
     int isExist(Role role);
 
     List<Role> getRoleBySportId(@Param("sportid") Integer sportid,@Param("campus") String campus);
+
+    Double getScoreByRank(@Param("sportid") Integer sportid, @Param("campus") String campus,@Param("rank") int rank);
 }

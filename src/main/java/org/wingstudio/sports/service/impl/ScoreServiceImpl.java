@@ -489,9 +489,9 @@ public class ScoreServiceImpl implements ScoreService {
     private List<Score> count(Integer sportid, String taketime,String campus,int sortrole) {
         List<PreSolo> preSolos=new ArrayList<>();
         if (sortrole==1) {
-             preSolos = preSoloMapper.getPreSoloBySportId(sportid, taketime);
+            // preSolos = preSoloMapper.getPreSoloBySportId(sportid, taketime);
         }else {
-             preSolos = preSoloMapper.getPreSoloBySportIdAsc(sportid, taketime);
+             //preSolos = preSoloMapper.getPreSoloBySportIdAsc(sportid, taketime);
         }
         List<PreRole> preRoles=preRoleMapper.getPreRoleBySportId(sportid,campus);
         List<Score> scores=CountUtil.count(preSolos,preRoles);
@@ -507,7 +507,7 @@ public class ScoreServiceImpl implements ScoreService {
         if (sortrole==1) {
             solos = soloMapper.getSoloBySportId(sportid, taketime);
         }else {
-            solos = soloMapper.getSoloBySportIdAsc(sportid, taketime);
+           // solos = soloMapper.getSoloBySportIdAsc(sportid, taketime);
         }
         List<Role> roles=roleMapper.getRoleBySportId(sportid,campus);
         List<Score> scores=CountUtil.countSolo(solos,roles);
@@ -526,7 +526,6 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     public  List<PreSoloVO> getPreSoloVO(List<PreSolo> preSolo){
-        System.out.println(preSolo.get(0).getScore()+"gggggggggg");
         List<PreSoloVO> preSoloVOS=new ArrayList<>();
         for (int i=0;i<preSolo.size();i++){
             PreSoloVO preSoloVO=new PreSoloVO();
