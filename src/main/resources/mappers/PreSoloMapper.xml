@@ -28,17 +28,11 @@
     <select id="isPreSoloExsit" resultType="java.lang.Integer">
       select count(*) from presolo_table where sportid=#{taketime} and contestantid=#{contestantid} and taketime=#{taketime}
     </select>
-    <select id="getPreSoloNoCheck" resultType="org.wingstudio.sports.domain.PreSolo">
-      select * from presolo_table where checked=0 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+    <select id="getPreSoloByCheck" resultType="org.wingstudio.sports.domain.PreSolo">
+      select * from presolo_table where checked=#{checked} and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
     </select>
-  <select id="getPreSoloNoCheckNu" resultType="java.lang.Integer">
-    select count(*) from presolo_table where checked=0 and taketime=#{taketime}
-  </select>
-  <select id="getPreSoloChecked" resultType="org.wingstudio.sports.domain.PreSolo">
-    select * from presolo_table where checked=1 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
-  </select>
-  <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
-    select count(*) from presolo_table where checked=1 and taketime=#{taketime}
+  <select id="getPreSoloByCheckNu" resultType="java.lang.Integer">
+    select count(*) from presolo_table where checked=#{checked} and taketime=#{taketime}
   </select>
   <select id="getPreSoloBySportIdDesc" resultType="org.wingstudio.sports.domain.PreSolo">
     select * from presolo_table where checked=1 and sportid=#{sportid} and taketime=#{taketime} and campus=#{campus} order by score desc;
@@ -197,7 +191,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="updateCheck">
-      update presolo_table set checked=1 where id=#{id}
+      update presolo_table set checked=#{checked} where id=#{id}
     </update>
 
 

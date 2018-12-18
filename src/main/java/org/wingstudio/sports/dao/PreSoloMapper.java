@@ -23,15 +23,11 @@ public interface PreSoloMapper {
 
     int isPreSoloExsit(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
 
-    List<PreSolo> getPreSoloNoCheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
+    List<PreSolo> getPreSoloByCheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("checked")Integer checked, @Param("taketime") String taketime);
 
-    int getPreSoloNoCheckNu(@Param("taketime") String taketime);
+    int getPreSoloByCheckNu(@Param("checked")Integer checked,@Param("taketime") String taketime);
 
-    List<PreSolo> getPreSoloChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
-
-    int getPreSoloCheckNu(@Param("taketime") String taketime);
-
-    void updateCheck(Integer id);
+    void updateCheck(Integer id,@Param("checked")Integer checked);
 
 
     List<PreSolo> getPreSoloBySportIdDesc(@Param("sportid") Integer sportid,@Param("taketime") String taketime,@Param("campus")String campus);

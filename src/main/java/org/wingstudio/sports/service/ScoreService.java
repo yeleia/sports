@@ -25,7 +25,7 @@ public interface ScoreService {
      * @param id
      * @return
      */
-    Map<String,Object> deletePreSoloScore(Integer id, Integer check);
+    Map<String,Object> deletePreSoloScore(Integer id);
 
     /**
      * 查询没有审核的预赛单项
@@ -58,10 +58,9 @@ public interface ScoreService {
     /**
      * 删除决赛单项成绩
      * @param id
-     * @param check
      * @return
      */
-    Map<String,Object> deleteSoloScore(Integer id,Integer check);
+    Map<String,Object> deleteSoloScore(Integer id);
 
     /**
      * 查询决赛未审核的成绩
@@ -99,10 +98,9 @@ public interface ScoreService {
     /**
      * 删除集项目的成绩
      * @param id
-     * @param check
      * @return
      */
-    Map<String,Object> deleteTeamScore(Integer id,Integer check);
+    Map<String,Object> deleteTeamScore(Integer id);
 
     /**
      * 查询集体项目未审核成绩
@@ -148,10 +146,4 @@ public interface ScoreService {
      */
     Map<String,Object> countAll(String taketime);
 
-    /**
-     * 更新二级运动员和破记录加分规则
-     * @param levelScore
-     * @return
-     */
-    Map<String,Object> updateTwoScore(LevelScore levelScore);
 }

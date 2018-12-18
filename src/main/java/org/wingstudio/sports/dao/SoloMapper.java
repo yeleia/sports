@@ -23,18 +23,15 @@ public interface SoloMapper {
 
     int isSoloExsit(@Param("contestantid") Integer contestantid,@Param("sportid") Integer sportid, @Param("taketime") String taketime);
 
-    List<Solo> getSoloNoCheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
+    List<Solo> getSoloByCheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("checked")Integer checked,@Param("taketime") String taketime);
 
-    int getPreSoloNoCheckNu(@Param("taketime") String taketime);
+    int getPreSoloByCheckNu(@Param("checked")Integer checked,@Param("taketime") String taketime);
 
-    List<Solo> getSoloChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
-
-    int getPreSoloCheckNu(@Param("taketime") String taketime);
 
     List<Solo> getSoloBySportId(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 
 
-    void updateCheck(@Param("id") Integer id);
+    void updateCheck(@Param("id") Integer id,@Param("checked")Integer checked);
 
     Solo select(@Param("contestantid") Integer contestantid,@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 

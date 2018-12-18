@@ -27,18 +27,14 @@
   <select id="isSoloExsit" resultType="java.lang.Integer">
     select count(*) from solo_table where contestantid=#{contestantid} and sportid=#{sportid} and taketime=#{taketime}
   </select>
-    <select id="getSoloNoCheck" resultType="org.wingstudio.sports.domain.Solo">
-      select * from solo_table where checked=0 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+    <select id="getSoloByCheck" resultType="org.wingstudio.sports.domain.Solo">
+      select * from solo_table where checked=#{checked} and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
     </select>
-  <select id="getPreSoloNoCheckNu" resultType="java.lang.Integer">
-    select count(*) from solo_table where checked=0 and taketime=#{taketime}
+  <select id="getPreSoloByCheckNu" resultType="java.lang.Integer">
+    select count(*) from solo_table where checked=#{checked} and taketime=#{taketime}
   </select>
-  <select id="getSoloChecked" resultType="org.wingstudio.sports.domain.Solo">
-    select * from solo_table where checked=1 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
-  </select>
-  <select id="getPreSoloCheckNu" resultType="java.lang.Integer">
-    select count(*) from solo_table where checked=1 and taketime=#{taketime}
-  </select>
+
+
   <select id="getSoloBySportId" resultType="org.wingstudio.sports.domain.Solo">
     select * from solo_table where checked=1 and taketime=#{taketime} order by score desc;
   </select>
@@ -183,7 +179,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateCheck">
-    update solo_table set checked=1 where  id=#{id}
+    update solo_table set checked=#{checked} where  id=#{id}
   </update>
 
 </mapper>

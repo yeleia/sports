@@ -1,5 +1,6 @@
 package org.wingstudio.sports.dao;
 
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.wingstudio.sports.domain.Contestant;
@@ -25,19 +26,17 @@ public interface TeamScoreMapper {
 
     int isTeamScoreExsit(@Param("sportid") Integer sportid, @Param("teamid") Integer teamid, @Param("taketime") String taketime);
 
-    List<TeamScore> getTeamScoreNoCheck(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
+    List<TeamScore> getTeamScoreByCheck(@Param("tempPage")Integer tempPage, @Param("pageCapacity")Integer pageCapacity, @Param("checked")Integer checked, @Param("taketime") String taketime);
 
-    int getTeamScoreNoCheckNu(@Param("taketime") String taketime);
+    int getTeamScoreByCheckNu(@Param("checked")Integer checked,@Param("taketime") String taketime);
 
-    List<TeamScore> getTeamScoreChecked(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity, @Param("taketime") String taketime);
 
-    int getTeamScoreCheckNu(@Param("taketime") String taketime);
 
     List<TeamScore> getTeamBySportId(@Param("sportid") Integer sportid, @Param("taketime") String taketime);
 
     List<TeamScore> getTeamBySportIdAsc(@Param("sportid") Integer sportid, @Param("taketime") String taketime);
 
-    void updateCheck(@Param("id") Integer id);
+    void updateCheck(@Param("id") Integer id,@Param("checked")Integer checked);
 
     TeamScore getcount( @Param("taketime") String taketime, @Param("sportid") Integer sportid, @Param("teamid") Integer teamid);
 

@@ -26,18 +26,13 @@
     <select id="isTeamScoreExsit" resultType="java.lang.Integer">
       select count(*) from teamscore_table where sportid=#{sportid} and teamid=#{teamid} and taketime=#{taketime}
     </select>
-    <select id="getTeamScoreNoCheck" resultType="org.wingstudio.sports.domain.TeamScore">
-      select * from teamscore_table where checked=0 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
+    <select id="getTeamScoreByCheck" resultType="org.wingstudio.sports.domain.TeamScore">
+      select * from teamscore_table where checked=#{checked} and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
     </select>
-  <select id="getTeamScoreNoCheckNu" resultType="java.lang.Integer">
-    select count (*) from teamscore_table where checked=0 and taketime=#{taketime}
+  <select id="getTeamScoreByCheckNu" resultType="java.lang.Integer">
+    select count (*) from teamscore_table where checked=#{checked} and taketime=#{taketime}
   </select>
-  <select id="getTeamScoreChecked" resultType="org.wingstudio.sports.domain.TeamScore">
-    select * from teamscore_table where checked=1 and taketime=#{taketime} limit #{tempPage},#{pageCapacity}
-  </select>
-  <select id="getTeamScoreCheckNu" resultType="java.lang.Integer">
-    select count (*) from teamscore_table where checked=1 and taketime=#{taketime}
-  </select>
+
     <select id="getTeamBySportId" resultType="org.wingstudio.sports.domain.TeamScore">
     select * from teamscore_table where sportid=#{sportid} and taketime=#{taketime} and checked=1
     </select>
@@ -167,7 +162,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateCheck">
-    update teamscore_table set checked=1 where id=#{id}
+    update teamscore_table set checked=#{checked} where id=#{id}
   </update>
 
 </mapper>

@@ -21,20 +21,20 @@ public class ScoreController {
     @Autowired
     private ScoreService scoreService;
 
-    @ApiOperation(value = "添加预赛单项成绩",notes = "sportid,contestantid,gate,remark,group,score,taketime")
+    @ApiOperation(value = "添加预赛单项成绩",notes = "sportid,contestantid,gate,remark,group,score,taketime，campus，classes")
     @RequestMapping(value = "/addPreSoloScore",method = RequestMethod.POST)
     public Map<String,Object> addPreSoloScore(@ModelAttribute PreSolo preSolo){
         return scoreService.addPreSoloScore(preSolo);
     }
-    @ApiOperation(value = "修改预赛单项成绩",notes = "id,sportid,contestantid,gate,remark,group,score,taketime")
+    @ApiOperation(value = "修改预赛单项成绩",notes = "id,sportid,contestantid,gate,remark,group,score,taketime，campus，classes")
     @RequestMapping(value = "/updatePreSoloScore",method = RequestMethod.POST)
     public Map<String,Object> updatePreSoloScore(@ModelAttribute PreSolo preSolo){
         return scoreService.updatePreSoloScore(preSolo);
     }
     @ApiOperation(value = "删除预赛成绩",notes = "id,checked")
     @RequestMapping(value = "/deletePreSoloScore/{id}",method = RequestMethod.DELETE)
-    public Map<String,Object> deletePreSoloScore(@PathVariable("id")Integer id,@RequestParam(value = "checked") Integer checked){
-        return scoreService.deletePreSoloScore(id,checked);
+    public Map<String,Object> deletePreSoloScore(@PathVariable("id")Integer id){
+        return scoreService.deletePreSoloScore(id);
 
     }
     @ApiOperation(value = "查询没有审核的预赛单赛成绩",notes = "tempPage,pageCapacity,taketime")
@@ -42,12 +42,12 @@ public class ScoreController {
     public Map<String,Object> getPreSoloNoCheck(@ModelAttribute Page page, @RequestParam(value = "taketime") String taketime){
         return scoreService.getPreSoloNoCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
-    @ApiOperation(value = "查询已经审核的预赛单项",notes = "")
+    @ApiOperation(value = "查询已经审核的预赛单项",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getPreSoloChecked",method = RequestMethod.GET)
     public Map<String,Object> getPreSoloChecked(@ModelAttribute Page page,@RequestParam(value = "taketime")String taketime){
         return scoreService.getPreSoloChecked(page.getTempPage(),page.getPageCapacity(),taketime);
     }
-    @ApiOperation(value = "添加决赛单项成绩",notes = "sportid,contestantid,gate,remark,score,taketime")
+    @ApiOperation(value = "添加决赛单项成绩",notes = "sportid,contestantid,gate,remark,score,taketime,campus，classes")
     @RequestMapping(value = "/addSoloScore",method = RequestMethod.POST)
     public Map<String,Object> addSoloScore(@ModelAttribute Solo solo){
         return scoreService.addSoloScore(solo);
@@ -59,8 +59,8 @@ public class ScoreController {
     }
     @ApiOperation(value = "删除决赛单项成绩",notes = "id,checked")
     @RequestMapping(value = "/deleteSoloScore/{id}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteSoloScore(@PathVariable("id")Integer id, @RequestParam(value = "checked")Integer checked){
-        return scoreService.deleteSoloScore(id,checked);
+    public Map<String,Object> deleteSoloScore(@PathVariable("id")Integer id){
+        return scoreService.deleteSoloScore(id);
     }
     @ApiOperation(value = "查询决赛未审核的成绩",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getSoloScoreNoCheck",method = RequestMethod.GET)
@@ -72,7 +72,7 @@ public class ScoreController {
     public Map<String,Object> getSoloScoreCheck(@ModelAttribute Page page,@RequestParam(value = "taketime")String taketime){
         return scoreService.getSoloScoreCheck(page.getTempPage(),page.getPageCapacity(),taketime);
     }
-    @ApiOperation(value = "添加集体项目成绩",notes = "sportid,teamid,score,taketime")
+    @ApiOperation(value = "添加集体项目成绩",notes = "sportid,teamid,score,taketime,campus,classes")
     @RequestMapping(value = "/addTeamScore",method = RequestMethod.POST)
     public Map<String,Object> addTeamScore(@ModelAttribute TeamScore teamScore){
         return scoreService.addTeamScore(teamScore);
@@ -82,10 +82,10 @@ public class ScoreController {
     public Map<String,Object> updateTeamScore(@ModelAttribute TeamScore teamScore){
         return scoreService.updateTeamScore(teamScore);
     }
-    @ApiOperation(value = "删除集项目的成绩",notes = "id,checked")
+    @ApiOperation(value = "删除集项目的成绩",notes = "id")
     @RequestMapping(value = "/deleteTeamScore/{id}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteTeamScore(@PathVariable("id")Integer id,@RequestParam(value = "checked")Integer checked){
-        return scoreService.deleteTeamScore(id,checked);
+    public Map<String,Object> deleteTeamScore(@PathVariable("id")Integer id){
+        return scoreService.deleteTeamScore(id);
     }
     @ApiOperation(value = "查询集体项目未审核成绩",notes = "tempPage,pageCapacity,taketime")
     @RequestMapping(value = "/getTeamScoreNoCheck",method = RequestMethod.GET)
@@ -117,11 +117,7 @@ public class ScoreController {
     public Map<String,Object> countAll(@PathVariable("taketime")String taketime){
         return scoreService.countAll(taketime);
     }
-    @ApiOperation(value = "更新二级运动员和破记录加分规则",notes = "id,twolevel,recordlevel")
-    @RequestMapping(value = "updateTwoScore",method = RequestMethod.POST)
-    public Map<String,Object> updateTwoScore(@ModelAttribute LevelScore levelScore){
-        return scoreService.updateTwoScore(levelScore);
-    }
+
 
 
 
