@@ -9,13 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface PreRoleMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(PreRole record);
 
     int insertSelective(PreRole record);
 
-    PreRole selectByPrimaryKey(Integer id);
+    PreRole selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(PreRole record);
 
@@ -24,7 +24,7 @@ public interface PreRoleMapper {
 
     int updatePreRole(PreRole role);
 
-    List<PreRole> getPreRoleList(Integer sportId);
+    List<PreRole> getPreRoleList(@Param("id")Integer sportId);
 
     int isexist(PreRole role);
 

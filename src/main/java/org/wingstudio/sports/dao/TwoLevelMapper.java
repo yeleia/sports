@@ -8,13 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface TwoLevelMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(TwoLevel record);
 
     int insertSelective(TwoLevel record);
 
-    TwoLevel selectByPrimaryKey(Integer id);
+    TwoLevel selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(TwoLevel record);
 

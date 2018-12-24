@@ -7,13 +7,13 @@ import org.wingstudio.sports.domain.TeamRole;
 import java.util.List;
 @Mapper
 public interface TeamRoleMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(TeamRole record);
 
     int insertSelective(TeamRole record);
 
-    TeamRole selectByPrimaryKey(Integer id);
+    TeamRole selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(TeamRole record);
 

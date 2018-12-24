@@ -8,13 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface ContestantMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(Contestant record);
 
     int insertSelective(Contestant record);
 
-    Contestant selectByPrimaryKey(Integer id);
+    Contestant selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(Contestant record);
 
@@ -38,7 +38,7 @@ public interface ContestantMapper {
 
     int countNoCheck(@Param("currentime") String currentime);
 
-    int check(Integer id);
+    int check(@Param("id")Integer id);
 
     List<Contestant> getContestantUp(@Param("tempPage")Integer tempPage,@Param("pageCapacity")Integer pageCapacity,@Param("currentime") String currentime);
 

@@ -9,13 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface SoloMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(Solo record);
 
     int insertSelective(Solo record);
 
-    Solo selectByPrimaryKey(Integer id);
+    Solo selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(Solo record);
 

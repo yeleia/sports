@@ -9,13 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface TeamMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(Team record);
 
     int insertSelective(Team record);
 
-    Team selectByPrimaryKey(Integer id);
+    Team selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(Team record);
 

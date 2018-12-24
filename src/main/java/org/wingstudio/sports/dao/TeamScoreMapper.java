@@ -12,13 +12,13 @@ import java.util.List;
 
 @Mapper
 public interface TeamScoreMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(TeamScore record);
 
     int insertSelective(TeamScore record);
 
-    TeamScore selectByPrimaryKey(Integer id);
+    TeamScore selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(TeamScore record);
 
@@ -29,8 +29,6 @@ public interface TeamScoreMapper {
     List<TeamScore> getTeamScoreByCheck(@Param("tempPage")Integer tempPage, @Param("pageCapacity")Integer pageCapacity, @Param("checked")Integer checked, @Param("taketime") String taketime);
 
     int getTeamScoreByCheckNu(@Param("checked")Integer checked,@Param("taketime") String taketime);
-
-
 
     List<TeamScore> getTeamBySportId(@Param("sportid") Integer sportid, @Param("taketime") String taketime);
 

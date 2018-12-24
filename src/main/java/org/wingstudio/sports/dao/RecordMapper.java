@@ -9,13 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface RecordMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(Record record);
 
     int insertSelective(Record record);
 
-    Record selectByPrimaryKey(Integer id);
+    Record selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(Record record);
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface PreSoloMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id") Integer id);
 
     int insert(PreSolo record);
 
@@ -27,7 +27,7 @@ public interface PreSoloMapper {
 
     int getPreSoloByCheckNu(@Param("checked")Integer checked,@Param("taketime") String taketime);
 
-    void updateCheck(Integer id,@Param("checked")Integer checked);
+    void updateCheck(@Param("id") Integer id,@Param("checked")Integer checked);
 
 
     List<PreSolo> getPreSoloBySportIdDesc(@Param("sportid") Integer sportid,@Param("taketime") String taketime,@Param("campus")String campus);

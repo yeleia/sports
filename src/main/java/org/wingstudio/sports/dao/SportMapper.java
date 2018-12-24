@@ -9,13 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface SportMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(Sport record);
 
     int insertSelective(Sport record);
 
-    Sport selectByPrimaryKey(Integer id);
+    Sport selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(Sport record);
 
@@ -35,7 +35,7 @@ public interface SportMapper {
 
     List<Sport> getSportsBySex(@Param("tempPage") Integer tempPage, @Param("pageCapacity") Integer pageCapacity, @Param("sex")Integer sex);
 
-    int getSportCount(Integer sex);
+    int getSportCount(@Param("sex)")Integer sex);
 
-    List<Sport> getSportBySex(Integer sex);
+    List<Sport> getSportBySex(@Param("sex)")Integer sex);
 }

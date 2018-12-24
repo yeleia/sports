@@ -8,20 +8,20 @@ import java.util.List;
 
 @Mapper
 public interface RoleMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id") Integer id);
 
     int insert(Role record);
 
     int insertSelective(Role record);
 
-    Role selectByPrimaryKey(Integer id);
+    Role selectByPrimaryKey(@Param("id") Integer id);
 
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
 
 
-    List<Role> getRoleList(int sportid);
+    List<Role> getRoleList(@Param("sportid")Integer sportid);
 
     int isExist(Role role);
 

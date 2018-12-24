@@ -8,13 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface ScoreMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     int insert(Score record);
 
     int insertSelective(Score record);
 
-    Score selectByPrimaryKey(Integer id);
+    Score selectByPrimaryKey(@Param("id")Integer id);
 
     int updateByPrimaryKeySelective(Score record);
 
