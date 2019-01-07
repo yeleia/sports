@@ -7,6 +7,7 @@ import org.wingstudio.sports.domain.Record;
 import org.wingstudio.sports.domain.TwoLevel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ShowService {
 
@@ -27,16 +28,16 @@ public interface ShowService {
     /**
      * 根据校区，项目id查找预赛单项前十名
      * @param campus
-     * @param sportId
+
      * @return
      */
-    List<PreSoloVO> getPreSoloVO(String campus,Integer sportId,String currentime);
+    List<PreSoloVO> getPreSoloVO(String campus,String project,Integer sex,String currentime);
     /**
      * 根据项目id查找决赛单项前十名
-     * @param sportId
+     * @param
      * @return
      */
-    List<SoloVO> getSoloVO(Integer sportId, String currentime);
+    List<SoloVO> getSoloVO(String  project, Integer sex, String currentime);
 
     /**
      * 查询所有的学院成绩，并按总分排名
@@ -78,7 +79,12 @@ public interface ShowService {
      * @param taketime
      * @return
      */
-    List<TeamVO> getTeamVO(String campus, Integer sportid,String taketime);
+    List<TeamVO> getTeamVO(String campus, String project,String taketime);
 
-
+    /**
+     * 根据届数获取首页
+     * @param taketime
+     * @return
+     */
+    Map<String,Object> getIndex(String taketime);
 }

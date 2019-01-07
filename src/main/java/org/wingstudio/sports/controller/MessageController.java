@@ -28,12 +28,12 @@ public class MessageController {
     public Map<String,Object> deleteMessage(@PathVariable("id")Integer id){
         return messageService.deleteMessage(id);
     }
-    @ApiOperation(value = "查询为审核的留言",notes = "id")
+    @ApiOperation(value = "查询未审核的留言")
     @RequestMapping(value = "/getNocheck",method = RequestMethod.GET)
     public List<Message> getNocheck(){
         return messageService.getNocheck();
     }
-    @ApiOperation(value = "查询已经审核的留言",notes = "id")
+    @ApiOperation(value = "查询已经审核的留言")
     @RequestMapping(value = "/getCheck",method = RequestMethod.GET)
     public List<Message> getCheck(){
         return messageService.getCheck();

@@ -3,13 +3,16 @@ package org.wingstudio.sports.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wingstudio.sports.VO.*;
+import org.wingstudio.sports.constant.Common;
 import org.wingstudio.sports.dao.*;
 import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.service.ShowService;
 import org.wingstudio.sports.util.ShowCountUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("showService")
 public class ShowServiceImpl implements ShowService {
@@ -33,6 +36,8 @@ public class ShowServiceImpl implements ShowService {
     private TeamMapper teamMapper;
     @Autowired
     private TeamScoreMapper teamScoreMapper;
+    @Autowired
+    private MessageMapper messageMapper;
     @Override
     public List<String> getClasses(String campus) {
         return studentMapper.getClassesByCampus(campus);
@@ -44,10 +49,10 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<PreSoloVO> getPreSoloVO(String campus, Integer sportId,String currentime) {
-        Sport sport=sportMapper.selectByPrimaryKey(sportId);
+    public List<PreSoloVO> getPreSoloVO(String campus, String project,Integer sex,String currentime) {
+        Sport sport=sportMapper.selectByProSex(project,sex);
         List<PreSolo> preSolos=new ArrayList<>();
-        List<Contestant> contestants=contestantMapper.getByCamSpo(campus,sportId,currentime);
+        List<Contestant> contestants=contestantMapper.getByCamSpo(campus,sport.getId(),currentime);
         for (int i = 0; i <contestants.size() ; i++) {
             PreSolo preSolo=preSoloMapper.getByConId(contestants.get(i).getId());
             preSolos.add(preSolo);
@@ -63,9 +68,9 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<SoloVO> getSoloVO(Integer sportId, String currentime) {
-        Sport sport=sportMapper.selectByPrimaryKey(sportId);
-        List<Solo> solos=soloMapper.getSoloBySportId(sportId,currentime);
+    public List<SoloVO> getSoloVO(String  project, Integer sex,String currentime) {
+        Sport sport=sportMapper.selectByProSex(project,sex);
+        List<Solo> solos=soloMapper.getSoloBySportId(sport.getId(),currentime);
         //排序  0 距离排序，1 时间排序
         List<SoloVO> soloVOS=ShowCountUtil.countSolo(solos,sport.getSortrule());
         for (int i = 0; i <soloVOS.size(); i++) {
@@ -152,7 +157,7 @@ public class ShowServiceImpl implements ShowService {
             }else {
                 recordVO.setNature("决赛");
             }
-            if (sport.getSex()==0){
+            if (sport.getSex()==Common.M){
                 recordVO.setSex("男");
             }else {
                 recordVO.setSex("女");
@@ -179,7 +184,7 @@ public class ShowServiceImpl implements ShowService {
             }else {
                 twoLevelVO.setNature("决赛");
             }
-            if (sport.getSex()==0){
+            if (sport.getSex()==Common.M){
                 twoLevelVO.setSex("男");
             }else {
                 twoLevelVO.setSex("女");
@@ -190,8 +195,9 @@ public class ShowServiceImpl implements ShowService {
     }
 //添加集体项目时，添加的是几等奖
     @Override
-    public List<TeamVO> getTeamVO(String campus, Integer sportid, String taketime) {
-        List<Team> teams=teamMapper.getCamSpoid(campus,sportid,taketime);
+    public List<TeamVO> getTeamVO(String campus, String project, String taketime) {
+        Sport sport=sportMapper.selectByProSex(project,Common.T);
+        List<Team> teams=teamMapper.getCamSpoid(campus,sport.getId(),taketime);
         List<TeamScore> teamScores=new ArrayList<>();
         for (int i = 0; i <teams.size() ; i++) {
             TeamScore teamScore=teamScoreMapper.getByTeamIdSpoid(teams.get(i).getId());
@@ -208,5 +214,55 @@ public class ShowServiceImpl implements ShowService {
             teamVOS.add(teamVO);
         }
         return teamVOS;
+    }
+
+    @Override
+    public Map<String, Object> getIndex(String taketime) {
+        Map<String,Object> all=new LinkedHashMap<>();
+        //获取学院总成绩
+        List<Classes> classesAll=classesMapper.getClasese(taketime);
+        /*List<String> campus=preSoloMapper.getCampus(taketime);
+        for (int i = 0; i <campus.size() ; i++) {
+            List<String> classes=preSoloMapper.getClasses(campus.get(i),taketime);
+            for (int j = 0; j <classes.size() ; j++) {
+                classesAll.add(classesMapper.getByClasses(classes.get(j),taketime));
+            }
+        }*/
+
+        all.put("classes",classesAll);
+        //学院成绩排名
+        all.put("classesSort",classesSort(classesMapper.getAllClasses(taketime)));
+        //破校记录名单
+        all.put("record",getRecord(taketime));
+        //达到二级运动员标准
+        all.put("twoLevel",getTwoLevel(taketime));
+        //预赛一百米男生
+        all.put("presolo",getPreSoloVO("雅安校区","100米",Common.M,taketime));
+        //决赛一百米男生
+        all.put("solo",getSoloVO("100米",Common.M,taketime));
+        //集体项目
+        all.put("team",getTeamVO("雅安校区",sportMapper.getTeamTop(Common.T),taketime));
+        //查询留言
+        all.put("message",messageMapper.getCheck());
+        //获取单项体育项目
+        all.put("sport",sportMapper.getSportBySex(Common.M));
+        //获取集体项目
+        all.put("teamSport",sportMapper.getSportBySex(Common.T));
+        return all;
+    }
+
+    private List<Classes> classesSort(List<Classes> classesAll) {
+        int temp=1;
+        for (int i = 0; i < classesAll.size(); i++) {
+            if (i==0){
+                classesAll.get(i).setId(temp);
+            }else if (classesAll.get(i).getScore().equals(classesAll.get(i-1).getScore())){
+                classesAll.get(i).setId(temp--);
+            }else {
+                classesAll.get(i).setId(temp);
+            }
+            temp++;
+        }
+        return classesAll;
     }
 }

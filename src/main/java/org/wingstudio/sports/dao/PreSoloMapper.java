@@ -46,4 +46,8 @@ public interface PreSoloMapper {
     List<String> getCampus(@Param("taketime")String taketime);
 
     List<PreSolo> getSport(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    List<String> getClasses(@Param("campus") String campus,@Param("taketime") String taketime);
+
+   
 }

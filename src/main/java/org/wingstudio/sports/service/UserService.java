@@ -209,4 +209,32 @@ public interface UserService {
      * @return
      */
     int getSportCount(Integer sex);
+
+    /**
+     * 添加届数
+     * @param history
+     * @return
+     */
+
+    Map<String,Object> addHistory(History history);
+
+    /**
+     * 修改主题
+     * @param history
+     * @return
+     */
+    Map<String,Object> updateTheme(History history);
+
+    /**
+     * 删除届数
+     * @param id
+     * @return
+     */
+    Map<String,Object> deleteHistory(Integer id);
+
+    /**
+     * 获取所有届数
+     * @return
+     */
+    List<History> getAllHistory();
 }

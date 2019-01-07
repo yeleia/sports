@@ -2,6 +2,7 @@ package org.wingstudio.sports.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.wingstudio.sports.domain.*;
@@ -213,6 +214,24 @@ public class UserController {
     public Map<String,Object> getTeamNoCheckUp(@ModelAttribute Page page,@RequestParam(value = "currentime")String currentime){
         return teamService.getTeamNoCheckUp(page.getTempPage(),page.getPageCapacity(),currentime);
     }
-
-
+    @ApiOperation(value = "添加届数",notes = "taketime(届数），theme（主题）")
+    @RequestMapping(value = "/addHistory",method = RequestMethod.POST)
+    public Map<String,Object> addHistory(@ModelAttribute History history){
+        return userService.addHistory(history);
+    }
+    @ApiOperation(value = "修改主题",notes = "id,theme（主题）")
+    @RequestMapping(value = "/updateTheme",method = RequestMethod.POST)
+    public Map<String,Object> updateTheme(@ModelAttribute History history){
+        return userService.updateTheme(history);
+    }
+    @ApiOperation(value = "删除届数",notes = "id")
+    @RequestMapping(value = "/deleHistory/{id}",method = RequestMethod.POST)
+    public Map<String,Object> deleteHis(@PathVariable(value = "id")Integer id){
+        return userService.deleteHistory(id);
+    }
+    @ApiOperation(value = "获取届数")
+    @RequestMapping(value = "/getAllHistory",method = RequestMethod.GET)
+    public List<History> getAllHistory(){
+        return userService.getAllHistory();
+    }
 }

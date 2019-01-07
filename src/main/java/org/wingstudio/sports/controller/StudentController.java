@@ -88,7 +88,6 @@ public class StudentController {
         List<Sport> sports=userService.getSportBySex(page.getTempPage(),page.getPageCapacity(),sex);
         int count=userService.getSportCount(sex);
         result.put("sport",sports);
-
         result.put("count",count);
         return result;
     }

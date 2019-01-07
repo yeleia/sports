@@ -317,4 +317,35 @@ public class UserServiceImpl implements UserService {
         return sportMapper.getSportCount(sex);
     }
 
+    @Override
+    public Map<String, Object> addHistory(History history) {
+        try {
+            historyMapper.insertSelective(history);
+            return ReturnUtil.ret(true,"添加成功");
+
+        }catch (Exception e){
+            return ReturnUtil.ret(false,"添加失败");
+        }
+    }
+
+    @Override
+    public Map<String, Object> updateTheme(History history) {
+       if ( historyMapper.updateByPrimaryKeySelective(history)>0){
+            return ReturnUtil.ret(true,"修改成功");
+        }else{
+            return ReturnUtil.ret(false,"修改失败");
+        }
+    }
+
+    @Override
+    public Map<String, Object> deleteHistory(Integer id) {
+        historyMapper.deleteByPrimaryKey(id);
+        return ReturnUtil.ret(true,"删除成功");
+    }
+
+    @Override
+    public List<History> getAllHistory() {
+        return historyMapper.getAllHistory();
+    }
+
 }

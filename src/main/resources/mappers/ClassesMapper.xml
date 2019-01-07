@@ -24,6 +24,10 @@
   <select id="getByClasses" resultType="org.wingstudio.sports.domain.Classes">
     select * from classes_table where classes=#{classes} and taketime=#{taketime}
   </select>
+  <select id="getClasese" resultType="org.wingstudio.sports.domain.Classes">
+    select * from classes_table where teketime=#{taketime}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from classes_table
     where id = #{id,jdbcType=INTEGER}
