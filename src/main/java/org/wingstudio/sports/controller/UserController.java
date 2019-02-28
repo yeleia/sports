@@ -34,7 +34,7 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "添加校运动会体育项目",notes = "添加体育项目操作，输入限制，校记录，二级运动员标准可以为null")
+    @ApiOperation(value = "添加校运动会体育项目",notes = "添加体育项目操作，输入限制，校记录，二级运动员标准不为null")
     @RequestMapping(value = "/addSport",method = RequestMethod.POST)
     public Map<String,Object> addSport(Sport sport){
         return userService.addSport(sport);

@@ -41,7 +41,7 @@ public class CampareUtil {
                 return false;
             }
         }else {
-            if (Double.valueOf(score)>Double.valueOf(record)){
+            if (record!=null&&Double.valueOf(score)>Double.valueOf(record)){
                 return true;
             }else {
                 return false;

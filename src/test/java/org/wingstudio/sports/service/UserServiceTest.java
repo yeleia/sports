@@ -21,6 +21,12 @@ import java.util.List;
 public class UserServiceTest {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ShowService showService;
+    @Test
+    public void testIndex(){
+        showService.getIndex("39届");
+    }
     @Test
     @Transactional
     public void addSportTest(){
@@ -88,6 +94,10 @@ public class UserServiceTest {
     @Test
     public void getPreRoleList(){
         System.out.println(userService.getPreRoleList(4));
+    }
+    @Test
+    public void getProRole(){
+        System.out.println(userService.getPreRoleList(7).get(0).getRank()+"hhhh");
     }
     @Test
     public void getSportId(){

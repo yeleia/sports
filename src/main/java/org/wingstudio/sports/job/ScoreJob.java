@@ -9,7 +9,9 @@ import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.util.CampareUtil;
 import org.wingstudio.sports.util.CountUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,8 +45,16 @@ public class ScoreJob {
     @Autowired
     private ClassesMapper classesMapper;
 
+
+    @Scheduled(cron="0 */5 * * * ?")
+    public void count(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        System.out.println("count"+df.format(new Date()));
+        countPreSolo();
+        countFinal();
+        countAll();
+    }
     //预赛加分
-   // @Scheduled(fixedRate=3000*20)
     public void countPreSolo(){
         //根据性别获取体育项目，分项目分性别分校区计算预赛单项成绩
         //查询男子组单项项目并计算

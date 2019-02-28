@@ -50,35 +50,52 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public List<PreSoloVO> getPreSoloVO(String campus, String project,Integer sex,String currentime) {
-        Sport sport=sportMapper.selectByProSex(project,sex);
-        List<PreSolo> preSolos=new ArrayList<>();
-        List<Contestant> contestants=contestantMapper.getByCamSpo(campus,sport.getId(),currentime);
-        for (int i = 0; i <contestants.size() ; i++) {
-            PreSolo preSolo=preSoloMapper.getByConId(contestants.get(i).getId());
-            preSolos.add(preSolo);
+             Sport sport = sportMapper.selectByProSex(project, sex);
+             if (sport!=null){
+            List<PreSolo> preSolos = new ArrayList<>();
+            List<Contestant> contestants = contestantMapper.getByCamSpo(campus, sport.getId(), currentime);
+            for (int i = 0; i < contestants.size(); i++) {
+                System.out.println(contestants.get(i).getStuname());
+                PreSolo preSolo = preSoloMapper.getByConId(contestants.get(i).getId());
+                if (preSolo!=null) {
+                    preSolos.add(preSolo);
+                }
+            }
+
+            //排序  0 距离排序，1 时间排序
+            List<PreSoloVO> preSoloVOS = ShowCountUtil.countPreSolo(preSolos, sport.getSortrule());
+            for (int i = 0; i < preSoloVOS.size(); i++) {
+                Contestant contestant = contestantMapper.selectByPrimaryKey(preSoloVOS.get(i).getContestantid());
+                preSoloVOS.get(i).setStunumber(contestant.getStunumber());
+                preSoloVOS.get(i).setStuname(contestant.getStuname());
+                preSoloVOS.get(i).setClasses(contestant.getClasses());
+                preSoloVOS.get(i).setProfession(contestant.getProfession());
+            }
+            return preSoloVOS;
+        }else {
+            return null;
         }
-        //排序  0 距离排序，1 时间排序
-        List<PreSoloVO> preSoloVOS=ShowCountUtil.countPreSolo(preSolos,sport.getSortrule());
-        for (int i=0;i<preSoloVOS.size();i++){
-            Contestant contestant=contestantMapper.selectByPrimaryKey(preSoloVOS.get(i).getContestantid());
-            preSoloVOS.get(i).setStunumber(contestant.getStunumber());
-            preSoloVOS.get(i).setStuname(contestant.getStuname());
-        }
-        return preSoloVOS;
     }
 
     @Override
     public List<SoloVO> getSoloVO(String  project, Integer sex,String currentime) {
         Sport sport=sportMapper.selectByProSex(project,sex);
-        List<Solo> solos=soloMapper.getSoloBySportId(sport.getId(),currentime);
-        //排序  0 距离排序，1 时间排序
-        List<SoloVO> soloVOS=ShowCountUtil.countSolo(solos,sport.getSortrule());
-        for (int i = 0; i <soloVOS.size(); i++) {
-            Contestant contestant=contestantMapper.selectByPrimaryKey(soloVOS.get(i).getContestantid());
-            soloVOS.get(i).setStunumber(contestant.getStunumber());
-            soloVOS.get(i).setStuname(contestant.getStuname());
+        if (sport!=null) {
+            List<Solo> solos = soloMapper.getSoloBySportId(sport.getId(), currentime);
+            //排序  0 距离排序，1 时间排序
+            List<SoloVO> soloVOS = ShowCountUtil.countSolo(solos, sport.getSortrule());
+            for (int i = 0; i < soloVOS.size(); i++) {
+                Contestant contestant = contestantMapper.selectByPrimaryKey(soloVOS.get(i).getContestantid());
+                soloVOS.get(i).setStunumber(contestant.getStunumber());
+                soloVOS.get(i).setStuname(contestant.getStuname());
+                soloVOS.get(i).setProfession(contestant.getProfession());
+                soloVOS.get(i).setClasses(contestant.getClasses());
+
+            }
+            return soloVOS;
+        }else {
+            return null;
         }
-        return soloVOS;
     }
 
     @Override
@@ -123,7 +140,7 @@ public class ShowServiceImpl implements ShowService {
                 queryVO.setCampus(contestant.get(0).getCampus());
                 queryVO.setNature("预赛");
                 queryVO.setStuName(contestant.get(0).getStuname());
-                queryVO.setSportname(sportMapper.getSportNameById(preSolos.get(i).getSportid()));
+                queryVO.setSportname(sportMapper.getSportNameById(contestant.get(0).getSportid()));
                 queryVOS.add(queryVO);
             }
             for (int i = 0; i <solos.size() ; i++) {
@@ -150,6 +167,8 @@ public class ShowServiceImpl implements ShowService {
             recordVO.setSportname(sport.getProject());
             Contestant contestant=contestantMapper.selectByPrimaryKey(record.get(i).getContestantid());
             recordVO.setClasses(contestant.getClasses());
+            recordVO.setProfession(contestant.getProfession());
+            recordVO.setStunumber(contestant.getStunumber());
             recordVO.setStuname(contestant.getStuname());
             recordVO.setScore(preSoloMapper.getByConId(record.get(i).getContestantid()).getScore());
             if (record.get(i).getMark()==0){
@@ -178,6 +197,8 @@ public class ShowServiceImpl implements ShowService {
             Contestant contestant=contestantMapper.selectByPrimaryKey(twoLevels.get(i).getContestantid());
             twoLevelVO.setClasses(contestant.getClasses());
             twoLevelVO.setStuname(contestant.getStuname());
+            twoLevelVO.setStunumber(contestant.getStunumber());
+            twoLevelVO.setProfession(contestant.getProfession());
             twoLevelVO.setScore(preSoloMapper.getByConId(twoLevels.get(i).getContestantid()).getScore());
             if (twoLevels.get(i).getMark()==0){
                 twoLevelVO.setNature("预赛");
@@ -201,7 +222,9 @@ public class ShowServiceImpl implements ShowService {
         List<TeamScore> teamScores=new ArrayList<>();
         for (int i = 0; i <teams.size() ; i++) {
             TeamScore teamScore=teamScoreMapper.getByTeamIdSpoid(teams.get(i).getId());
-            teamScores.add(teamScore);
+            if (teamScore!=null) {
+                teamScores.add(teamScore);
+            }
         }
         List<TeamVO> teamVOS=new ArrayList<>();
         for (int i = 0; i <teamScores.size() ; i++) {

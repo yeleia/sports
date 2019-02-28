@@ -39,7 +39,7 @@ public class ShowController {
         return messageService.getCheck();
     }
     @ApiOperation(value = "获取所有届数")
-    @RequestMapping(value = "/getAllNu")
+    @RequestMapping(value = "/getAllNu",method = RequestMethod.GET)
     public List<History> getAllNu(){
         return userService.getAllHistory();
     }
@@ -64,7 +64,7 @@ public class ShowController {
         return showService.getTeamVO(campus,project,taketime);
     }
     @ApiOperation(value = "根据学号查询",notes = "stunum,taketime")
-    @RequestMapping(value = "queryNu",method = RequestMethod.GET)
+    @RequestMapping(value = "/queryNu",method = RequestMethod.GET)
     public List<QueryVO> getQuery(@RequestParam("stunu")String stunu,@RequestParam("taketime")String taketime){
         return showService.getQuery(stunu,taketime);
     }

@@ -15,6 +15,10 @@ public class PreSoloVO {
     private String stuname;
     @ApiModelProperty("参赛人员学号")
     private String stunumber;
+    @ApiModelProperty("学院")
+    private String classes;
+    @ApiModelProperty("专业")
+    private String profession;
     @ApiModelProperty("道次")
     private Integer gate;
     @ApiModelProperty("备注")
@@ -25,6 +29,23 @@ public class PreSoloVO {
     private String score;
     @ApiModelProperty("名次")
     private Integer rank;
+
+    public String getClasses() {
+
+        return classes;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
 
     public Integer getId() {
         return id;
@@ -104,5 +125,23 @@ public class PreSoloVO {
 
     public void setRank(Integer rank) {
         this.rank = rank;
+    }
+
+    @Override
+    public String toString() {
+        return "PreSoloVO{" +
+                "id=" + id +
+                ", sportname='" + sportname + '\'' +
+                ", contestantid=" + contestantid +
+                ", stuname='" + stuname + '\'' +
+                ", stunumber='" + stunumber + '\'' +
+                ", classes='" + classes + '\'' +
+                ", profession='" + profession + '\'' +
+                ", gate=" + gate +
+                ", remark='" + remark + '\'' +
+                ", groups=" + groups +
+                ", score='" + score + '\'' +
+                ", rank=" + rank +
+                '}';
     }
 }

@@ -24,7 +24,7 @@ public interface PreRoleMapper {
 
     int updatePreRole(PreRole role);
 
-    List<PreRole> getPreRoleList(@Param("id")Integer sportId);
+    List<PreRole> getPreRoleList(@Param("sportid")Integer sportId);
 
     int isexist(PreRole role);
 

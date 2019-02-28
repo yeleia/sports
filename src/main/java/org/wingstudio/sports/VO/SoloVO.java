@@ -16,6 +16,10 @@ public class SoloVO {
     private String stuname;
     @ApiModelProperty("参赛人员学号")
     private String stunumber;
+    @ApiModelProperty("学院")
+    private String classes;
+    @ApiModelProperty("专业")
+    private String profession;
     @ApiModelProperty("道次")
     private Integer gate;
     @ApiModelProperty("备注")
@@ -25,6 +29,22 @@ public class SoloVO {
 
     @ApiModelProperty("成绩")
     private String score;
+
+    public String getClasses() {
+        return classes;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
 
     public Integer getId() {
         return id;
@@ -97,5 +117,22 @@ public class SoloVO {
 
     public void setRank(Integer rank) {
         this.rank = rank;
+    }
+
+    @Override
+    public String toString() {
+        return "SoloVO{" +
+                "id=" + id +
+                ", sportname='" + sportname + '\'' +
+                ", contestantid=" + contestantid +
+                ", stuname='" + stuname + '\'' +
+                ", stunumber='" + stunumber + '\'' +
+                ", classes='" + classes + '\'' +
+                ", profession='" + profession + '\'' +
+                ", gate=" + gate +
+                ", remark='" + remark + '\'' +
+                ", rank=" + rank +
+                ", score='" + score + '\'' +
+                '}';
     }
 }

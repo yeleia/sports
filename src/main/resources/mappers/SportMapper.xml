@@ -55,6 +55,9 @@
   <select id="getTeamTop" resultType="java.lang.String">
     select project from sport_table where sex=#{sex} limit 1
   </select>
+  <select id="selectByPro" resultType="org.wingstudio.sports.domain.Sport">
+    select * from  sport_table where project=#{project}
+  </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

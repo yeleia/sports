@@ -5,9 +5,27 @@ public class TwoLevelVO {
     private String stuname;
     private String sex;
     private String score;
+    private String profession;
+    private String stunumber;
     private String classes;
     //赛制
     private String nature;
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getStunumber() {
+        return stunumber;
+    }
+
+    public void setStunumber(String stunumber) {
+        this.stunumber = stunumber;
+    }
 
     public String getSportname() {
         return sportname;

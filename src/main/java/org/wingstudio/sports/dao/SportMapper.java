@@ -31,7 +31,7 @@ public interface SportMapper {
 
     List<SportVO> getSportName(@Param("sex") Integer sex);
 
-    String getSportNameById(@Param("id") Integer sportid);
+    String getSportNameById(@Param("sportid") Integer sportid);
 
     List<Sport> getSportsBySex(@Param("tempPage") Integer tempPage, @Param("pageCapacity") Integer pageCapacity, @Param("sex")Integer sex);
 
@@ -39,7 +39,10 @@ public interface SportMapper {
 
     List<Sport> getSportBySex(@Param("sex")Integer sex);
 
-    Sport selectByProSex(@Param("project")String project, @Param("sex")Integer sex);
+   Sport selectByProSex(@Param("project")String project, @Param("sex")Integer sex);
 
     String  getTeamTop(@Param("sex")Integer sex);
+
+
+    List<Sport> selectByPro(@Param("project")String project);
 }

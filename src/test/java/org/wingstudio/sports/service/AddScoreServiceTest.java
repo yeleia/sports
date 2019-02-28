@@ -9,6 +9,7 @@ import org.wingstudio.sports.dao.ScoreMapper;
 import org.wingstudio.sports.domain.PreSolo;
 import org.wingstudio.sports.domain.Score;
 import org.wingstudio.sports.domain.Solo;
+import org.wingstudio.sports.domain.Sport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class AddScoreServiceTest {
     private ShowService showService;
     @Autowired
     private ScoreMapper scoreMapper;
+    @Autowired
+    private UserService userService;
 
     @Test
     public void addPreScore(){
@@ -76,6 +79,19 @@ public class AddScoreServiceTest {
         scoreList.add(score2);
         scoreList.add(score3);
         scoreMapper.insertAndUpdate(scoreList);
+    }
+    @Test
+    public void addSport(){
+        Sport sport=new Sport();
+        sport.setProject("800米");
+        sport.setSex(0);
+        sport.setTwolevel("20");
+        sport.setRecord("12");
+        sport.setInmin("19");
+        sport.setInmax("20");
+        sport.setSortrule(0);
+        System.out.println(userService.addSport(sport));
+
     }
 
 }

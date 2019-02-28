@@ -27,6 +27,7 @@ public class StudentServiceTest {
         contestant.setStunumber("20158618");
         contestant.setStuname("叶磊");
         contestant.setSportid(4);
+        contestant.setCurrentime("40届   ");
         System.out.println(studentService.addContestant(contestant));
     }
     @Test

@@ -21,6 +21,7 @@ public class ShowCountUtil {
         List<PreSoloVO> preSoloVOS=new ArrayList<>();
         //先排序后复制
         if (sortrule==0){
+
             Collections.sort(preSolos, new Comparator<PreSolo>() {
                 @Override
                 public int compare(PreSolo o1, PreSolo o2) {

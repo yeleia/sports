@@ -126,4 +126,22 @@ public class PreSolo {
     public void setClasses(String classes) {
         this.classes = classes;
     }
+
+    @Override
+    public String toString() {
+        return "PreSolo{" +
+                "id=" + id +
+                ", sportid=" + sportid +
+                ", contestantid=" + contestantid +
+                ", gate=" + gate +
+                ", remark='" + remark + '\'' +
+                ", groups=" + groups +
+                ", score='" + score + '\'' +
+                ", taketime='" + taketime + '\'' +
+                ", checked=" + checked +
+                ", campus='" + campus + '\'' +
+                ", classes='" + classes + '\'' +
+                ", temp=" + temp +
+                '}';
+    }
 }

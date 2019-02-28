@@ -25,6 +25,22 @@ public class TeamScore {
     @ApiModelProperty("计算临时变量")
     private Integer temp;
 
+    @Override
+    public String toString() {
+        return "TeamScore{" +
+                "id=" + id +
+                ", sportid=" + sportid +
+                ", teamid=" + teamid +
+                ", score='" + score + '\'' +
+                ", finalscore=" + finalscore +
+                ", taketime='" + taketime + '\'' +
+                ", checked=" + checked +
+                ", campus='" + campus + '\'' +
+                ", classes='" + classes + '\'' +
+                ", temp=" + temp +
+                '}';
+    }
+
     public String getClasses() {
         return classes;
     }

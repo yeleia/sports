@@ -49,5 +49,5 @@ public interface PreSoloMapper {
 
     List<String> getClasses(@Param("campus") String campus,@Param("taketime") String taketime);
 
-   
+
 }

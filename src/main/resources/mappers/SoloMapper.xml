@@ -36,7 +36,7 @@
 
 
   <select id="getSoloBySportId" resultType="org.wingstudio.sports.domain.Solo">
-    select * from solo_table where checked=1 and taketime=#{taketime} order by score desc;
+    select * from solo_table where checked=1 and sportid=#{sportid} and taketime=#{taketime} order by score desc;
   </select>
   <select id="getSoloBySportIdAsc" resultType="org.wingstudio.sports.domain.Solo">
     select * from solo_table where checked=1 and taketime=#{taketime} and sportid=#{sportid} and campus=#{campus} order by score ;
