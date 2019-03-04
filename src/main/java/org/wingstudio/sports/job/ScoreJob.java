@@ -3,6 +3,7 @@ package org.wingstudio.sports.job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.wingstudio.sports.constant.Common;
 import org.wingstudio.sports.dao.*;
 import org.wingstudio.sports.domain.*;
@@ -46,7 +47,7 @@ public class ScoreJob {
     private ClassesMapper classesMapper;
 
 
-    @Scheduled(cron="0 */5 * * * ?")
+    @Scheduled(cron="0 */3 * * * ?")
     public void count(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         System.out.println("count"+df.format(new Date()));
@@ -104,9 +105,13 @@ public class ScoreJob {
         String takeTime=scoreMapper.getTop();
         List<Score> scores=scoreMapper.getAllScore(takeTime);
         for (int i = 0; i <scores.size() ; i++) {
-            if (scores.get(i).getPresoloscore()>scores.get(i).getSoloscore()){
+            if (!(StringUtils.isEmpty(scores.get(i).getPresoloscore()))&&!(StringUtils.isEmpty(scores.get(i).getSoloscore()))&&scores.get(i).getPresoloscore()>scores.get(i).getSoloscore()){
+                System.out.println("dssd"+scores.get(i).getPresoloscore());
                 scores.get(i).setFinalscore(scores.get(i).getPresoloscore());
-            }else {
+            }else if (StringUtils.isEmpty(scores.get(i).getSoloscore())) {
+                scores.get(i).setFinalscore(scores.get(i).getPresoloscore());
+            }else{
+                System.out.println("aaa"+scores.get(i).getSoloscore());
                 scores.get(i).setFinalscore(scores.get(i).getSoloscore());
             }
         }
@@ -122,20 +127,28 @@ public class ScoreJob {
             for (int j = 0; j <contestants.size() ; j++) {
                 List<Double> scoreList=scoreMapper.getByContestantId(contestants.get(j),takeTime);
                 for (int k = 0; k <scoreList.size() ; k++) {
-                    count=count+scoreList.get(k);
+                    if (!StringUtils.isEmpty(scoreList.get(k))) {
+                        System.out.println(scoreList.get(k)+"hhh");
+                        count = count + scoreList.get(k);
+                    }
                 }
             }
+            System.out.println(count+"a");
             List<Double> teamScores=teamScoreMapper.getByClasses(classes.get(i),takeTime);
             for (int j = 0; j <teamScores.size() ; j++) {
                 count=count+teamScores.get(j);
             }
+            System.out.println(count+"b");
             Classes classes1=new Classes();
             classes1.setTeketime(takeTime);
             classes1.setScore(count);
             classes1.setClasses(classes.get(i));
             if (classesMapper.getByClasses(classes.get(i),takeTime)!=null){
-                classesMapper.updateByPrimaryKeySelective(classes1);
+                //System.out.println("??uu");
+               // System.out.println(classes1.getScore());
+                classesMapper.updateClasses(classes1);
             }else {
+                //System.out.println("????");
                 classesMapper.insertSelective(classes1);
             }
 

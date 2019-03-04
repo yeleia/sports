@@ -62,9 +62,13 @@
     <select id="getClasses" resultType="java.lang.String">
       select classes from presolo_table where campus=#{campus} and taketime=#{taketime} and checked=1 group by classes
     </select>
-
-
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getBySportIdAsc" resultType="org.wingstudio.sports.domain.PreSolo">
+      select * from presolo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1   order by score asc
+    </select>
+  <select id="getBySportIdDesc" resultType="org.wingstudio.sports.domain.PreSolo">
+    select * from presolo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1  order by score desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from presolo_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

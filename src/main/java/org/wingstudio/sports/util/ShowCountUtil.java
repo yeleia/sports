@@ -46,7 +46,7 @@ public class ShowCountUtil {
             });
         }
         //计算名次
-        int n=0;
+        int n=1;
         for (int i = 0; i <preSolos.size() ; i++) {
             if (i>0&&preSolos.get(i).getScore().equals(preSolos.get(i-1).getScore())){
                 preSolos.get(i).setTemp(n);
@@ -111,7 +111,7 @@ public class ShowCountUtil {
             });
         }
         //计算名次
-        int n=0;
+        int n=1;
         for (int i = 0; i <solos.size() ; i++) {
             if (i>0&&solos.get(i).getScore().equals(solos.get(i-1).getScore())){
                 solos.get(i).setTemp(n);

@@ -1,5 +1,6 @@
 package org.wingstudio.sports.util;
 
+import org.springframework.util.StringUtils;
 import org.wingstudio.sports.constant.Common;
 
 public class CampareUtil {
@@ -41,7 +42,8 @@ public class CampareUtil {
                 return false;
             }
         }else {
-            if (record!=null&&Double.valueOf(score)>Double.valueOf(record)){
+            //System.out.println(record+"hhh"+score);
+            if (!(StringUtils .isEmpty(record))&& !(StringUtils.isEmpty(score))&&Double.valueOf(score)>Double.valueOf(record)){
                 return true;
             }else {
                 return false;

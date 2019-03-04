@@ -22,7 +22,7 @@
       select * from classes_table where teketime=#{taketime} order by score desc
     </select>
   <select id="getByClasses" resultType="org.wingstudio.sports.domain.Classes">
-    select * from classes_table where classes=#{classes} and taketime=#{taketime}
+    select * from classes_table where classes=#{classes} and teketime=#{taketime}
   </select>
   <select id="getClasese" resultType="org.wingstudio.sports.domain.Classes">
     select * from classes_table where teketime=#{taketime}
@@ -33,7 +33,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <delete id="deleteByClasses">
-      delete  from classes_table where classes=#{classes} and taketime=#{taketime}
+      delete  from classes_table where classes=#{classes} and teketime=#{taketime}
     </delete>
     <insert id="insert" parameterType="org.wingstudio.sports.domain.Classes">
     insert into classes_table (id, classes, score, 
@@ -93,5 +93,8 @@
       score = #{score,jdbcType=DOUBLE},
       teketime = #{teketime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateClasses">
+    update classes_table set score=#{score} where classes=#{classes} and teketime=#{teketime}
   </update>
 </mapper>

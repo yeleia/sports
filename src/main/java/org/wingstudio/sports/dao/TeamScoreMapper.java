@@ -42,7 +42,7 @@ public interface TeamScoreMapper {
 
     String getTop();
 
-    List<String> getCampus(@Param("taketime")String takeTime);
+    List<String> getCampus(@Param("taketime")String taketime);
 
-    List<Double> getByClasses(@Param("classes") String classes,@Param("taketime") String takeTime);
+    List<Double> getByClasses(@Param("classes") String classes,@Param("taketime") String taketime);
 }

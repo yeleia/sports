@@ -1,7 +1,9 @@
 package org.wingstudio.sports.service.impl;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.wingstudio.sports.VO.*;
 import org.wingstudio.sports.constant.Common;
 import org.wingstudio.sports.dao.*;
@@ -135,7 +137,15 @@ public class ShowServiceImpl implements ShowService {
                 solos.add(solo);
             }
             for (int i = 0; i <preSolos.size() ; i++) {
+                String sort=sportMapper.getSportSort(preSolos.get(i).getSportid());
+                List<PreSolo> preSoloes=new ArrayList<>();
+                if (sort.equals(Common.TIMESORT)){
+                    preSolos=preSoloMapper.getBySportIdAsc(preSolos.get(i).getSportid(),taketime);
+                }else {
+                    preSolos=preSoloMapper.getBySportIdDesc(preSolos.get(i).getSportid(),taketime);
+                }
                 QueryVO queryVO=new QueryVO();
+                queryVO.setRank(countRankPre(preSoloes,contestant.get(0).getId()));
                 queryVO.setClasses(contestant.get(0).getClasses());
                 queryVO.setCampus(contestant.get(0).getCampus());
                 queryVO.setNature("预赛");
@@ -144,7 +154,15 @@ public class ShowServiceImpl implements ShowService {
                 queryVOS.add(queryVO);
             }
             for (int i = 0; i <solos.size() ; i++) {
+                String sort=sportMapper.getSportSort(solos.get(i).getSportid());
+                List<Solo> solos1=new ArrayList<>();
+                if (sort.equals(Common.TIMESORT)){
+                    solos1=soloMapper.getBySportIdAsc(solos.get(i).getSportid(),taketime);
+                }else {
+                    solos1=soloMapper.getBySportIdDesc(solos.get(i).getSportid(),taketime);
+                }
                 QueryVO queryVO=new QueryVO();
+                queryVO.setRank(countRank(solos1,contestant.get(0).getId()));
                 queryVO.setSportname(sportMapper.getSportNameById(solos.get(i).getSportid()));
                 queryVO.setStuName(contestant.get(0).getStuname());
                 queryVO.setNature("决赛");
@@ -155,6 +173,50 @@ public class ShowServiceImpl implements ShowService {
             }
         }
         return queryVOS;
+    }
+
+    private String countRank(List<Solo> solos, Integer contestantId) {
+        int n=1;
+        for (int i = 0; i <solos.size() ; i++) {
+            if (i!=0&&solos.get(i).getScore()==solos.get(i-1).getScore()){
+                n--;
+                solos.get(i).setTemp(n);
+            }else {
+                solos.get(i).setTemp(n);
+                n++;
+            }
+        }
+        String ret="";
+        for (int j = 0; j < solos.size(); j++) {
+            if (solos.get(j).getContestantid()==contestantId){
+                ret = String.valueOf(solos.get(j).getTemp());
+            }
+        }
+        return ret;
+
+    }
+
+    //计算查询排名
+    private String countRankPre(List<PreSolo> preSolos,Integer contestantId) {
+
+        int n=1;
+        for (int i = 0; i <preSolos.size() ; i++) {
+            if (i!=0&&preSolos.get(i).getScore()==preSolos.get(i-1).getScore()){
+                n--;
+                preSolos.get(i).setTemp(n);
+            }else {
+                preSolos.get(i).setTemp(n);
+                n++;
+            }
+        }
+        String ret="";
+        for (int j = 0; j < preSolos.size(); j++) {
+            if (preSolos.get(j).getContestantid()==contestantId){
+                ret = String.valueOf(preSolos.get(j).getTemp());
+            }
+        }
+        return ret;
+
     }
 
     @Override
@@ -170,7 +232,6 @@ public class ShowServiceImpl implements ShowService {
             recordVO.setProfession(contestant.getProfession());
             recordVO.setStunumber(contestant.getStunumber());
             recordVO.setStuname(contestant.getStuname());
-            recordVO.setScore(preSoloMapper.getByConId(record.get(i).getContestantid()).getScore());
             if (record.get(i).getMark()==0){
                 recordVO.setNature("预赛");
             }else {
@@ -181,7 +242,13 @@ public class ShowServiceImpl implements ShowService {
             }else {
                 recordVO.setSex("女");
             }
-            recordVOS.add(recordVO);
+            PreSolo preSolo=preSoloMapper.getByConId(record.get(i).getContestantid());
+            if (!StringUtils.isEmpty(record.get(i).getContestantid())&&preSolo!=null&&!StringUtils.isEmpty(preSolo.getScore())){
+                recordVO.setScore(preSoloMapper.getByConId(record.get(i).getContestantid()).getScore());
+            }
+            if (preSolo!=null) {
+                recordVOS.add(recordVO);
+            }
         }
         return recordVOS;
     }

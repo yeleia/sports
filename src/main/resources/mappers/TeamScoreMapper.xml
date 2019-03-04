@@ -49,7 +49,7 @@
       select taketime from teamscore_table order by id desc limit 1
     </select>
   <select id="getCampus" resultType="java.lang.String">
-    select campus from teamscore_table where taketime=#{takeTime} group by campus
+    select campus from teamscore_table where taketime=#{taketime} group by campus
   </select>
   <select id="getByClasses" resultType="java.lang.Double">
     select finalscore from teamscore_table where classes=#{classes} and taketime=#{taketime} and checked=1

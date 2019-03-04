@@ -46,4 +46,8 @@ public interface SoloMapper {
     List<Solo> getSoloBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime, @Param("campus") String campus);
 
     List<Solo> getSport(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    List<Solo> getBySportIdAsc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
+
+    List<Solo> getBySportIdDesc(@Param("sportid") Integer sportid,@Param("taketime") String taketime);
 }

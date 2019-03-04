@@ -28,4 +28,7 @@ public interface ClassesMapper {
 
 
     List<Classes> getClasese(@Param("taketime") String taketime);
+
+    void updateClasses(Classes classes1);
+
 }

@@ -18,13 +18,20 @@ public class QueryVO {
     //赛制
     @ApiModelProperty("预赛还是决赛")
     private String nature;
-
+    @ApiModelProperty("排名")
+    private String rank;
 
     public String getStuName() {
         return stuName;
     }
 
+    public String getRank() {
+        return rank;
+    }
 
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
     public String getCampus() {
         return campus;

@@ -60,6 +60,13 @@
   <select id="getSport" resultType="org.wingstudio.sports.domain.Solo">
     select * from solo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1
   </select>
+  <select id="getBySportIdAsc" resultType="org.wingstudio.sports.domain.Solo">
+    select * from solo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by score asc
+  </select>
+  <select id="getBySportIdDesc" resultType="org.wingstudio.sports.domain.Solo">
+      select * from solo_table where sportid=#{sportid} and taketime=#{taketime} and checked=1 order by score desc
+
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from solo_table
