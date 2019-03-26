@@ -35,6 +35,10 @@
     delete from record_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteAll">
+    delete from record_table where taketime=#{taketime} and mark=#{mark}
+  </delete>
+
   <insert id="insert" parameterType="org.wingstudio.sports.domain.Record">
     insert into record_table (id, contestantid, sportid, 
       mark, taketime)

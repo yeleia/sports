@@ -16,6 +16,16 @@ public class Classes {
         this.teketime = teketime;
     }
 
+    @Override
+    public String toString() {
+        return "Classes{" +
+                "id=" + id +
+                ", classes='" + classes + '\'' +
+                ", score=" + score +
+                ", teketime='" + teketime + '\'' +
+                '}';
+    }
+
     public Classes() {
         super();
     }

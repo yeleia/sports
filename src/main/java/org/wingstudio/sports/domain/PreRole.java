@@ -17,6 +17,18 @@ public class PreRole {
     @ApiModelProperty("校区")
     private String campus;
 
+    @Override
+    public String toString() {
+        return "PreRole{" +
+                "id=" + id +
+                ", sportid=" + sportid +
+                ", sportname='" + sportname + '\'' +
+                ", rank=" + rank +
+                ", addscore=" + addscore +
+                ", campus='" + campus + '\'' +
+                '}';
+    }
+
     public PreRole(Integer id, Integer sportid, String sportname, Integer rank, Double addscore, String campus) {
         this.id = id;
         this.sportid = sportid;

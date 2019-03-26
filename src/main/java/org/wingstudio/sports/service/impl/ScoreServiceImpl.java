@@ -35,6 +35,7 @@ public class ScoreServiceImpl implements ScoreService {
     private TeamMapper teamMapper;
 
 
+
     @Override
     public Map<String, Object> addPreSoloScore(PreSolo preSolo) {
         Sport sport = sportMapper.selectByPrimaryKey(preSolo.getSportid());
@@ -44,6 +45,7 @@ public class ScoreServiceImpl implements ScoreService {
             if (preSoloMapper.isPreSoloExsit(preSolo.getSportid(), preSolo.getContestantid(), preSolo.getTaketime()) < 1) {
                 //新添加的设置为未审核
                 preSolo.setChecked(Common.NOCHECK);
+                System.out.println();
                 preSoloMapper.insertSelective(preSolo);
                 return ReturnUtil.ret(true, "添加成功,待审核");
             } else {
@@ -84,6 +86,7 @@ public class ScoreServiceImpl implements ScoreService {
     public Map<String, Object> deletePreSoloScore(Integer id) {
 
             if (preSoloMapper.deleteByPrimaryKey(id) > 0) {
+
                 return ReturnUtil.ret(true,"删除成功");
             } else {
                return ReturnUtil.ret(false,"删除失败");
@@ -190,7 +193,7 @@ public class ScoreServiceImpl implements ScoreService {
         //检查输入
         if (CheckUtil.checkScore(sport.getSortrule(),teamScore.getScore(),sport.getInmax(),sport.getInmin())){
             //该记录是否存在
-            if (teamScoreMapper.isTeamScoreExsit(teamScore.getSportid(),teamScore.getTeamid(),teamScore.getTaketime())<1){
+            if (teamScoreMapper.isTeamScoreExsit(teamScore.getSportid(),teamScore.getTeamid(),teamScore.getTaketime())==null){
                 teamScore.setChecked(Common.NOCHECK);
                 teamScoreMapper.insert(teamScore);
                 return ReturnUtil.ret(true,"添加成功");
@@ -213,7 +216,7 @@ public class ScoreServiceImpl implements ScoreService {
                 return ReturnUtil.ret(true,"修改成功");
             }else {
                 //检查是否存在
-                if (teamScoreMapper.isTeamScoreExsit(teamScore.getSportid(),teamScore.getTeamid(),teamScore.getTaketime())<1){
+                if (teamScoreMapper.isTeamScoreExsit(teamScore.getSportid(),teamScore.getTeamid(),teamScore.getTaketime())==null){
                     teamScoreMapper.updateByPrimaryKeySelective(teamScore);
                     return ReturnUtil.ret(true,"修改成功");
                 }else {

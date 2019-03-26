@@ -29,4 +29,6 @@ public interface RecordMapper {
 
     int isExsit(Record record);
 
+
+    void deleteAll(@Param("taketime") String taketime,@Param("mark")Integer mark);
 }

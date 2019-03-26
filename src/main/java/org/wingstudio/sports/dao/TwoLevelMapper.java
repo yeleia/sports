@@ -28,4 +28,5 @@ public interface TwoLevelMapper {
 
     int isExsit(TwoLevel twoLevel);
 
+    void deleteAll(@Param("taketime") String taketime,@Param("mark") Integer mark);
 }

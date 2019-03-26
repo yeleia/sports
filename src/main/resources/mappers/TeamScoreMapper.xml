@@ -23,8 +23,8 @@
     from teamscore_table
     where id = #{id,jdbcType=INTEGER}
   </select>
-    <select id="isTeamScoreExsit" resultType="java.lang.Integer">
-      select count(1) from teamscore_table where sportid=#{sportid} and teamid=#{teamid} and taketime=#{taketime}
+    <select id="isTeamScoreExsit" resultType="org.wingstudio.sports.domain.TeamScore">
+      select * from teamscore_table where sportid=#{sportid} and teamid=#{teamid} and taketime=#{taketime}
     </select>
     <select id="getTeamScoreByCheck" resultType="org.wingstudio.sports.domain.TeamScore">
       select * from teamscore_table where checked=#{checked} and taketime=#{taketime} limit #{tempPage},#{pageCapacity}

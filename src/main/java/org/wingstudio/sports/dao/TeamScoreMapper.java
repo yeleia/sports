@@ -24,7 +24,7 @@ public interface TeamScoreMapper {
 
     int updateByPrimaryKey(TeamScore record);
 
-    int isTeamScoreExsit(@Param("sportid") Integer sportid, @Param("teamid") Integer teamid, @Param("taketime") String taketime);
+    TeamScore isTeamScoreExsit(@Param("sportid") Integer sportid, @Param("teamid") Integer teamid, @Param("taketime") String taketime);
 
     List<TeamScore> getTeamScoreByCheck(@Param("tempPage")Integer tempPage, @Param("pageCapacity")Integer pageCapacity, @Param("checked")Integer checked, @Param("taketime") String taketime);
 

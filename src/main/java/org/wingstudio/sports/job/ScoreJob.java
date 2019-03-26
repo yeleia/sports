@@ -51,8 +51,11 @@ public class ScoreJob {
     public void count(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         System.out.println("count"+df.format(new Date()));
+        System.out.println("pre");
         countPreSolo();
+        System.out.println("solo");
         countFinal();
+        System.out.println("final");
         countAll();
     }
     //预赛加分
@@ -104,19 +107,20 @@ public class ScoreJob {
         //将决赛和预赛对比
         String takeTime=scoreMapper.getTop();
         List<Score> scores=scoreMapper.getAllScore(takeTime);
-        for (int i = 0; i <scores.size() ; i++) {
+        for (int i = 0; i <scores.size() ; i++){
             if (!(StringUtils.isEmpty(scores.get(i).getPresoloscore()))&&!(StringUtils.isEmpty(scores.get(i).getSoloscore()))&&scores.get(i).getPresoloscore()>scores.get(i).getSoloscore()){
-                System.out.println("dssd"+scores.get(i).getPresoloscore());
                 scores.get(i).setFinalscore(scores.get(i).getPresoloscore());
             }else if (StringUtils.isEmpty(scores.get(i).getSoloscore())) {
                 scores.get(i).setFinalscore(scores.get(i).getPresoloscore());
             }else{
-                System.out.println("aaa"+scores.get(i).getSoloscore());
+                System.out.println();
                 scores.get(i).setFinalscore(scores.get(i).getSoloscore());
             }
         }
         //插入表操作
         for (int i = 0; i <scores.size() ; i++) {
+            System.out.println(",,,,,,,");
+            System.out.println(scores.get(i));
             scoreMapper.updateByPrimaryKeySelective(scores.get(i));
         }
         //计算学院总分
@@ -128,17 +132,14 @@ public class ScoreJob {
                 List<Double> scoreList=scoreMapper.getByContestantId(contestants.get(j),takeTime);
                 for (int k = 0; k <scoreList.size() ; k++) {
                     if (!StringUtils.isEmpty(scoreList.get(k))) {
-                        System.out.println(scoreList.get(k)+"hhh");
                         count = count + scoreList.get(k);
                     }
                 }
             }
-            System.out.println(count+"a");
             List<Double> teamScores=teamScoreMapper.getByClasses(classes.get(i),takeTime);
             for (int j = 0; j <teamScores.size() ; j++) {
                 count=count+teamScores.get(j);
             }
-            System.out.println(count+"b");
             Classes classes1=new Classes();
             classes1.setTeketime(takeTime);
             classes1.setScore(count);
@@ -159,6 +160,7 @@ public class ScoreJob {
     private void twoLevelFin(List<Sport> sport) {
         String taketime="";
         taketime=soloMapper.getTop();
+        twoLevelMapper.deleteAll(taketime,Common.FIN);
         for (int i = 0; i <sport.size() ; i++) {
             List<Solo> solos=soloMapper.getSport(sport.get(i).getId(),taketime);
             for (int j = 0; j <solos.size(); j++) {
@@ -171,10 +173,7 @@ public class ScoreJob {
                     twoLevel.setMark(Common.FIN);
                     twoLevel.setSportid(sport.get(i).getId());
                     twoLevel.setTaketime(taketime);
-                    if (twoLevelMapper.isExsit(twoLevel)<1){
-                        twoLevelMapper.insertSelective(twoLevel);
-                    }
-                    soloMapper.updateByPrimaryKeySelective(solos.get(j));
+                    twoLevelMapper.insertSelective(twoLevel);
                 }
             }
         }
@@ -182,6 +181,7 @@ public class ScoreJob {
     private void twoLevel(List<Sport> sport) {
         String taketime="";
         taketime=preSoloMapper.getTop();
+        twoLevelMapper.deleteAll(taketime,Common.PRE);
         for (int i = 0; i <sport.size() ; i++) {
             List<PreSolo> solos=preSoloMapper.getSport(sport.get(i).getId(),taketime);
             for (int j = 0; j <solos.size() ; j++) {
@@ -194,10 +194,7 @@ public class ScoreJob {
                     twoLevel.setSportid(sport.get(i).getId());
                     twoLevel.setMark(Common.PRE);
                     twoLevel.setContestantid(solos.get(j).getContestantid());
-                    if (twoLevelMapper.isExsit(twoLevel)<1){
-                        twoLevelMapper.insertSelective(twoLevel);
-                    }
-                    preSoloMapper.updateByPrimaryKeySelective(solos.get(j));
+                    twoLevelMapper.insertSelective(twoLevel);
                 }
             }
         }
@@ -206,6 +203,7 @@ public class ScoreJob {
     private void recordFin(List<Sport> sport) {
         String taketime="";
         taketime=soloMapper.getTop();
+        recordMapper.deleteAll(taketime,Common.FIN);
         for (int i = 0; i <sport.size() ; i++) {
             List<Solo> solos=soloMapper.getSport(sport.get(i).getId(),taketime);
             for (int j = 0; j <solos.size() ; j++) {
@@ -222,7 +220,7 @@ public class ScoreJob {
                     if (recordMapper.isExsit(record)<1){
                         recordMapper.insertSelective(record);
                     }
-                    soloMapper.updateByPrimaryKeySelective(solos.get(j));
+                    recordMapper.updateByPrimaryKeySelective(record);
                 }
             }
         }
@@ -230,6 +228,7 @@ public class ScoreJob {
     private void record(List<Sport> sport) {
         String taketime="";
         taketime=preSoloMapper.getTop();
+        recordMapper.deleteAll(taketime,Common.PRE);
         for (int i = 0; i <sport.size() ; i++) {
             List<PreSolo> solos=preSoloMapper.getSport(sport.get(i).getId(),taketime);
             for (int j = 0; j <solos.size() ; j++) {
@@ -243,10 +242,8 @@ public class ScoreJob {
                     record.setSportid(sport.get(i).getId());
                     record.setContestantid(solos.get(j).getContestantid());
                     record.setMark(Common.PRE);
-                    if (recordMapper.isExsit(record)<1){
-                        recordMapper.insertSelective(record);
-                    }
-                    preSoloMapper.updateByPrimaryKeySelective(solos.get(j));
+                    recordMapper.insertSelective(record);
+
                 }
             }
         }
@@ -260,22 +257,25 @@ public class ScoreJob {
         for (int i = 0; i <sport.size(); i++) {
             //分校区计算
             for (int j = 0; j <campus.size() ; j++) {
-                List<Solo> solos=new ArrayList<>();
-                if (sport.get(i).getSortrule().equals(Common.DISTANCESORT)){
+                List<Solo> solos = new ArrayList<>();
+                if (sport.get(i).getSortrule().equals(Common.DISTANCESORT)) {
                     // //距离根据成绩降序排序
-                    solos=soloMapper.getSoloBySportIdDesc(sport.get(i).getId(),taketime,campus.get(j));
-                }else {
+                    solos = soloMapper.getSoloBySportIdDesc(sport.get(i).getId(), taketime, campus.get(j));
+                } else {
                     //时间根据成绩升序排序
-                    solos=soloMapper.getSoloBySportIdAsc(sport.get(i).getId(),taketime,campus.get(j));
+                    solos = soloMapper.getSoloBySportIdAsc(sport.get(i).getId(), taketime, campus.get(j));
                 }
-                List<Role> roleList=roleMapper.getRoleBySportId(sport.get(i).getId(),campus.get(j));
-                List<Score> scores=CountUtil.countSolo(solos,roleList);
-                for (int k = 0; k <scores.size() ; k++) {
-                    Score score=scoreMapper.isExsitAndGet(scores.get(k).getSportid(), scores.get(k).getContestantid(), scores.get(k).getTaketime());
-                    if (score==null){
-                        scoreMapper.insertSelective(scores.get(k));
-                    }else {
-                            scoreMapper.updateByPrimaryKeySelective(score);
+                List<Role> roleList = roleMapper.getRoleBySportId(sport.get(i).getId(), campus.get(j));
+                if (solos != null) {
+                    List<Score> scores = CountUtil.countSolo(solos, roleList);
+                    for (int k = 0; k < scores.size(); k++) {
+                        Score score = scoreMapper.isExsitAndGet(scores.get(k).getSportid(), scores.get(k).getContestantid(), scores.get(k).getTaketime());
+                        if (score == null) {
+                            scoreMapper.insertSelective(scores.get(k));
+                        } else {
+                            scores.get(k).setId(score.getId());
+                            scoreMapper.updateByPrimaryKeySelective(scores.get(k));
+                        }
                     }
                 }
             }
@@ -290,23 +290,25 @@ public class ScoreJob {
         for (int i = 0; i <sports.size() ; i++) {
             //分校区计算
             for (int j = 0; j <campus.size() ; j++) {
-                List<PreSolo> preSolos=new ArrayList<>();
-                if (sports.get(i).getSortrule().equals(Common.DISTANCESORT)){
+                List<PreSolo> preSolos = new ArrayList<>();
+                if (sports.get(i).getSortrule().equals(Common.DISTANCESORT)) {
                     //距离根据成绩降序排序
-                    preSolos=preSoloMapper.getPreSoloBySportIdDesc(sports.get(i).getId(),taketime,campus.get(j));
-                }else {
+                    preSolos = preSoloMapper.getPreSoloBySportIdDesc(sports.get(i).getId(), taketime, campus.get(j));
+                } else {
                     //时间根据成绩升序排序
-                    preSolos=preSoloMapper.getPreSoloBySportIdAsc(sports.get(i).getId(),taketime,campus.get(j));
+                    preSolos = preSoloMapper.getPreSoloBySportIdAsc(sports.get(i).getId(), taketime, campus.get(j));
                 }
 
-                List<PreRole> preRoles=preRoleMapper.getPreRoleBySportId(sports.get(i).getId(),campus.get(j));
-                List<Score> scores=CountUtil.count(preSolos,preRoles);
-                //scoreMapper.insertAndUpdate(scores);
-                for (int k = 0; k <scores.size(); k++) {
-                    if (scoreMapper.isExsit(scores.get(k).getSportid(), scores.get(k).getContestantid(), scores.get(k).getTaketime())<1) {
-                        scoreMapper.insertSelective(scores.get(k));
-                    }else {
-                        scoreMapper.updateByPrimaryKeySelective(scores.get(k));
+                List<PreRole> preRoles = preRoleMapper.getPreRoleBySportId(sports.get(i).getId(), campus.get(j));
+                if (preSolos .size()!=0 && preRoles.size()!=0) {
+                    List<Score> scores = CountUtil.count(preSolos, preRoles);
+                    for (int k = 0; k < scores.size(); k++) {
+                        Score score=scoreMapper.isExsit(scores.get(k).getSportid(), scores.get(k).getContestantid(), scores.get(k).getTaketime());
+                        if ( score==null) {
+                            scoreMapper.insertSelective(scores.get(k));
+                        } else {
+                            scoreMapper.updateById(scores.get(k).getPresoloscore(),score.getId());
+                        }
                     }
                 }
             }
@@ -328,7 +330,8 @@ public class ScoreJob {
                 List<TeamScore> teamScores=teamScoreMapper.getTeamBySportId(sports.get(i).getId(),takeTime);
                 List<TeamScore> teamScoreList=CountUtil.countTeam(teamScores,teamRoles);
                 for (int k = 0; k <teamScoreList.size() ; k++) {
-                    if (teamScoreMapper.isTeamScoreExsit(teamScoreList.get(k).getSportid(),teamScoreList.get(k).getTeamid(),takeTime)<1){
+                    TeamScore teamScore=teamScoreMapper.isTeamScoreExsit(teamScoreList.get(k).getSportid(),teamScoreList.get(k).getTeamid(),takeTime);
+                    if (teamScore==null){
                         teamScoreMapper.insertSelective(teamScoreList.get(k));
                     }else {
                         teamScoreMapper.updateByPrimaryKeySelective(teamScoreList.get(k));

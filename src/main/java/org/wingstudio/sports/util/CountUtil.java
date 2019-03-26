@@ -27,7 +27,7 @@ public class CountUtil {
         solo.setScore("2:1:5");
         solos.add(solo);
         Solo solo1=new Solo();
-        solo1.setScore("2:1:6");
+        solo1.setScore("2:1:7");
         solo1.setSportid(4);
         solo1.setContestantid(2);
         solo1.setTaketime("23");
@@ -57,6 +57,35 @@ public class CountUtil {
             System.out.println(scores.get(i).getContestantid()+"...."+scores.get(i).getPresoloscore());
         }
     }
+   /* public static void main(String[] args) {
+        List<PreSolo> preSolos=new ArrayList<>();
+        List<PreRole> preRoles=new ArrayList<>();
+        PreSolo preSolo=new PreSolo();
+        preSolo.setScore("15.00");
+        preSolo.setSportid(30);
+        preSolo.setTaketime("39届");
+        preSolo.setContestantid(48);
+        preSolos.add(preSolo);
+        PreSolo preSolo1=new PreSolo();
+        preSolo1.setScore("15.10");
+        preSolo1.setSportid(30);
+        preSolo1.setTaketime("39届");
+        preSolo1.setContestantid(49);
+        preSolos.add(preSolo1);
+        PreRole preRole=new PreRole();
+        preRole.setAddscore(5.0);
+        preRole.setRank(1);
+        preRoles.add(preRole);
+        PreRole preRole1=new PreRole();
+        preRole1.setAddscore(4.0);
+        preRole1.setRank(1);
+        preRoles.add(preRole1);
+        List<Score> scores=count(preSolos,preRoles);
+        for (int i = 0; i <scores.size() ; i++) {
+            System.out.println(scores.get(i).getPresoloscore()+"..."+scores.get(i).getContestantid());
+        }
+
+    }*/
     /**
      * 计算预赛加分,注意分数相等的情况，如果两个成绩相等，则两个成绩的加分是两个等级加分的一半
      * @param solos 为成绩
@@ -64,16 +93,17 @@ public class CountUtil {
      * @return
      */
     public static List<Score> count(List<PreSolo> solos, List<PreRole> roles) {
-        int n=0;
+        int x=1;
         /**
          * 设置临时变量为temp=对应名次
          */
         for (int i=0;i<solos.size();i++){
             if (i>0&&solos.get(i).getScore().equals(solos.get(i-1).getScore())){
-                    solos.get(i).setTemp(n);
+                    x--;
+                    solos.get(i).setTemp(x);
             }else {
-                solos.get(i).setTemp(i);
-                n=i;
+                solos.get(i).setTemp(x);
+                x++;
             }
         }
         List<PreSolo> preSolos=new ArrayList<>();//在加分范围内
@@ -93,11 +123,11 @@ public class CountUtil {
                 preSolos1.add(solos.get(j));
             }
         }
-        //确保presolos的个数和role的个数一样
+        //确保presolos的个数和role的个数一样,
         if (preSolos.size()>roleSize){
             for (int i=roleSize;i<preSolos.size();i++){
                 PreRole preRole=new PreRole();
-                preRole.setRank(i+1);
+                preRole.setRank(i);
                 preRole.setAddscore(0.0);
                 roles.add(preRole);
             }
@@ -106,10 +136,10 @@ public class CountUtil {
         double grade=0;
         double temp=0;
         for (int j=0;j<preSolos.size();j++){
-            if (j>0&&preSolos.get(j).getTemp().equals(preSolos.get(j-1).getTemp())){
-                grade=grade+roles.get(j).getAddscore();
-                count=count+1;
-                if (j==preSolos.size()-1){
+            if (j>0&&preSolos.get(j).getTemp().equals(preSolos.get(j-1).getTemp())){//如果名次相等
+                grade=grade+roles.get(j).getAddscore();//加分相加
+                count=count+1;//数量加1
+                if (j==preSolos.size()-1){//如果是最后一个
                     for (int m=j-count+1;m<=j;m++){
                         score[m].setPresoloscore(grade/(count));
                     }
@@ -128,12 +158,16 @@ public class CountUtil {
                         score[j-1].setPresoloscore(roles.get(j-1).getAddscore());
                     }
                     //如果是最后一个
-                    if (j==preSolos.size()-1){
+                    /*if (j==preSolos.size()-1){
                         score[j].setPresoloscore(roles.get(j).getAddscore());
-                    }
+                    }*/
                 }
                 grade=grade+roles.get(j).getAddscore();
                 count=count+1;
+                //如果是最后一个
+                if (j==preSolos.size()-1){
+                    score[j].setPresoloscore(roles.get(j).getAddscore());
+                }
             }
         }
 
@@ -141,6 +175,7 @@ public class CountUtil {
             score[j].setTaketime(solos.get(j).getTaketime());
             score[j].setSportid(solos.get(j).getSportid());
             score[j].setContestantid(solos.get(j).getContestantid());
+
         }
         return Arrays.asList(score);
     }
@@ -178,7 +213,7 @@ public class CountUtil {
         if (preSolos.size()>roleSize){
             for (int i=roleSize;i<preSolos.size();i++){
                 Role preRole=new Role();
-                preRole.setRank(i+1);
+                preRole.setRank(i);
                 preRole.setAddscore(0.0);
                 roles.add(preRole);
             }
@@ -209,16 +244,18 @@ public class CountUtil {
                         score[j-1].setPresoloscore(roles.get(j-1).getAddscore());
                     }
                     //如果是最后一个
-                    if (j==preSolos.size()-1){
-                        score[j].setPresoloscore(roles.get(j).getAddscore());
-                    }
+
                 }
                 grade=grade+roles.get(j).getAddscore();
                 count=count+1;
+                if (j==preSolos.size()-1){
+                    score[j].setPresoloscore(roles.get(j).getAddscore());
+                }
             }
         }
 
         for (int j=0;j<solos.size();j++){
+           // score[j].setSoloscore(Double.valueOf(count));
             score[j].setTaketime(solos.get(j).getTaketime());
             score[j].setSportid(solos.get(j).getSportid());
             score[j].setContestantid(solos.get(j).getContestantid());

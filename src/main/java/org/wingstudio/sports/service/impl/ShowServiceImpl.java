@@ -57,7 +57,6 @@ public class ShowServiceImpl implements ShowService {
             List<PreSolo> preSolos = new ArrayList<>();
             List<Contestant> contestants = contestantMapper.getByCamSpo(campus, sport.getId(), currentime);
             for (int i = 0; i < contestants.size(); i++) {
-                System.out.println(contestants.get(i).getStuname());
                 PreSolo preSolo = preSoloMapper.getByConId(contestants.get(i).getId());
                 if (preSolo!=null) {
                     preSolos.add(preSolo);
@@ -129,47 +128,60 @@ public class ShowServiceImpl implements ShowService {
             List<PreSolo> preSolos=new ArrayList<>();
             for (int i = 0; i <contestant.size() ; i++) {
                 PreSolo preSolo=preSoloMapper.getByConId(contestant.get(0).getId());
-                preSolos.add(preSolo);
+                if (preSolo!=null) {
+                    preSolos.add(preSolo);
+                }
             }
             List<Solo> solos=new ArrayList<>();
             for (int i = 0; i < contestant.size(); i++) {
                 Solo solo=soloMapper.getByConId(contestant.get(0).getId());
-                solos.add(solo);
+                if (solo!=null) {
+                    solos.add(solo);
+                }
             }
             for (int i = 0; i <preSolos.size() ; i++) {
-                String sort=sportMapper.getSportSort(preSolos.get(i).getSportid());
+                String sort=null;
+                if (preSolos.get(i)!=null) {
+                    sort = sportMapper.getSportSort(preSolos.get(i).getSportid());
+                }
                 List<PreSolo> preSoloes=new ArrayList<>();
-                if (sort.equals(Common.TIMESORT)){
-                    preSolos=preSoloMapper.getBySportIdAsc(preSolos.get(i).getSportid(),taketime);
-                }else {
-                    preSolos=preSoloMapper.getBySportIdDesc(preSolos.get(i).getSportid(),taketime);
+                if (sort!=null&&sort.equals(Common.TIMESORT)){
+                    preSoloes=preSoloMapper.getBySportIdDesc(preSolos.get(i).getSportid(),taketime);
+                }else if (sort!=null){
+                    preSoloes=preSoloMapper.getBySportIdAsc(preSolos.get(i).getSportid(),taketime);
                 }
                 QueryVO queryVO=new QueryVO();
-                queryVO.setRank(countRankPre(preSoloes,contestant.get(0).getId()));
                 queryVO.setClasses(contestant.get(0).getClasses());
                 queryVO.setCampus(contestant.get(0).getCampus());
                 queryVO.setNature("预赛");
+                queryVO.setScore(preSolos.get(i).getScore());
                 queryVO.setStuName(contestant.get(0).getStuname());
                 queryVO.setSportname(sportMapper.getSportNameById(contestant.get(0).getSportid()));
-                queryVOS.add(queryVO);
-            }
-            for (int i = 0; i <solos.size() ; i++) {
-                String sort=sportMapper.getSportSort(solos.get(i).getSportid());
-                List<Solo> solos1=new ArrayList<>();
-                if (sort.equals(Common.TIMESORT)){
-                    solos1=soloMapper.getBySportIdAsc(solos.get(i).getSportid(),taketime);
-                }else {
-                    solos1=soloMapper.getBySportIdDesc(solos.get(i).getSportid(),taketime);
+                if (preSoloes!=null) {
+                    queryVO.setRank(countRankPre(preSoloes, contestant.get(0).getId()));
+                    queryVOS.add(queryVO);
                 }
-                QueryVO queryVO=new QueryVO();
-                queryVO.setRank(countRank(solos1,contestant.get(0).getId()));
-                queryVO.setSportname(sportMapper.getSportNameById(solos.get(i).getSportid()));
-                queryVO.setStuName(contestant.get(0).getStuname());
-                queryVO.setNature("决赛");
-                queryVO.setCampus(contestant.get(0).getCampus());
-                queryVO.setClasses(contestant.get(0).getClasses());
-                queryVO.setScore(solos.get(i).getScore());
-                queryVOS.add(queryVO);
+            }
+            if (solos.size()!=0) {
+                for (int i = 0; i < solos.size(); i++) {
+                    String sort = sportMapper.getSportSort(solos.get(i).getSportid());
+                    List<Solo> solos1 = new ArrayList<>();
+                    if (sort.equals(Common.TIMESORT)) {
+                        solos1 = soloMapper.getBySportIdDesc(solos.get(i).getSportid(), taketime);
+
+                    } else {
+                        solos1 = soloMapper.getBySportIdAsc(solos.get(i).getSportid(), taketime);
+                    }
+                    QueryVO queryVO = new QueryVO();
+                    queryVO.setRank(countRank(solos1, contestant.get(0).getId()));
+                    queryVO.setSportname(sportMapper.getSportNameById(solos.get(i).getSportid()));
+                    queryVO.setStuName(contestant.get(0).getStuname());
+                    queryVO.setNature("决赛");
+                    queryVO.setCampus(contestant.get(0).getCampus());
+                    queryVO.setClasses(contestant.get(0).getClasses());
+                    queryVO.setScore(solos.get(i).getScore());
+                    queryVOS.add(queryVO);
+                }
             }
         }
         return queryVOS;
@@ -197,8 +209,7 @@ public class ShowServiceImpl implements ShowService {
     }
 
     //计算查询排名
-    private String countRankPre(List<PreSolo> preSolos,Integer contestantId) {
-
+    private String  countRankPre(List<PreSolo> preSolos,Integer contestantId) {
         int n=1;
         for (int i = 0; i <preSolos.size() ; i++) {
             if (i!=0&&preSolos.get(i).getScore()==preSolos.get(i-1).getScore()){
@@ -266,6 +277,8 @@ public class ShowServiceImpl implements ShowService {
             twoLevelVO.setStuname(contestant.getStuname());
             twoLevelVO.setStunumber(contestant.getStunumber());
             twoLevelVO.setProfession(contestant.getProfession());
+            System.out.println(twoLevels.get(i).getContestantid());
+            System.out.println(preSoloMapper.getByConId(twoLevels.get(i).getContestantid()));
             twoLevelVO.setScore(preSoloMapper.getByConId(twoLevels.get(i).getContestantid()).getScore());
             if (twoLevels.get(i).getMark()==0){
                 twoLevelVO.setNature("预赛");
@@ -284,26 +297,30 @@ public class ShowServiceImpl implements ShowService {
 //添加集体项目时，添加的是几等奖
     @Override
     public List<TeamVO> getTeamVO(String campus, String project, String taketime) {
-        Sport sport=sportMapper.selectByProSex(project,Common.T);
-        List<Team> teams=teamMapper.getCamSpoid(campus,sport.getId(),taketime);
-        List<TeamScore> teamScores=new ArrayList<>();
-        for (int i = 0; i <teams.size() ; i++) {
-            TeamScore teamScore=teamScoreMapper.getByTeamIdSpoid(teams.get(i).getId());
-            if (teamScore!=null) {
-                teamScores.add(teamScore);
+        Sport sport = sportMapper.selectByProSex(project, Common.T);
+        if (sport == null) {
+            return null;
+        } else {
+            List<Team> teams = teamMapper.getCamSpoid(campus, sport.getId(), taketime);
+            List<TeamScore> teamScores = new ArrayList<>();
+            for (int i = 0; i < teams.size(); i++) {
+                TeamScore teamScore = teamScoreMapper.getByTeamIdSpoid(teams.get(i).getId());
+                if (teamScore != null) {
+                    teamScores.add(teamScore);
+                }
             }
+            List<TeamVO> teamVOS = new ArrayList<>();
+            for (int i = 0; i < teamScores.size(); i++) {
+                TeamVO teamVO = new TeamVO();
+                teamVO.setScore(teamScores.get(i).getScore());
+                teamVO.setSportname(sportMapper.selectByPrimaryKey(teamScores.get(i).getSportid()).getProject());
+                Team team = teamMapper.selectByPrimaryKey(teamScores.get(i).getTeamid());
+                teamVO.setProfession(team.getProfession());
+                teamVO.setClasses(team.getClasses());
+                teamVOS.add(teamVO);
+            }
+            return teamVOS;
         }
-        List<TeamVO> teamVOS=new ArrayList<>();
-        for (int i = 0; i <teamScores.size() ; i++) {
-            TeamVO teamVO=new TeamVO();
-            teamVO.setScore(teamScores.get(i).getScore());
-            teamVO.setSportname(sportMapper.selectByPrimaryKey(teamScores.get(i).getSportid()).getProject());
-            Team team=teamMapper.selectByPrimaryKey(teamScores.get(i).getTeamid());
-            teamVO.setProfession(team.getProfession());
-            teamVO.setClasses(team.getClasses());
-            teamVOS.add(teamVO);
-        }
-        return teamVOS;
     }
 
     @Override
@@ -337,7 +354,7 @@ public class ShowServiceImpl implements ShowService {
         //获取单项体育项目
         all.put("sport",sportMapper.getSportBySex(Common.M));
         //获取集体项目
-        all.put("teamSport",sportMapper.getSportBySex(Common.T));
+        all.put("teamSport",sportMapper.getSportTeam());
         return all;
     }
 

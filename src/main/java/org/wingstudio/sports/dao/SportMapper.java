@@ -47,4 +47,7 @@ public interface SportMapper {
     List<Sport> selectByPro(@Param("project")String project);
 
     String getSportSort(@Param("id") Integer id);
+
+    Object getSportTeam();
+
 }

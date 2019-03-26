@@ -25,7 +25,7 @@ public class ShowCountUtil {
             Collections.sort(preSolos, new Comparator<PreSolo>() {
                 @Override
                 public int compare(PreSolo o1, PreSolo o2) {
-                    if (convert(o1.getScore())>=convert(o2.getScore())){
+                    if (convert(o1.getScore())<=convert(o2.getScore())){
                         return 1;
                     }else {
                         return -1;
@@ -37,7 +37,7 @@ public class ShowCountUtil {
             Collections.sort(preSolos, new Comparator<PreSolo>() {
                 @Override
                 public int compare(PreSolo o1, PreSolo o2) {
-                    if (convert(o1.getScore())<=convert(o2.getScore())){
+                    if (convert(o1.getScore())>=convert(o2.getScore())){
                         return 1;
                     }else {
                         return -1;
@@ -49,10 +49,11 @@ public class ShowCountUtil {
         int n=1;
         for (int i = 0; i <preSolos.size() ; i++) {
             if (i>0&&preSolos.get(i).getScore().equals(preSolos.get(i-1).getScore())){
+                n--;
                 preSolos.get(i).setTemp(n);
             }else {
-                preSolos.get(i).setTemp(i);
-                n=i;
+                preSolos.get(i).setTemp(n);
+                n++;
             }
         }
         for (int i = 0; i <preSolos.size() ; i++) {
@@ -90,7 +91,7 @@ public class ShowCountUtil {
             Collections.sort(solos, new Comparator<Solo>() {
                 @Override
                 public int compare(Solo o1, Solo o2) {
-                    if (convert(o1.getScore())>=convert(o2.getScore())){
+                    if (convert(o1.getScore())<=convert(o2.getScore())){
                         return 1;
                     }else {
                         return -1;
@@ -102,7 +103,7 @@ public class ShowCountUtil {
             Collections.sort(solos, new Comparator<Solo>() {
                 @Override
                 public int compare(Solo o1, Solo o2) {
-                    if (convert(o1.getScore())<=convert(o2.getScore())){
+                    if (convert(o1.getScore())>=convert(o2.getScore())){
                         return 1;
                     }else {
                         return -1;
@@ -114,10 +115,11 @@ public class ShowCountUtil {
         int n=1;
         for (int i = 0; i <solos.size() ; i++) {
             if (i>0&&solos.get(i).getScore().equals(solos.get(i-1).getScore())){
+                n--;
                 solos.get(i).setTemp(n);
             }else {
-                solos.get(i).setTemp(i);
-                n=i;
+                solos.get(i).setTemp(n);
+                n++;
             }
         }
         for (int i = 0; i <solos.size() ; i++) {

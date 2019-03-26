@@ -75,6 +75,19 @@ public class QueryVO {
         return nature;
     }
 
+    @Override
+    public String toString() {
+        return "QueryVO{" +
+                "stuName='" + stuName + '\'' +
+                ", sportname='" + sportname + '\'' +
+                ", score='" + score + '\'' +
+                ", campus='" + campus + '\'' +
+                ", classes='" + classes + '\'' +
+                ", nature='" + nature + '\'' +
+                ", rank='" + rank + '\'' +
+                '}';
+    }
+
     public void setNature(String nature) {
         this.nature = nature;
     }

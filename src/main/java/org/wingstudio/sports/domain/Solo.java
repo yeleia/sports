@@ -118,4 +118,21 @@ public class Solo {
     public void setCampus(String campus) {
         this.campus = campus;
     }
+
+    @Override
+    public String toString() {
+        return "Solo{" +
+                "id=" + id +
+                ", sportid=" + sportid +
+                ", contestantid=" + contestantid +
+                ", gate=" + gate +
+                ", remark='" + remark + '\'' +
+                ", score='" + score + '\'' +
+                ", taketime='" + taketime + '\'' +
+                ", checked=" + checked +
+                ", campus='" + campus + '\'' +
+                ", classes='" + classes + '\'' +
+                ", temp=" + temp +
+                '}';
+    }
 }

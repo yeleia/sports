@@ -61,9 +61,12 @@
   <select id="getSportSort" resultType="java.lang.String">
     select sortrule from sport_table where id=#{id}
   </select>
+    <select id="getSportTeam" resultType="java.lang.Object">
+      select * from sport_table where sex=2
+    </select>
 
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sport_table
     where id = #{id,jdbcType=INTEGER}
   </delete>

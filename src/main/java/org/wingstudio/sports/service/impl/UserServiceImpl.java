@@ -5,6 +5,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wingstudio.sports.constant.Common;
 import org.wingstudio.sports.dao.*;
 import org.wingstudio.sports.domain.*;
 import org.wingstudio.sports.service.UserService;
@@ -53,24 +54,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String,Object> addSport(Sport sport) {
-        //输入值格式检查
-        if (sport.getSortrule()==0||(sport.getSortrule()==1&&TimeRegexUtil.TimeRegex(sport.getInmax(),sport.getInmin(),sport.getRecord(),sport.getTwolevel()))) {
-            //限制输入检查
-            if (CheckUtil.incheck(sport.getSortrule(), sport.getInmax(), sport.getInmin())) {
-                //体育项目是否存在
-                if (sportMapper.sportIsExist(sport.getProject(), sport.getSex()) > 0) {
-                    return ReturnUtil.ret(false, "该体育项目已经存在");
-                } else {
-                    sportMapper.insertSelective(sport);
-                    return ReturnUtil.ret(true, "体育项目添加成功");
-                }
-            }else {
-                return ReturnUtil.ret(false,"添加失败，最大值和最小值输入值不合规范");
+        if (sport.getSex().equals(Common.T)) {
+            //体育项目是否存在
+            if (sportMapper.sportIsExist(sport.getProject(), sport.getSex()) > 0) {
+                return ReturnUtil.ret(false, "该体育项目已经存在");
+            } else {
+                sportMapper.insertSelective(sport);
+                return ReturnUtil.ret(true, "体育项目添加成功");
             }
-        }else {
-           return ReturnUtil.ret(false,"请输入正确得格式");
-        }
+        } else {
+            //输入值格式检查
+            if (sport.getSortrule() == 0 || (sport.getSortrule() == 1 && TimeRegexUtil.TimeRegex(sport.getInmax(), sport.getInmin(), sport.getRecord(), sport.getTwolevel()))) {
+                //限制输入检查
+                if (CheckUtil.incheck(sport.getSortrule(), sport.getInmax(), sport.getInmin())) {
+                    //体育项目是否存在
+                    if (sportMapper.sportIsExist(sport.getProject(), sport.getSex()) > 0) {
+                        return ReturnUtil.ret(false, "该体育项目已经存在");
+                    } else {
+                        sportMapper.insertSelective(sport);
+                        return ReturnUtil.ret(true, "体育项目添加成功");
+                    }
+                } else {
+                    return ReturnUtil.ret(false, "添加失败，最大值和最小值输入值不合规范");
+                }
+            } else {
+                return ReturnUtil.ret(false, "请输入正确得格式");
+            }
 
+        }
     }
 
     @Override

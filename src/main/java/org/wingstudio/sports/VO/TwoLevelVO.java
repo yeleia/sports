@@ -15,6 +15,20 @@ public class TwoLevelVO {
         return profession;
     }
 
+    @Override
+    public String toString() {
+        return "TwoLevelVO{" +
+                "sportname='" + sportname + '\'' +
+                ", stuname='" + stuname + '\'' +
+                ", sex='" + sex + '\'' +
+                ", score='" + score + '\'' +
+                ", profession='" + profession + '\'' +
+                ", stunumber='" + stunumber + '\'' +
+                ", classes='" + classes + '\'' +
+                ", nature='" + nature + '\'' +
+                '}';
+    }
+
     public void setProfession(String profession) {
         this.profession = profession;
     }

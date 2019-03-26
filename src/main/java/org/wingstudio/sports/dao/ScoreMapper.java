@@ -26,7 +26,7 @@ public interface ScoreMapper {
 
     int insertAndUpdate(List<Score> scores);
 
-    int isExsit(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
+    Score isExsit(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
 
     Score isExsitAndGet(@Param("sportid") Integer sportid, @Param("contestantid") Integer contestantid,@Param("taketime") String taketime);
 
@@ -35,5 +35,7 @@ public interface ScoreMapper {
 
     List<Double> getByContestantId(@Param("contestantid") Integer contestantid, @Param("taketime") String taketime);
 
+
+    void updateById(@Param("presoloscore")Double presoloscore,@Param("id")Integer id);
 
 }

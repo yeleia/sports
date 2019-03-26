@@ -35,7 +35,10 @@
     delete from twoLevel_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.wingstudio.sports.domain.TwoLevel">
+    <delete id="deleteAll">
+      delete from twoLevel_table where taketime=#{taketime} and mark=#{mark}
+    </delete>
+    <insert id="insert" parameterType="org.wingstudio.sports.domain.TwoLevel">
     insert into twoLevel_table (id, contestantid, sportid, 
       mark, taketime)
     values (#{id,jdbcType=INTEGER}, #{contestantid,jdbcType=INTEGER}, #{sportid,jdbcType=INTEGER}, 

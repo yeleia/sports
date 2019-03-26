@@ -15,6 +15,20 @@ public class RecordVO {
         return profession;
     }
 
+    @Override
+    public String toString() {
+        return "RecordVO{" +
+                "sportname='" + sportname + '\'' +
+                ", stuname='" + stuname + '\'' +
+                ", profession='" + profession + '\'' +
+                ", stunumber='" + stunumber + '\'' +
+                ", sex='" + sex + '\'' +
+                ", score='" + score + '\'' +
+                ", classes='" + classes + '\'' +
+                ", nature='" + nature + '\'' +
+                '}';
+    }
+
     public void setProfession(String profession) {
         this.profession = profession;
     }
