@@ -277,9 +277,10 @@ public class ShowServiceImpl implements ShowService {
             twoLevelVO.setStuname(contestant.getStuname());
             twoLevelVO.setStunumber(contestant.getStunumber());
             twoLevelVO.setProfession(contestant.getProfession());
-            System.out.println(twoLevels.get(i).getContestantid());
-            System.out.println(preSoloMapper.getByConId(twoLevels.get(i).getContestantid()));
-            twoLevelVO.setScore(preSoloMapper.getByConId(twoLevels.get(i).getContestantid()).getScore());
+            PreSolo solo=preSoloMapper.getByConId(twoLevels.get(i).getContestantid());
+            if (!StringUtils.isEmpty(solo)) {
+                twoLevelVO.setScore(solo.getScore());
+            }
             if (twoLevels.get(i).getMark()==0){
                 twoLevelVO.setNature("预赛");
             }else {
