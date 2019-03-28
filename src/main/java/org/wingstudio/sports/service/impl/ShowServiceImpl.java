@@ -253,11 +253,21 @@ public class ShowServiceImpl implements ShowService {
             }else {
                 recordVO.setSex("女");
             }
-            PreSolo preSolo=preSoloMapper.getByConId(record.get(i).getContestantid());
-            if (!StringUtils.isEmpty(record.get(i).getContestantid())&&preSolo!=null&&!StringUtils.isEmpty(preSolo.getScore())){
-                recordVO.setScore(preSoloMapper.getByConId(record.get(i).getContestantid()).getScore());
+            PreSolo preSolo=null;
+            Solo solo=null;
+            if (record.get(i).getMark()==0){
+                preSolo=preSoloMapper.getByConId(record.get(i).getContestantid());
+                if (!StringUtils.isEmpty(record.get(i).getContestantid())&&preSolo!=null&&!StringUtils.isEmpty(preSolo.getScore())){
+                    recordVO.setScore(preSoloMapper.getByConId(record.get(i).getContestantid()).getScore());
+                }
+            }else {
+                solo=soloMapper.getByConId(record.get(i).getContestantid());
+                if (!StringUtils.isEmpty(record.get(i).getContestantid())&&solo!=null&&!StringUtils.isEmpty(solo.getScore())){
+                    recordVO.setScore(soloMapper.getByConId(record.get(i).getContestantid()).getScore());
+                }
             }
-            if (preSolo!=null) {
+
+            if (preSolo!=null||solo!=null) {
                 recordVOS.add(recordVO);
             }
         }
@@ -277,10 +287,8 @@ public class ShowServiceImpl implements ShowService {
             twoLevelVO.setStuname(contestant.getStuname());
             twoLevelVO.setStunumber(contestant.getStunumber());
             twoLevelVO.setProfession(contestant.getProfession());
-            PreSolo solo=preSoloMapper.getByConId(twoLevels.get(i).getContestantid());
-            if (!StringUtils.isEmpty(solo)) {
-                twoLevelVO.setScore(solo.getScore());
-            }
+            PreSolo solo=null;
+            Solo solos=null;
             if (twoLevels.get(i).getMark()==0){
                 twoLevelVO.setNature("预赛");
             }else {
@@ -291,8 +299,21 @@ public class ShowServiceImpl implements ShowService {
             }else {
                 twoLevelVO.setSex("女");
             }
+            if (twoLevels.get(i).getMark()==0){
+                solo=preSoloMapper.getByConId(twoLevels.get(i).getContestantid());
+                if (!StringUtils.isEmpty(solo)) {
+                    twoLevelVO.setScore(solo.getScore());
+                }
+            }else {
+                solos=soloMapper.getByConId(twoLevels.get(i).getContestantid());
+                if (!StringUtils.isEmpty(solos)) {
+                    twoLevelVO.setScore(solos.getScore());
+                }
+            }
+            System.out.println("abcs"+twoLevelVO);
             twoLevelList.add(twoLevelVO);
         }
+
         return twoLevelList;
     }
 //添加集体项目时，添加的是几等奖
